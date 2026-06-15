@@ -1,65 +1,209 @@
-import Image from "next/image";
+import Link from "next/link";
+import PlaceholderImage from "@/components/PlaceholderImage";
+
+const stats = [
+  { label: "Founded at Missouri S&T", value: "1964" },
+  { label: "Active Brothers", value: "60+" },
+  { label: "Chapter GPA", value: "3.2" },
+  { label: "Raised for Philanthropy", value: "$10K+/yr" },
+];
+
+const values = [
+  {
+    title: "Truth",
+    description: "Be honest with yourself and others. Integrity is the foundation of brotherhood.",
+  },
+  {
+    title: "Courage",
+    description: "Stand up for what's right, try new things, and lead even when it's hard.",
+  },
+  {
+    title: "Faith",
+    description: "Believe in your brothers, your potential, and something greater than yourself.",
+  },
+  {
+    title: "Power",
+    description: "Develop the strength of character and capability to make a real impact.",
+  },
+];
+
+const pillars = [
+  {
+    title: "Brotherhood for Life",
+    description:
+      "Build friendships with a diverse group of men that last well beyond your four years at Missouri S&T.",
+  },
+  {
+    title: "Academic Support",
+    description:
+      "Study tables, tutoring from upperclassmen, and a culture that pushes you to succeed in the classroom.",
+  },
+  {
+    title: "Leadership Development",
+    description:
+      "Run committees, manage budgets, and plan events — real experience that sets you apart after graduation.",
+  },
+  {
+    title: "Community Impact",
+    description:
+      "Give back to Rolla through philanthropy events that raise money and awareness for causes that matter.",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div>
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-dtd-purple text-dtd-white">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:py-24">
+          <div>
+            <p className="mb-3 text-sm font-bold uppercase tracking-widest text-dtd-gold">
+              Epsilon Nu Chapter &middot; Delta Tau Delta
+            </p>
+            <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl">
+              Find Your Brotherhood at Missouri S&amp;T
+            </h1>
+            <p className="mt-4 text-lg text-dtd-white/85">
+              Delta Tau Delta is more than a fraternity — it&apos;s a lifelong network of
+              brothers committed to Truth, Courage, Faith, and Power. Discover what it
+              means to be a Delt.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link
+                href="/recruitment"
+                className="rounded-full bg-dtd-gold px-8 py-3 text-sm font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
+              >
+                Join Recruitment
+              </Link>
+              <Link
+                href="/about"
+                className="rounded-full border-2 border-dtd-white px-8 py-3 text-sm font-bold uppercase tracking-wide text-dtd-white transition hover:bg-dtd-white hover:text-dtd-purple"
+              >
+                Learn About Us
+              </Link>
+            </div>
+          </div>
+          <PlaceholderImage
+            label="Hero Photo"
+            suggestion="Wide group photo of brothers in front of the chapter house, or a candid shot from a recruitment/social event. High-resolution, bright, and welcoming."
+            aspect="aspect-[4/3]"
+            className="bg-dtd-purple-dark/40 border-dtd-gold/40"
+          />
+        </div>
+      </section>
+
+      {/* Stats bar */}
+      <section className="border-b border-dtd-gold/30 bg-dtd-cream">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-8 text-center sm:grid-cols-4">
+          {stats.map((stat) => (
+            <div key={stat.label}>
+              <p className="text-3xl font-extrabold text-dtd-purple">{stat.value}</p>
+              <p className="mt-1 text-sm text-foreground/70">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Recruitment CTA banner */}
+      <section className="bg-dtd-gold">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-6 text-dtd-purple-dark sm:flex-row">
+          <div>
+            <p className="text-lg font-bold">Rush Epsilon Nu — Fall Recruitment is Open</p>
+            <p className="text-sm">No GPA requirement to start the conversation. Come meet the brothers.</p>
+          </div>
+          <Link
+            href="/recruitment"
+            className="whitespace-nowrap rounded-full bg-dtd-purple px-6 py-3 text-sm font-bold uppercase tracking-wide text-dtd-white transition hover:bg-dtd-purple-dark"
+          >
+            See Rush Events
+          </Link>
+        </div>
+      </section>
+
+      {/* Why join */}
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="mb-10 text-center">
+          <h2 className="text-3xl font-extrabold text-dtd-purple">Why Join Epsilon Nu?</h2>
+          <p className="mx-auto mt-2 max-w-2xl text-foreground/70">
+            We&apos;re looking for men who want more than a club — who want a home, a family,
+            and a launchpad for the rest of their lives.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {pillars.map((pillar) => (
+            <div
+              key={pillar.title}
+              className="rounded-lg border border-dtd-purple/10 bg-white p-6 shadow-sm transition hover:shadow-md"
+            >
+              <h3 className="text-lg font-bold text-dtd-purple">{pillar.title}</h3>
+              <p className="mt-2 text-sm text-foreground/70">{pillar.description}</p>
+            </div>
+          ))}
         </div>
-      </main>
+      </section>
+
+      {/* Core values */}
+      <section className="bg-dtd-purple-dark text-dtd-white">
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl font-extrabold text-dtd-gold">Our Core Values</h2>
+            <p className="mx-auto mt-2 max-w-2xl text-dtd-white/80">
+              Every Delt is shaped by four founding principles.
+            </p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map((value) => (
+              <div key={value.title} className="rounded-lg border border-dtd-gold/30 p-6 text-center">
+                <h3 className="text-xl font-bold text-dtd-gold">{value.title}</h3>
+                <p className="mt-2 text-sm text-dtd-white/75">{value.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Photo gallery teaser */}
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="mb-10 text-center">
+          <h2 className="text-3xl font-extrabold text-dtd-purple">Life at the House</h2>
+          <p className="mx-auto mt-2 max-w-2xl text-foreground/70">
+            A look at brotherhood, philanthropy, and the moments that make Epsilon Nu home.
+          </p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <PlaceholderImage label="Chapter House" suggestion="Exterior photo of the chapter house at 2631 Vienna Rd." />
+          <PlaceholderImage label="Brotherhood Event" suggestion="Candid group photo from a formal, retreat, or game night." />
+          <PlaceholderImage label="Philanthropy Event" suggestion="Photo from the Haunted Maze or another fundraiser in action." />
+          <PlaceholderImage label="Recruitment Event" suggestion="Photo of PNMs interacting with brothers during a rush event." />
+          <PlaceholderImage label="Campus Life" suggestion="Brothers on Missouri S&T campus — academics, intramurals, or Greek Week." />
+          <PlaceholderImage label="Formal/Composite" suggestion="Chapter composite photo or formal group portrait." />
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="bg-dtd-purple text-dtd-white">
+        <div className="mx-auto max-w-4xl px-4 py-16 text-center">
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Ready to Find Your Home Away From Home?</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-dtd-white/85">
+            Recruitment is open to all Missouri S&amp;T students. Reach out, come to an event,
+            and see what makes Epsilon Nu different.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Link
+              href="/recruitment"
+              className="rounded-full bg-dtd-gold px-8 py-3 text-sm font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
+            >
+              Start Recruitment
+            </Link>
+            <Link
+              href="/contact"
+              className="rounded-full border-2 border-dtd-white px-8 py-3 text-sm font-bold uppercase tracking-wide text-dtd-white transition hover:bg-dtd-white hover:text-dtd-purple"
+            >
+              Contact Us
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
