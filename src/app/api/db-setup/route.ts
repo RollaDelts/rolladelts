@@ -1,27 +1,25 @@
 /**
- * One-time database setup endpoint.
- * Visit /api/db-setup once after creating the Postgres database in Vercel
- * to create the officers and rush_events tables.
+ * Database setup helper — returns the SQL to run in the Supabase SQL Editor.
  *
- * Protected by SETUP_SECRET so it can't be triggered accidentally in production.
- * Call it with: /api/db-setup?secret=<your-SETUP_SECRET>
+ * Visit /api/db-setup in your browser to see setup instructions.
+ * The actual schema file is at supabase/schema.sql in the repository.
  */
 
-import { NextRequest, NextResponse } from "next/server";
-import { setupSchema } from "@/lib/db";
+import { NextResponse } from "next/server";
+import { supabaseAvailable } from "@/lib/supabase";
 
-export async function GET(request: NextRequest) {
-  const secret = request.nextUrl.searchParams.get("secret");
-  const expected = process.env.SETUP_SECRET;
-
-  if (!expected || secret !== expected) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  try {
-    await setupSchema();
-    return NextResponse.json({ ok: true, message: "Tables created successfully." });
-  } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 });
-  }
+export async function GET() {
+  const connected = supabaseAvailable();
+  return NextResponse.json({
+    connected,
+    message: connected
+      ? "Supabase env vars are set. Run supabase/schema.sql in your Supabase SQL Editor if you haven't already."
+      : "Supabase env vars are missing. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
+    instructions: [
+      "1. Create a project at https://supabase.com",
+      "2. Go to Project Settings → API to find your URL and service role key",
+      "3. Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to Vercel env vars",
+      "4. Open the Supabase SQL Editor and run the contents of supabase/schema.sql",
+    ],
+  });
 }

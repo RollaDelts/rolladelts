@@ -1,14 +1,13 @@
 /**
- * Data access layer — Postgres via @vercel/postgres.
+ * Data access layer — Supabase (Postgres).
  *
- * Falls back to static defaults when POSTGRES_URL is not configured
+ * Falls back to static defaults when Supabase env vars are not configured
  * (e.g. local dev without a database connection).
  *
- * Tables are created by visiting /api/db-setup once after the database
- * is provisioned in the Vercel dashboard.
+ * Run supabase/schema.sql in the Supabase SQL Editor once to create tables.
  */
 
-import { sql } from "@vercel/postgres";
+import { getServerClient, supabaseAvailable } from "@/lib/supabase";
 import {
   defaultOfficers,
   defaultRushEvents,
@@ -16,86 +15,53 @@ import {
   type RushEvent,
 } from "@/data/defaults";
 
-function dbAvailable() {
-  return !!process.env.POSTGRES_URL;
-}
-
-// ─── Officers ───────────────────────────────────────────────────────────────
+// ─── Officers ────────────────────────────────────────────────────────────────
 
 export async function getOfficers(): Promise<Officer[]> {
-  if (!dbAvailable()) return defaultOfficers;
-  try {
-    const { rows } = await sql`
-      SELECT role, name FROM officers ORDER BY sort_order ASC, id ASC
-    `;
-    return rows.length > 0
-      ? rows.map((r) => ({ role: r.role as string, name: r.name as string }))
-      : defaultOfficers;
-  } catch {
-    return defaultOfficers;
-  }
+  if (!supabaseAvailable()) return defaultOfficers;
+  const { data, error } = await getServerClient()
+    .from("officers")
+    .select("role, name")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error || !data || data.length === 0) return defaultOfficers;
+  return data as Officer[];
 }
 
 export async function saveOfficers(officers: Officer[]): Promise<void> {
-  await sql`DELETE FROM officers`;
-  for (let i = 0; i < officers.length; i++) {
-    const { role, name } = officers[i];
-    await sql`
-      INSERT INTO officers (role, name, sort_order)
-      VALUES (${role}, ${name}, ${i})
-    `;
-  }
+  const supabase = getServerClient();
+  await supabase.from("officers").delete().neq("id", 0);
+  if (officers.length === 0) return;
+  await supabase.from("officers").insert(
+    officers.map((o, i) => ({ role: o.role, name: o.name, sort_order: i }))
+  );
 }
 
 // ─── Rush Events ─────────────────────────────────────────────────────────────
 
 export async function getRushEvents(): Promise<RushEvent[]> {
-  if (!dbAvailable()) return defaultRushEvents;
-  try {
-    const { rows } = await sql`
-      SELECT date, name, location FROM rush_events ORDER BY sort_order ASC, id ASC
-    `;
-    return rows.length > 0
-      ? rows.map((r) => ({
-          date: r.date as string,
-          name: r.name as string,
-          location: r.location as string,
-        }))
-      : defaultRushEvents;
-  } catch {
-    return defaultRushEvents;
-  }
+  if (!supabaseAvailable()) return defaultRushEvents;
+  const { data, error } = await getServerClient()
+    .from("rush_events")
+    .select("date, name, location")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error || !data || data.length === 0) return defaultRushEvents;
+  return data as RushEvent[];
 }
 
 export async function saveRushEvents(events: RushEvent[]): Promise<void> {
-  await sql`DELETE FROM rush_events`;
-  for (let i = 0; i < events.length; i++) {
-    const { date, name, location } = events[i];
-    await sql`
-      INSERT INTO rush_events (date, name, location, sort_order)
-      VALUES (${date}, ${name}, ${location}, ${i})
-    `;
-  }
-}
-
-// ─── Schema setup (called once from /api/db-setup) ───────────────────────────
-
-export async function setupSchema(): Promise<void> {
-  await sql`
-    CREATE TABLE IF NOT EXISTS officers (
-      id         SERIAL PRIMARY KEY,
-      role       TEXT    NOT NULL,
-      name       TEXT    NOT NULL DEFAULT '',
-      sort_order INTEGER NOT NULL DEFAULT 0
-    )
-  `;
-  await sql`
-    CREATE TABLE IF NOT EXISTS rush_events (
-      id         SERIAL PRIMARY KEY,
-      date       TEXT    NOT NULL DEFAULT 'TBD',
-      name       TEXT    NOT NULL,
-      location   TEXT    NOT NULL DEFAULT '',
-      sort_order INTEGER NOT NULL DEFAULT 0
-    )
-  `;
+  const supabase = getServerClient();
+  await supabase.from("rush_events").delete().neq("id", 0);
+  if (events.length === 0) return;
+  await supabase.from("rush_events").insert(
+    events.map((e, i) => ({
+      date: e.date,
+      name: e.name,
+      location: e.location,
+      sort_order: i,
+    }))
+  );
 }
