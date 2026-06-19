@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { getServerClient } from "@/lib/supabase";
+import { createAuthClient } from "@/lib/supabase-server";
 import { setUserRole, removeUser } from "./actions";
 
 type Profile = {
@@ -25,10 +26,16 @@ const roleBadge: Record<string, string> = {
 };
 
 export default async function UsersAdminPage() {
-  const { data: profiles } = await getServerClient()
-    .from("profiles")
-    .select("id, first_name, last_name, email, role, created_at")
-    .order("created_at", { ascending: false });
+  const [{ data: profiles }, supabase] = await Promise.all([
+    getServerClient()
+      .from("profiles")
+      .select("id, first_name, last_name, email, role, created_at")
+      .order("created_at", { ascending: false }),
+    createAuthClient(),
+  ]);
+
+  const { data: { user } } = await supabase.auth.getUser();
+  const currentUserId = user?.id ?? null;
 
   const pending = (profiles ?? []).filter((p: Profile) => p.role === "pending");
   const rest = (profiles ?? []).filter((p: Profile) => p.role !== "pending");
@@ -45,7 +52,7 @@ export default async function UsersAdminPage() {
           <h2 className="mb-3 text-lg font-bold text-yellow-700">
             Pending Approval ({pending.length})
           </h2>
-          <UserTable profiles={pending} highlight />
+          <UserTable profiles={pending} currentUserId={currentUserId} highlight />
         </div>
       )}
 
@@ -53,7 +60,7 @@ export default async function UsersAdminPage() {
         <h2 className="mb-3 text-lg font-bold text-dtd-purple">
           All Users ({(profiles ?? []).length})
         </h2>
-        <UserTable profiles={rest} />
+        <UserTable profiles={rest} currentUserId={currentUserId} />
       </div>
     </div>
   );
@@ -61,9 +68,11 @@ export default async function UsersAdminPage() {
 
 function UserTable({
   profiles,
+  currentUserId,
   highlight = false,
 }: {
   profiles: Profile[];
+  currentUserId: string | null;
   highlight?: boolean;
 }) {
   if (profiles.length === 0) {
@@ -85,66 +94,88 @@ function UserTable({
           </tr>
         </thead>
         <tbody>
-          {profiles.map((p: Profile, i: number) => (
-            <tr key={p.id} className={i % 2 === 0 ? "bg-white/80" : "bg-dtd-cream/40"}>
-              <td className="px-4 py-3 font-medium">
-                {p.first_name} {p.last_name}
-              </td>
-              <td className="px-4 py-3 text-foreground/70">{p.email}</td>
-              <td className="px-4 py-3">
-                <span
-                  className={`rounded-full px-2 py-0.5 text-xs ${roleBadge[p.role] ?? "bg-gray-100 text-gray-700"}`}
-                >
-                  {roleLabel[p.role] ?? p.role}
-                </span>
-              </td>
-              <td className="px-4 py-3 text-foreground/60">
-                {new Date(p.created_at).toLocaleDateString()}
-              </td>
-              <td className="px-4 py-3">
-                <div className="flex flex-wrap gap-2">
-                  {p.role !== "member" && (
-                    <form action={setUserRole.bind(null, p.id, "member")}>
-                      <button
-                        type="submit"
-                        className="rounded bg-green-600 px-2 py-1 text-xs font-semibold text-white hover:bg-green-700"
-                      >
-                        Approve
-                      </button>
-                    </form>
+          {profiles.map((p: Profile, i: number) => {
+            const isSelf = p.id === currentUserId;
+            return (
+              <tr key={p.id} className={i % 2 === 0 ? "bg-white/80" : "bg-dtd-cream/40"}>
+                <td className="px-4 py-3 font-medium">
+                  {p.first_name} {p.last_name}
+                  {isSelf && (
+                    <span className="ml-2 rounded-full bg-dtd-purple/10 px-2 py-0.5 text-xs text-dtd-purple">
+                      You
+                    </span>
                   )}
-                  {p.role !== "admin" && (
-                    <form action={setUserRole.bind(null, p.id, "admin")}>
-                      <button
-                        type="submit"
-                        className="rounded bg-dtd-purple px-2 py-1 text-xs font-semibold text-white hover:bg-dtd-purple-dark"
-                      >
-                        Make Admin
-                      </button>
-                    </form>
+                </td>
+                <td className="px-4 py-3 text-foreground/70">{p.email}</td>
+                <td className="px-4 py-3">
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs ${roleBadge[p.role] ?? "bg-gray-100 text-gray-700"}`}
+                  >
+                    {roleLabel[p.role] ?? p.role}
+                  </span>
+                </td>
+                <td className="px-4 py-3 text-foreground/60">
+                  {new Date(p.created_at).toLocaleDateString()}
+                </td>
+                <td className="px-4 py-3">
+                  {isSelf ? (
+                    <span className="text-xs text-foreground/40">—</span>
+                  ) : (
+                    <div className="flex flex-wrap gap-2">
+                      {p.role === "pending" && (
+                        <form action={setUserRole.bind(null, p.id, "member")}>
+                          <button
+                            type="submit"
+                            className="rounded bg-green-600 px-2 py-1 text-xs font-semibold text-white hover:bg-green-700"
+                          >
+                            Approve
+                          </button>
+                        </form>
+                      )}
+                      {p.role !== "admin" && (
+                        <form action={setUserRole.bind(null, p.id, "admin")}>
+                          <button
+                            type="submit"
+                            className="rounded bg-dtd-purple px-2 py-1 text-xs font-semibold text-white hover:bg-dtd-purple-dark"
+                          >
+                            Make Admin
+                          </button>
+                        </form>
+                      )}
+                      {p.role === "admin" && (
+                        <form action={setUserRole.bind(null, p.id, "member")}>
+                          <button
+                            type="submit"
+                            className="rounded bg-yellow-500 px-2 py-1 text-xs font-semibold text-white hover:bg-yellow-600"
+                          >
+                            Revoke Admin
+                          </button>
+                        </form>
+                      )}
+                      {p.role === "member" && (
+                        <form action={setUserRole.bind(null, p.id, "pending")}>
+                          <button
+                            type="submit"
+                            className="rounded bg-yellow-500 px-2 py-1 text-xs font-semibold text-white hover:bg-yellow-600"
+                          >
+                            Revoke
+                          </button>
+                        </form>
+                      )}
+                      <form action={removeUser.bind(null, p.id)}>
+                        <button
+                          type="submit"
+                          className="rounded bg-red-600 px-2 py-1 text-xs font-semibold text-white hover:bg-red-700"
+                        >
+                          Remove
+                        </button>
+                      </form>
+                    </div>
                   )}
-                  {p.role !== "pending" && (
-                    <form action={setUserRole.bind(null, p.id, "pending")}>
-                      <button
-                        type="submit"
-                        className="rounded bg-yellow-500 px-2 py-1 text-xs font-semibold text-white hover:bg-yellow-600"
-                      >
-                        Revoke
-                      </button>
-                    </form>
-                  )}
-                  <form action={removeUser.bind(null, p.id)}>
-                    <button
-                      type="submit"
-                      className="rounded bg-red-600 px-2 py-1 text-xs font-semibold text-white hover:bg-red-700"
-                    >
-                      Remove
-                    </button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-          ))}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
