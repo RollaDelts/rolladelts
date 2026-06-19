@@ -4,30 +4,38 @@ import { useState } from "react";
 import Link from "next/link";
 import { getBrowserClient } from "@/lib/supabase-browser";
 
-// Glitter particles: deterministic positions/colors/timings so there's no
-// hydration mismatch and no Math.random() at render time.
-const GLITTER = [
-  { left: "8%",  top: "12%", delay: "0.0s", dur: "1.4s", color: "#FF0018", size: 10 },
-  { left: "18%", top: "70%", delay: "0.2s", dur: "1.7s", color: "#FFA500", size: 8  },
-  { left: "28%", top: "35%", delay: "0.5s", dur: "1.2s", color: "#FFFF00", size: 12 },
-  { left: "38%", top: "80%", delay: "0.1s", dur: "1.6s", color: "#00C000", size: 9  },
-  { left: "50%", top: "18%", delay: "0.7s", dur: "1.3s", color: "#0000FF", size: 11 },
-  { left: "60%", top: "60%", delay: "0.4s", dur: "1.9s", color: "#8B00FF", size: 8  },
-  { left: "70%", top: "28%", delay: "0.9s", dur: "1.5s", color: "#FF69B4", size: 13 },
-  { left: "80%", top: "75%", delay: "0.3s", dur: "1.1s", color: "#FF0018", size: 7  },
-  { left: "88%", top: "45%", delay: "0.6s", dur: "1.8s", color: "#FFA500", size: 10 },
-  { left: "12%", top: "50%", delay: "0.8s", dur: "1.4s", color: "#FFFF00", size: 9  },
-  { left: "22%", top: "20%", delay: "1.0s", dur: "1.6s", color: "#00C000", size: 11 },
-  { left: "45%", top: "88%", delay: "0.2s", dur: "1.3s", color: "#0000FF", size: 8  },
-  { left: "55%", top: "40%", delay: "1.1s", dur: "1.7s", color: "#8B00FF", size: 12 },
-  { left: "75%", top: "10%", delay: "0.5s", dur: "1.2s", color: "#FF69B4", size: 10 },
-  { left: "92%", top: "20%", delay: "0.9s", dur: "1.5s", color: "#FF0018", size: 7  },
-  { left: "35%", top: "55%", delay: "1.3s", dur: "1.9s", color: "#FFA500", size: 9  },
-  { left: "65%", top: "82%", delay: "0.1s", dur: "1.4s", color: "#FFFF00", size: 11 },
-  { left: "5%",  top: "85%", delay: "0.7s", dur: "1.6s", color: "#00C000", size: 8  },
-  { left: "48%", top: "5%",  delay: "0.4s", dur: "1.3s", color: "#0000FF", size: 13 },
-  { left: "83%", top: "55%", delay: "1.2s", dur: "1.8s", color: "#8B00FF", size: 9  },
+// ─── Pride easter egg data ────────────────────────────────────────────────────
+
+const PRIDE_COLORS = [
+  "#FF0018", "#FF8C00", "#FFD700", "#00C000",
+  "#0000FF", "#8B00FF", "#FF69B4", "#5BCEFA",
+  "#F5A9B8", "#FFFFFF", "#784F17", "#000000",
 ];
+
+// 60 confetti pieces — deterministic so no hydration mismatch
+const CONFETTI = Array.from({ length: 60 }, (_, i) => ({
+  left:    `${(i * 37 + 11) % 100}%`,
+  delay:   `${((i * 0.23) % 2.8).toFixed(2)}s`,
+  dur:     `${(2.2 + (i * 0.13) % 2.2).toFixed(2)}s`,
+  color:   PRIDE_COLORS[i % PRIDE_COLORS.length],
+  size:    5 + (i % 9),
+  isRect:  i % 3 !== 0,
+}));
+
+// 35 twinkling glitter dots
+const GLITTER = Array.from({ length: 35 }, (_, i) => ({
+  left:  `${(i * 53 + 7) % 100}%`,
+  top:   `${(i * 41 + 17) % 100}%`,
+  delay: `${((i * 0.19) % 2).toFixed(2)}s`,
+  dur:   `${(1.1 + (i * 0.17) % 1.2).toFixed(2)}s`,
+  color: PRIDE_COLORS[i % PRIDE_COLORS.length],
+  size:  4 + (i % 10),
+}));
+
+const RAINBOW_GRADIENT =
+  "linear-gradient(90deg,#FF0018,#FF8C00,#FFD700,#00C000,#0000FF,#8B00FF,#FF69B4,#FF0018)";
+
+const FLOAT_EMOJIS = ["🌈","✨","🦄","💅","👑","🏳️‍🌈","💜","⭐","🌟","🎉","🪩","💎"];
 
 function PrideSuccess({ firstName }: { firstName: string }) {
   return (
@@ -38,23 +46,84 @@ function PrideSuccess({ firstName }: { firstName: string }) {
           50%  { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
         }
+        @keyframes page-bg {
+          0%,100% { background-position: 0% 50%; }
+          33%     { background-position: 50% 100%; }
+          66%     { background-position: 100% 50%; }
+        }
+        @keyframes confetti-fall {
+          0%   { transform: translateY(-30px) rotate(0deg) scale(1);   opacity: 1; }
+          80%  { opacity: 0.9; }
+          100% { transform: translateY(105vh) rotate(900deg) scale(0.6); opacity: 0; }
+        }
         @keyframes glitter-pulse {
-          0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
-          40%, 60% { transform: scale(1) rotate(180deg); opacity: 1; }
+          0%,100% { transform: scale(0) rotate(0deg);   opacity: 0; }
+          45%,55% { transform: scale(1) rotate(180deg); opacity: 1; }
         }
         @keyframes float-emoji {
-          0%, 100% { transform: translateY(0px) rotate(-5deg); }
-          50%       { transform: translateY(-18px) rotate(5deg); }
+          0%,100% { transform: translateY(0)    rotate(-8deg) scale(1);    }
+          50%     { transform: translateY(-22px) rotate(8deg)  scale(1.15); }
         }
         @keyframes dance-in {
-          0%   { transform: scale(0.5) rotate(-8deg); opacity: 0; }
-          60%  { transform: scale(1.05) rotate(3deg); opacity: 1; }
-          100% { transform: scale(1) rotate(0deg); opacity: 1; }
+          0%   { transform: scale(0.4) rotate(-10deg); opacity: 0; }
+          55%  { transform: scale(1.1) rotate(4deg);  opacity: 1; }
+          75%  { transform: scale(0.97) rotate(-2deg); }
+          100% { transform: scale(1) rotate(0deg);    opacity: 1; }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+        @keyframes pulse-scale {
+          0%,100% { transform: scale(1); }
+          50%     { transform: scale(1.12); }
+        }
+        @keyframes wiggle {
+          0%,100% { transform: rotate(-4deg); }
+          50%     { transform: rotate(4deg); }
+        }
+        @keyframes shimmer {
+          0%   { background-position: -300% center; }
+          100% { background-position: 300% center; }
+        }
+        @keyframes border-spin {
+          to { --angle: 360deg; }
         }
       `}</style>
 
-      {/* Glitter layer */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+      {/* Page background — slow shifting pastel rainbow */}
+      <div
+        className="fixed inset-0 -z-10"
+        style={{
+          background:
+            "linear-gradient(135deg,#ffe4f0,#fff0e4,#fffde4,#e4ffe8,#e4f0ff,#f0e4ff,#ffe4f0)",
+          backgroundSize: "400% 400%",
+          animation: "page-bg 8s ease infinite",
+        }}
+      />
+
+      {/* Confetti */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden" style={{ zIndex: 10 }}>
+        {CONFETTI.map((c, i) => (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              left: c.left,
+              top: "-12px",
+              width:  c.isRect ? c.size : c.size + 2,
+              height: c.isRect ? c.size * 0.45 : c.size + 2,
+              borderRadius: c.isRect ? "2px" : "50%",
+              backgroundColor: c.color,
+              animation: `confetti-fall ${c.dur} ${c.delay} infinite linear`,
+              opacity: 0,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Glitter */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden" style={{ zIndex: 11 }}>
         {GLITTER.map((g, i) => (
           <div
             key={i}
@@ -66,27 +135,29 @@ function PrideSuccess({ firstName }: { firstName: string }) {
               height: g.size,
               borderRadius: "50%",
               backgroundColor: g.color,
-              boxShadow: `0 0 ${g.size * 2}px ${g.color}`,
+              boxShadow: `0 0 ${g.size * 3}px ${g.color}, 0 0 ${g.size * 6}px ${g.color}80`,
               animation: `glitter-pulse ${g.dur} ${g.delay} infinite`,
+              opacity: 0,
             }}
           />
         ))}
       </div>
 
-      {/* Main card */}
-      <div className="flex min-h-[70vh] items-center justify-center px-4 py-12">
+      {/* Main content */}
+      <div className="relative flex min-h-[90vh] items-center justify-center px-4 py-16" style={{ zIndex: 20 }}>
         <div
-          className="w-full max-w-sm text-center"
-          style={{ animation: "dance-in 0.7s ease-out both" }}
+          className="w-full max-w-md text-center"
+          style={{ animation: "dance-in 0.8s cubic-bezier(0.34,1.56,0.64,1) both" }}
         >
-          {/* Floating rainbow emojis */}
-          <div className="mb-2 flex justify-center gap-3 text-3xl">
-            {["🌈", "✨", "🦄", "✨", "🌈"].map((e, i) => (
+
+          {/* Top emoji row — big and bouncy */}
+          <div className="mb-4 flex justify-center gap-2 text-4xl">
+            {["🌈","✨","🦄","👑","🏳️‍🌈","💅","✨","🌈"].map((e, i) => (
               <span
                 key={i}
                 style={{
                   display: "inline-block",
-                  animation: `float-emoji ${1.4 + i * 0.2}s ease-in-out ${i * 0.15}s infinite`,
+                  animation: `float-emoji ${1.3 + i * 0.18}s ease-in-out ${i * 0.12}s infinite`,
                 }}
               >
                 {e}
@@ -94,57 +165,150 @@ function PrideSuccess({ firstName }: { firstName: string }) {
             ))}
           </div>
 
-          {/* Rainbow headline */}
-          <h1
-            className="mt-2 text-4xl font-extrabold"
+          {/* Spinning disco star */}
+          <div
+            className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full text-4xl"
             style={{
-              background:
-                "linear-gradient(90deg, #FF0018, #FFA500, #FFFF00, #00C000, #0000FF, #8B00FF, #FF0018)",
+              background: RAINBOW_GRADIENT,
+              backgroundSize: "200% auto",
+              animation: "rainbow-shift 1.5s linear infinite, pulse-scale 2s ease-in-out infinite",
+              boxShadow: "0 0 30px #FF69B480, 0 0 60px #8B00FF40",
+            }}
+          >
+            <span style={{ animation: "spin-slow 4s linear infinite", display: "inline-block" }}>
+              🪩
+            </span>
+          </div>
+
+          {/* HAPPY PRIDE headline */}
+          <h1
+            className="text-5xl font-black tracking-tight"
+            style={{
+              background: RAINBOW_GRADIENT,
               backgroundSize: "200% auto",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
-              animation: "rainbow-shift 2s linear infinite",
+              animation: "rainbow-shift 1.5s linear infinite",
+              textShadow: "none",
+              filter: "drop-shadow(0 2px 8px #FF69B440)",
             }}
           >
-            Happy Pride! 🏳️‍🌈
+            HAPPY PRIDE!
           </h1>
 
-          <p className="mt-1 text-lg font-semibold text-dtd-purple">
-            Welcome, {firstName}!
+          {/* SLAY subhead */}
+          <p
+            className="mt-1 text-2xl font-extrabold"
+            style={{
+              background: "linear-gradient(90deg,#FF69B4,#8B00FF,#5BCEFA,#FF69B4)",
+              backgroundSize: "300% auto",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              animation: "shimmer 2.5s linear infinite",
+            }}
+          >
+            ✨ SLAY, {firstName}! ✨
           </p>
 
-          {/* Divider */}
+          {/* Rainbow divider */}
           <div
-            className="mx-auto my-4 h-1 w-24 rounded-full"
+            className="mx-auto my-5 h-1.5 w-40 rounded-full"
             style={{
-              background:
-                "linear-gradient(90deg, #FF0018, #FFA500, #FFFF00, #00C000, #0000FF, #8B00FF)",
+              background: RAINBOW_GRADIENT,
+              backgroundSize: "200% auto",
+              animation: "rainbow-shift 1.5s linear infinite",
+              boxShadow: "0 2px 12px #FF69B460",
             }}
           />
 
-          <p className="text-foreground/70">
-            Your account is pending approval by a chapter admin.
-            You&apos;ll be able to log in once your account is approved.
-          </p>
-
-          <Link
-            href="/"
-            className="mt-6 inline-block rounded-full px-8 py-3 text-sm font-bold uppercase tracking-wide text-white transition"
+          {/* Card with animated rainbow border */}
+          <div
+            className="rounded-2xl p-0.5"
             style={{
-              background:
-                "linear-gradient(90deg, #FF0018, #FFA500, #FFFF00, #00C000, #0000FF, #8B00FF)",
+              background: RAINBOW_GRADIENT,
               backgroundSize: "200% auto",
-              animation: "rainbow-shift 2s linear infinite",
+              animation: "rainbow-shift 1.5s linear infinite",
+              boxShadow: "0 0 30px #FF69B450, 0 0 60px #8B00FF30",
             }}
           >
-            Back to Home
+            <div className="rounded-2xl bg-white px-6 py-6">
+              <p className="text-lg font-bold text-gray-800">
+                You are already iconic. 👑
+              </p>
+              <p className="mt-2 text-sm text-gray-500">
+                Your registration has been submitted!
+              </p>
+              <p className="mt-2 text-sm text-gray-500">
+                Your account is pending admin approval. You&apos;ll be able to
+                log in once approved. In the meantime — keep being fabulous. 💅
+              </p>
+
+              {/* Second emoji row inside card */}
+              <div className="mt-4 flex justify-center gap-2 text-2xl">
+                {FLOAT_EMOJIS.map((e, i) => (
+                  <span
+                    key={i}
+                    style={{
+                      display: "inline-block",
+                      animation: `wiggle ${1 + i * 0.15}s ease-in-out ${i * 0.1}s infinite`,
+                    }}
+                  >
+                    {e}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Rainbow divider */}
+          <div
+            className="mx-auto my-5 h-1.5 w-40 rounded-full"
+            style={{
+              background: RAINBOW_GRADIENT,
+              backgroundSize: "200% auto",
+              animation: "rainbow-shift 1.5s linear infinite",
+              boxShadow: "0 2px 12px #FF69B460",
+            }}
+          />
+
+          {/* Pulsing rainbow button */}
+          <Link
+            href="/"
+            className="inline-block rounded-full px-10 py-3 text-sm font-black uppercase tracking-widest text-white transition"
+            style={{
+              background: RAINBOW_GRADIENT,
+              backgroundSize: "200% auto",
+              animation: "rainbow-shift 1.5s linear infinite, pulse-scale 2s ease-in-out infinite",
+              boxShadow: "0 4px 24px #FF69B470, 0 2px 8px #8B00FF50",
+              letterSpacing: "0.15em",
+            }}
+          >
+            🌈 Back to Home 🌈
           </Link>
+
+          {/* Bottom emoji row */}
+          <div className="mt-6 flex justify-center gap-3 text-3xl">
+            {["🏳️‍🌈","💜","🌟","💎","🌟","💜","🏳️‍🌈"].map((e, i) => (
+              <span
+                key={i}
+                style={{
+                  display: "inline-block",
+                  animation: `float-emoji ${1.5 + i * 0.2}s ease-in-out ${i * 0.15}s infinite`,
+                }}
+              >
+                {e}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </>
   );
 }
+
+// ─── Main register page ───────────────────────────────────────────────────────
 
 export default function RegisterPage() {
   const [form, setForm] = useState({
