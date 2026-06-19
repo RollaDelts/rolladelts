@@ -33,24 +33,34 @@ export default function RegisterPage() {
       return;
     }
 
-    setLoading(true);
-    const supabase = getBrowserClient();
-    const { error } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-      options: {
-        data: { first_name: form.firstName, last_name: form.lastName },
-        emailRedirectTo: `${location.origin}/auth/callback`,
-      },
-    });
-
-    if (error) {
-      setError(error.message);
-      setLoading(false);
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      setError("Supabase is not configured. Check your environment variables.");
       return;
     }
 
-    setSuccess(true);
+    setLoading(true);
+    try {
+      const supabase = getBrowserClient();
+      const { error } = await supabase.auth.signUp({
+        email: form.email,
+        password: form.password,
+        options: {
+          data: { first_name: form.firstName, last_name: form.lastName },
+          emailRedirectTo: `${location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) {
+        setError(error.message);
+        return;
+      }
+
+      setSuccess(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (success) {

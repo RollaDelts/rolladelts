@@ -15,19 +15,29 @@ export default function LoginPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    setLoading(true);
 
-    const supabase = getBrowserClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-
-    if (error) {
-      setError("Invalid email or password.");
-      setLoading(false);
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      setError("Supabase is not configured. Check your environment variables.");
       return;
     }
 
-    router.refresh();
-    router.push("/");
+    setLoading(true);
+    try {
+      const supabase = getBrowserClient();
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        setError("Invalid email or password.");
+        return;
+      }
+
+      router.refresh();
+      router.push("/");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
