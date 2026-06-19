@@ -25,15 +25,25 @@ const CONFETTI = Array.from({ length: 60 }, (_, i) => ({
   isRect: i % 3 !== 0,
 }));
 
-// 80 falling emoji — alternating 🌈 and 🏳️‍🌈 in five sizes
+// 80 falling emoji — golden-ratio left positions so they never cluster.
+// Rainbows and flags each get their own golden-ratio sequence, offset by 50%
+// so the two types interleave evenly across the full width.
+// Delays use a different prime (97) so position and timing are decorrelated.
 const EMOJI_SIZES = [18, 27, 36, 45, 56];
-const EMOJI_FALL = Array.from({ length: 80 }, (_, i) => ({
-  left:  `${(i * 43 + 5) % 100}%`,
-  delay: `${((i * 0.31) % 3.8).toFixed(2)}s`,
-  dur:   `${(3.0 + (i * 0.19) % 2.8).toFixed(2)}s`,
-  emoji: i % 2 === 0 ? "🌈" : "🏳️‍🌈",
-  size:  EMOJI_SIZES[i % EMOJI_SIZES.length],
-}));
+const EMOJI_FALL = Array.from({ length: 80 }, (_, i) => {
+  const isRainbow = i % 2 === 0;
+  const idx = Math.floor(i / 2);
+  const left = ((idx * 61.8) + (isRainbow ? 2.5 : 52.5)) % 100;
+  const delay = ((idx * 97 + (isRainbow ? 0 : 47)) % 380) / 100;
+  const dur = 3.0 + ((idx * 73) % 280) / 100;
+  return {
+    left:  `${left.toFixed(1)}%`,
+    delay: `${delay.toFixed(2)}s`,
+    dur:   `${dur.toFixed(2)}s`,
+    emoji: isRainbow ? "🌈" : "🏳️‍🌈",
+    size:  EMOJI_SIZES[i % EMOJI_SIZES.length],
+  };
+});
 
 // 35 twinkling glitter dots
 const GLITTER = Array.from({ length: 35 }, (_, i) => ({
