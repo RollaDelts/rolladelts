@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { saveRushEvents } from "@/lib/kv";
+import { saveRushEvents } from "@/lib/db";
 import type { RushEvent } from "@/data/defaults";
 
 export async function saveEventsAction(formData: FormData) {

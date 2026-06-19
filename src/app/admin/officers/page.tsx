@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getOfficers } from "@/lib/kv";
+import { getOfficers } from "@/lib/db";
 import { saveOfficersAction } from "./actions";
 
 export default async function OfficersAdminPage() {

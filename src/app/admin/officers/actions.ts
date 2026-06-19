@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { saveOfficers } from "@/lib/kv";
+import { saveOfficers } from "@/lib/db";
 import type { Officer } from "@/data/defaults";
 
 export async function saveOfficersAction(formData: FormData) {

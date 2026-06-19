@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getRushEvents } from "@/lib/kv";
+import { getRushEvents } from "@/lib/db";
 import { saveEventsAction } from "./actions";
 
 export default async function EventsAdminPage() {

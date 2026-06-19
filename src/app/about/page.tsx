@@ -1,6 +1,6 @@
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
-import { getOfficers } from "@/lib/kv";
+import { getOfficers } from "@/lib/db";
 
 export default async function AboutPage() {
   const officers = await getOfficers();

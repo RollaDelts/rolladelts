@@ -1,6 +1,6 @@
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
-import { getRushEvents } from "@/lib/kv";
+import { getRushEvents } from "@/lib/db";
 
 const steps = [
   {
