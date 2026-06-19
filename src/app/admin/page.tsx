@@ -13,6 +13,12 @@ const sections = [
     description: "Add, edit, or remove upcoming recruitment events shown on the Recruitment page.",
     icon: "📅",
   },
+  {
+    href: "/admin/users",
+    title: "Users",
+    description: "Review pending registrations, approve members, and manage admin access.",
+    icon: "🔑",
+  },
 ];
 
 export default function AdminDashboard() {
@@ -23,7 +29,7 @@ export default function AdminDashboard() {
         Manage site content for Delta Tau Delta · Epsilon Nu Chapter.
       </p>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {sections.map((s) => (
           <Link
             key={s.href}
@@ -44,7 +50,7 @@ export default function AdminDashboard() {
         <p className="mt-1 text-sm text-foreground/70">
           Changes saved here are reflected immediately on the public site. Visit{" "}
           <Link href="/" className="font-semibold text-dtd-purple underline" target="_blank">
-            rolladelts.org
+            the homepage
           </Link>{" "}
           to see updates.
         </p>

@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { createAuthClient, authAvailable } from "@/lib/supabase-server";
+import { getServerClient } from "@/lib/supabase";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,18 +22,41 @@ export const metadata: Metadata = {
     "The Epsilon Nu chapter of Delta Tau Delta at Missouri University of Science & Technology. Join a brotherhood built on Truth, Courage, Faith, and Power.",
 };
 
-export default function RootLayout({
+async function getUserDisplay() {
+  if (!authAvailable()) return null;
+  try {
+    const supabase = await createAuthClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const { data: profile } = await getServerClient()
+      .from("profiles")
+      .select("first_name, role")
+      .eq("id", user.id)
+      .single();
+
+    if (!profile) return null;
+    return {
+      name: profile.first_name as string,
+      role: profile.role as string,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
+  const userDisplay = await getUserDisplay();
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <Header />
+        <Header userDisplay={userDisplay} />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
