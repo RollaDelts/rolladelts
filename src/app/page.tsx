@@ -58,22 +58,22 @@ export default function Home() {
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-2 md:items-center md:py-24">
           <div>
             <p className="mb-3 text-sm font-bold uppercase tracking-widest text-dtd-gold">
-              Epsilon Nu Chapter &middot; Delta Tau Delta
+              Delta Tau Delta &middot; Epsilon Nu Chapter &middot; Missouri S&amp;T
             </p>
             <h1 className="text-4xl font-extrabold leading-tight sm:text-5xl">
-              Find Your Brotherhood at Missouri S&amp;T
+              Committed to Lives of Excellence
             </h1>
             <p className="mt-4 text-lg text-dtd-white/85">
-              Delta Tau Delta is more than a fraternity — it&apos;s a lifelong network of
-              brothers committed to Truth, Courage, Faith, and Power. Discover what it
-              means to be a Delt.
+              Delta Tau Delta is more than a fraternity — it&apos;s a lifelong brotherhood
+              dedicated to developing men of character. Join Epsilon Nu at Missouri S&amp;T
+              and discover what it means to be a Delt.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/recruitment"
                 className="rounded-full bg-dtd-gold px-8 py-3 text-sm font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
               >
-                Join Recruitment
+                Rush Delta Tau Delta
               </Link>
               <Link
                 href="/about"
@@ -104,11 +104,25 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Mission statement */}
+      <section className="bg-dtd-white">
+        <div className="mx-auto max-w-4xl px-4 py-14 text-center">
+          <p className="text-xs font-bold uppercase tracking-widest text-dtd-gold">Our Mission</p>
+          <h2 className="mt-3 text-3xl font-extrabold text-dtd-purple sm:text-4xl">
+            Committed to Lives of Excellence
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-foreground/75">
+            Delta Tau Delta exists to develop men who live with purpose, lead with integrity,
+            and serve their communities throughout their lives — not just during college.
+          </p>
+        </div>
+      </section>
+
       {/* Recruitment CTA banner */}
       <section className="bg-dtd-gold">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-6 text-dtd-purple-dark sm:flex-row">
           <div>
-            <p className="text-lg font-bold">Rush Epsilon Nu — Fall Recruitment is Open</p>
+            <p className="text-lg font-bold">Rush Delta Tau Delta — Fall Recruitment is Open</p>
             <p className="text-sm">No GPA requirement to start the conversation. Come meet the brothers.</p>
           </div>
           <Link
@@ -123,7 +137,7 @@ export default function Home() {
       {/* Why join */}
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl font-extrabold text-dtd-purple">Why Join Epsilon Nu?</h2>
+          <h2 className="text-3xl font-extrabold text-dtd-purple">Why Join Delta Tau Delta?</h2>
           <p className="mx-auto mt-2 max-w-2xl text-foreground/70">
             We&apos;re looking for men who want more than a club — who want a home, a family,
             and a launchpad for the rest of their lives.
@@ -146,9 +160,10 @@ export default function Home() {
       <section className="bg-dtd-purple-dark text-dtd-white">
         <div className="mx-auto max-w-6xl px-4 py-16">
           <div className="mb-10 text-center">
-            <h2 className="text-3xl font-extrabold text-dtd-gold">Our Core Values</h2>
+            <h2 className="text-3xl font-extrabold text-dtd-gold">Our Founding Principles</h2>
             <p className="mx-auto mt-2 max-w-2xl text-dtd-white/80">
-              Every Delt is shaped by four founding principles.
+              The mission of &ldquo;Committed to Lives of Excellence&rdquo; is built on four pillars
+              established at Delta Tau Delta&apos;s founding.
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -167,7 +182,8 @@ export default function Home() {
         <div className="mb-10 text-center">
           <h2 className="text-3xl font-extrabold text-dtd-purple">Life at the House</h2>
           <p className="mx-auto mt-2 max-w-2xl text-foreground/70">
-            A look at brotherhood, philanthropy, and the moments that make Epsilon Nu home.
+            A look at brotherhood, philanthropy, and the moments that define Delta Tau Delta
+            at Missouri S&amp;T.
           </p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -183,17 +199,17 @@ export default function Home() {
       {/* Final CTA */}
       <section className="bg-dtd-purple text-dtd-white">
         <div className="mx-auto max-w-4xl px-4 py-16 text-center">
-          <h2 className="text-3xl font-extrabold sm:text-4xl">Ready to Find Your Home Away From Home?</h2>
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Ready to Start Your Life of Excellence?</h2>
           <p className="mx-auto mt-4 max-w-2xl text-dtd-white/85">
             Recruitment is open to all Missouri S&amp;T students. Reach out, come to an event,
-            and see what makes Epsilon Nu different.
+            and see what makes Delta Tau Delta different.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/recruitment"
               className="rounded-full bg-dtd-gold px-8 py-3 text-sm font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
             >
-              Start Recruitment
+              Rush Delta Tau Delta
             </Link>
             <Link
               href="/contact"

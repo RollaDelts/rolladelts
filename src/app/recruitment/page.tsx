@@ -1,5 +1,6 @@
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
+import { getRushEvents } from "@/lib/kv";
 
 const steps = [
   {
@@ -15,20 +16,13 @@ const steps = [
   {
     step: "3",
     title: "Get to Know the Brothers",
-    description: "Hang out at the house, ask questions, and see if Epsilon Nu feels like home.",
+    description: "Hang out at the house, ask questions, and see if Delta Tau Delta feels like home.",
   },
   {
     step: "4",
     title: "Receive a Bid",
     description: "If it's a great fit for both sides, you'll receive a bid to join and begin new member education.",
   },
-];
-
-const events = [
-  { date: "TBD", name: "Meet the Brothers BBQ", location: "Chapter House, 2631 Vienna Rd" },
-  { date: "TBD", name: "Game Night & Pizza", location: "Chapter House" },
-  { date: "TBD", name: "Campus Info Table", location: "Missouri S&T Student Union" },
-  { date: "TBD", name: "Bid Night", location: "Chapter House (Invite Only)" },
 ];
 
 const faqs = [
@@ -50,12 +44,14 @@ const faqs = [
   },
 ];
 
-export default function RecruitmentPage() {
+export default async function RecruitmentPage() {
+  const events = await getRushEvents();
+
   return (
     <div>
       <PageHero
-        title="Recruitment"
-        subtitle="Joining Epsilon Nu means joining a brotherhood for life. Here's everything you need to know to get started."
+        title="Rush Delta Tau Delta"
+        subtitle="Joining Delta Tau Delta means joining a brotherhood committed to lives of excellence — for life. Here's everything you need to know to get started."
       />
 
       {/* How it works */}
@@ -92,7 +88,7 @@ export default function RecruitmentPage() {
               </thead>
               <tbody>
                 {events.map((event, i) => (
-                  <tr key={event.name} className={i % 2 === 0 ? "bg-white" : "bg-dtd-cream"}>
+                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-dtd-cream"}>
                     <td className="px-4 py-3 font-medium text-dtd-purple">{event.date}</td>
                     <td className="px-4 py-3">{event.name}</td>
                     <td className="px-4 py-3 text-foreground/70">{event.location}</td>

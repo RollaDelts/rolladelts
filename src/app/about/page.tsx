@@ -1,32 +1,26 @@
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
+import { getOfficers } from "@/lib/kv";
 
-const officers = [
-  { role: "President", name: "TBD" },
-  { role: "Vice President", name: "TBD" },
-  { role: "Treasurer", name: "TBD" },
-  { role: "Recruitment Chair", name: "TBD" },
-  { role: "Risk Manager", name: "TBD" },
-  { role: "Philanthropy Chair", name: "TBD" },
-];
+export default async function AboutPage() {
+  const officers = await getOfficers();
 
-export default function AboutPage() {
   return (
     <div>
       <PageHero
-        title="About Epsilon Nu"
-        subtitle="The Epsilon Nu chapter of Delta Tau Delta has called Missouri S&T home since 1964, building generations of brothers committed to Truth, Courage, Faith, and Power."
+        title="About Delta Tau Delta at Missouri S&T"
+        subtitle="Delta Tau Delta's Epsilon Nu Chapter has called Missouri S&T home since 1964, building generations of brothers committed to lives of excellence."
       />
 
       <section className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-2 md:items-center">
         <div>
           <h2 className="text-2xl font-bold text-dtd-purple">Our History</h2>
           <p className="mt-3 text-foreground/80">
-            Founded at Missouri University of Science &amp; Technology, the Epsilon Nu chapter
-            has grown into one of the most respected fraternities on campus. For decades,
-            our chapter house at 2631 Vienna Rd has been a home for engineers, scientists,
-            and leaders who also know how to have a good time and give back to the Rolla
-            community.
+            Founded at Missouri University of Science &amp; Technology, Delta Tau Delta&apos;s
+            Epsilon Nu Chapter has grown into one of the most respected fraternities on campus.
+            For decades, our chapter house at 2631 Vienna Rd has been a home for engineers,
+            scientists, and leaders who also know how to have a good time and give back to the
+            Rolla community.
           </p>
           <p className="mt-3 text-foreground/80">
             Replace this section with a longer history of the chapter &mdash; founding date,
@@ -42,13 +36,13 @@ export default function AboutPage() {
 
       <section className="bg-dtd-cream">
         <div className="mx-auto max-w-6xl px-4 py-12">
-          <h2 className="text-2xl font-bold text-dtd-purple">Our Values</h2>
+          <h2 className="text-2xl font-bold text-dtd-purple">Our Mission &amp; Values</h2>
           <p className="mt-2 max-w-3xl text-foreground/80">
-            Delta Tau Delta was founded on four core values that guide every brother&apos;s
-            personal and chapter life: <strong>Truth</strong>, <strong>Courage</strong>,{" "}
-            <strong>Faith</strong>, and <strong>Power</strong>. These aren&apos;t just words on a
-            shield &mdash; they shape how we treat each other, how we lead on campus, and how
-            we represent ourselves in the community.
+            Delta Tau Delta&apos;s mission is to be <strong>&ldquo;Committed to Lives of Excellence.&rdquo;</strong>{" "}
+            That mission is grounded in four founding principles &mdash;{" "}
+            <strong>Truth</strong>, <strong>Courage</strong>, <strong>Faith</strong>, and{" "}
+            <strong>Power</strong> &mdash; that shape how every Delt treats his brothers,
+            leads on campus, and represents himself in the community.
           </p>
         </div>
       </section>

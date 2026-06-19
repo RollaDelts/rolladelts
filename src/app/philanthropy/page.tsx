@@ -13,7 +13,7 @@ export default function PhilanthropyPage() {
         <div>
           <h2 className="text-2xl font-bold text-dtd-purple">Annual Haunted Maze</h2>
           <p className="mt-3 text-foreground/80">
-            Each fall, Epsilon Nu hosts a haunted maze that brings together students,
+            Each fall, Delta Tau Delta&apos;s Epsilon Nu Chapter hosts a haunted maze that brings together students,
             families, and the greater Rolla community for a night of fun while raising
             money for our chosen philanthropic partner.
           </p>

@@ -22,8 +22,8 @@ export default function Header() {
             ΔΤΔ
           </span>
           <span className="leading-tight">
-            <span className="block text-lg font-bold tracking-wide">Epsilon Nu</span>
-            <span className="block text-xs text-dtd-gold-light">Delta Tau Delta &middot; Missouri S&amp;T</span>
+            <span className="block text-lg font-bold tracking-wide">Delta Tau Delta</span>
+            <span className="block text-xs text-dtd-gold-light">Epsilon Nu Chapter &middot; Missouri S&amp;T</span>
           </span>
         </Link>
 

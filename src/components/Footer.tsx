@@ -5,9 +5,9 @@ export default function Footer() {
     <footer className="bg-dtd-purple-dark text-dtd-white">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 md:grid-cols-4">
         <div>
-          <p className="text-lg font-bold text-dtd-gold">Epsilon Nu Chapter</p>
+          <p className="text-lg font-bold text-dtd-gold">Delta Tau Delta</p>
           <p className="mt-2 text-sm text-dtd-white/80">
-            Delta Tau Delta Fraternity
+            Epsilon Nu Chapter
             <br />
             Missouri University of Science &amp; Technology
           </p>
