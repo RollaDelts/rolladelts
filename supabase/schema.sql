@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS rush_events (
   sort_order INTEGER   NOT NULL DEFAULT 0
 );
 
--- Disable Row Level Security — all access goes through the server-side
--- service role key, so RLS is not needed for these tables.
-ALTER TABLE officers    DISABLE ROW LEVEL SECURITY;
-ALTER TABLE rush_events DISABLE ROW LEVEL SECURITY;
+-- RLS is enabled (Supabase default and recommended).
+-- The app accesses these tables exclusively via the server-side service role
+-- key, which bypasses RLS — so no policies are needed. Direct anon/browser
+-- access to these tables is blocked by default.
