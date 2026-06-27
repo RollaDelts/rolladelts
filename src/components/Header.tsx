@@ -23,11 +23,11 @@ export default function Header({ userDisplay }: { userDisplay: UserDisplay }) {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-dtd-gold bg-dtd-purple-dark text-lg font-bold text-dtd-gold">
+          <span className="flex h-11 w-11 items-center justify-center border-2 border-dtd-gold bg-dtd-purple-dark font-display text-lg font-bold text-dtd-gold">
             ΔΤΔ
           </span>
           <span className="leading-tight">
-            <span className="block text-lg font-bold tracking-wide">Delta Tau Delta</span>
+            <span className="block font-display text-xl font-bold uppercase tracking-wide">Delta Tau Delta</span>
             <span className="block text-xs text-dtd-gold-light">Epsilon Nu Chapter &middot; Missouri S&amp;T</span>
           </span>
         </Link>
@@ -70,13 +70,13 @@ export default function Header({ userDisplay }: { userDisplay: UserDisplay }) {
             <>
               <Link
                 href="/login"
-                className="rounded-full border border-dtd-white/50 px-5 py-2 text-sm font-semibold text-dtd-white transition hover:border-dtd-white hover:text-dtd-white"
+                className="border border-dtd-white/50 px-5 py-2 text-sm font-semibold text-dtd-white transition hover:border-dtd-white hover:text-dtd-white"
               >
                 Login
               </Link>
               <Link
                 href="/recruitment"
-                className="rounded-full bg-dtd-gold px-5 py-2 text-sm font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
+                className="bg-dtd-gold px-5 py-2 text-sm font-bold uppercase tracking-widest text-dtd-purple-dark transition hover:bg-dtd-gold-light"
               >
                 Join Us
               </Link>
