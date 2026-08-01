@@ -62,60 +62,62 @@ export default async function Home({
   return (
     <div>
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section
-        className="relative overflow-hidden bg-dtd-purple pb-24 text-dtd-white"
-        style={{ clipPath: "polygon(0 0, 100% 0, 100% 92%, 0 100%)" }}
-      >
-        {/* Subtle decorative ΔΤΔ watermark */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -right-8 -top-6 select-none font-display text-[220px] font-bold leading-none text-dtd-white/5"
+      <div className="bg-white">
+        <section
+          className="relative overflow-hidden bg-dtd-purple pb-24 text-dtd-white"
+          style={{ clipPath: "polygon(0 0, 100% 0, 100% 92%, 0 100%)" }}
         >
-          ΔΤΔ
-        </span>
+          {/* Subtle decorative ΔΤΔ watermark */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -right-8 -top-6 select-none font-display text-[220px] font-bold leading-none text-dtd-white/5"
+          >
+            ΔΤΔ
+          </span>
 
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-16 md:grid-cols-2 md:items-center md:pt-24">
-          <div>
-            <span className="mb-5 inline-block bg-dtd-gold px-3 py-1 text-xs font-bold uppercase tracking-widest text-dtd-purple-dark">
-              Epsilon Nu Chapter &middot; Missouri S&amp;T
-            </span>
-            <h1 className="font-display text-6xl font-bold uppercase leading-none tracking-tight sm:text-7xl md:text-8xl">
-              Committed<br />
-              to Lives of<br />
-              <span className="text-dtd-gold">Excellence</span>
-            </h1>
-            <p className="mt-6 max-w-md text-lg text-dtd-white/80">
-              Delta Tau Delta is more than a fraternity — it&apos;s a lifelong brotherhood
-              dedicated to developing men of character. Join Epsilon Nu at Missouri S&amp;T
-              and discover what it means to be a Delt.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/recruitment"
-                className="rounded-none bg-dtd-gold px-8 py-3 text-sm font-bold uppercase tracking-widest text-dtd-purple-dark transition hover:bg-dtd-gold-light"
-              >
-                Rush Delta Tau Delta
-              </Link>
-              <Link
-                href="/about"
-                className="rounded-none border-2 border-dtd-white px-8 py-3 text-sm font-bold uppercase tracking-widest text-dtd-white transition hover:bg-dtd-white hover:text-dtd-purple"
-              >
-                Learn About Us
-              </Link>
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-16 md:grid-cols-2 md:items-center md:pt-24">
+            <div>
+              <span className="mb-5 inline-block bg-dtd-gold px-3 py-1 text-xs font-bold uppercase tracking-widest text-dtd-purple-dark">
+                Epsilon Nu Chapter &middot; Missouri S&amp;T
+              </span>
+              <h1 className="font-display text-6xl font-bold uppercase leading-none tracking-tight sm:text-7xl md:text-8xl">
+                Committed<br />
+                to Lives of<br />
+                <span className="text-dtd-gold">Excellence</span>
+              </h1>
+              <p className="mt-6 max-w-md text-lg text-dtd-white/80">
+                Delta Tau Delta is more than a fraternity — it&apos;s a lifelong brotherhood
+                dedicated to developing men of character. Join Epsilon Nu at Missouri S&amp;T
+                and discover what it means to be a Delt.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link
+                  href="/recruitment"
+                  className="rounded-none bg-dtd-gold px-8 py-3 text-sm font-bold uppercase tracking-widest text-dtd-purple-dark transition hover:bg-dtd-gold-light"
+                >
+                  Rush Delta Tau Delta
+                </Link>
+                <Link
+                  href="/about"
+                  className="rounded-none border-2 border-dtd-white px-8 py-3 text-sm font-bold uppercase tracking-widest text-dtd-white transition hover:bg-dtd-white hover:text-dtd-purple"
+                >
+                  Learn About Us
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute -left-3 -top-3 h-full w-full border-2 border-dtd-gold/30" aria-hidden />
+              <PlaceholderImage
+                label="Hero Photo"
+                suggestion="Wide group photo of brothers in front of the chapter house, or a candid shot from a recruitment/social event. High-resolution, bright, and welcoming."
+                aspect="aspect-[4/3]"
+                className="relative bg-dtd-purple-dark/40 border-dtd-gold/40"
+              />
             </div>
           </div>
-
-          <div className="relative">
-            <div className="absolute -left-3 -top-3 h-full w-full border-2 border-dtd-gold/30" aria-hidden />
-            <PlaceholderImage
-              label="Hero Photo"
-              suggestion="Wide group photo of brothers in front of the chapter house, or a candid shot from a recruitment/social event. High-resolution, bright, and welcoming."
-              aspect="aspect-[4/3]"
-              className="relative bg-dtd-purple-dark/40 border-dtd-gold/40"
-            />
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* ── Stats bar ────────────────────────────────────────────────────── */}
       <section className="bg-dtd-gold">
