@@ -43,7 +43,7 @@ export default async function UsersAdminPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-dtd-purple">Users</h1>
-      <p className="mt-1 text-foreground/70">
+      <p className="mt-1 text-foreground/80">
         Approve pending registrations, manage roles, or remove users.
       </p>
 
@@ -106,7 +106,7 @@ function UserTable({
                     </span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-foreground/70">{p.email}</td>
+                <td className="px-4 py-3 text-foreground/80">{p.email}</td>
                 <td className="px-4 py-3">
                   <span
                     className={`rounded-full px-2 py-0.5 text-xs ${roleBadge[p.role] ?? "bg-gray-100 text-gray-700"}`}

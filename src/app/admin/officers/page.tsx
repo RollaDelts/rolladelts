@@ -9,7 +9,7 @@ export default async function OfficersAdminPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-dtd-purple">Chapter Leadership</h1>
-      <p className="mt-1 text-foreground/70">
+      <p className="mt-1 text-foreground/80">
         Edit officer names below and click Save. Changes appear on the About page immediately.
       </p>
 

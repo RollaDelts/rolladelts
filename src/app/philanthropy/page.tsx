@@ -47,7 +47,7 @@ export default function PhilanthropyPage() {
 
       <section className="mx-auto max-w-6xl px-4 py-16 text-center">
         <h2 className="text-2xl font-bold text-dtd-purple">Want to Get Involved?</h2>
-        <p className="mx-auto mt-2 max-w-2xl text-foreground/70">
+        <p className="mx-auto mt-2 max-w-2xl text-foreground/80">
           Whether you want to attend an event, donate, or partner with us on a future
           philanthropy initiative, we&apos;d love to hear from you.
         </p>

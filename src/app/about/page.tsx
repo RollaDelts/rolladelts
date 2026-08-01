@@ -17,10 +17,10 @@ export default async function AboutPage() {
           <h2 className="text-2xl font-bold text-dtd-purple">Our History</h2>
           <p className="mt-3 text-foreground/80">
             Founded at Missouri University of Science &amp; Technology, Delta Tau Delta&apos;s
-            Epsilon Nu Chapter has grown into one of the most respected fraternities on campus.
-            For decades, our chapter house at 2631 Vienna Rd has been a home for engineers,
-            scientists, and leaders who also know how to have a good time and give back to the
-            Rolla community.
+            Epsilon Nu Chapter has built a home on campus since 1964. For decades, our
+            chapter house at 2631 Vienna Rd has been a home for engineers, scientists, and
+            leaders who also know how to have a good time and give back to the Rolla
+            community.
           </p>
           <p className="mt-3 text-foreground/80">
             Replace this section with a longer history of the chapter &mdash; founding date,
@@ -57,7 +57,7 @@ export default async function AboutPage() {
           {officers.map((officer) => (
             <div key={officer.role} className="rounded-lg border border-dtd-purple/10 bg-white p-5 shadow-sm">
               <p className="font-bold text-dtd-purple">{officer.role}</p>
-              <p className="text-sm text-foreground/70">{officer.name}</p>
+              <p className="text-sm text-foreground/80">{officer.name}</p>
             </div>
           ))}
         </div>

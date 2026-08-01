@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #f8f5ef;
   --foreground: #1a1a1a;
 
   /* Delta Tau Delta brand palette */
@@ -10,6 +10,8 @@
   --dtd-purple-light: #6e3aa3;
   --dtd-gold: #c9a23c;
   --dtd-gold-light: #e6c869;
+  /* Darker gold for text on light backgrounds — brand gold fails contrast on white/cream */
+  --dtd-gold-dark: #8a6a1a;
   --dtd-white: #ffffff;
   --dtd-cream: #f8f5ef;
 }
@@ -22,6 +24,7 @@
   --color-dtd-purple-light: var(--dtd-purple-light);
   --color-dtd-gold: var(--dtd-gold);
   --color-dtd-gold-light: var(--dtd-gold-light);
+  --color-dtd-gold-dark: var(--dtd-gold-dark);
   --color-dtd-white: var(--dtd-white);
   --color-dtd-cream: var(--dtd-cream);
   --font-sans: var(--font-geist-sans);

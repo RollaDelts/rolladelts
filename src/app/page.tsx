@@ -117,7 +117,7 @@ export default function Home() {
               <p className="font-display text-5xl font-bold text-dtd-purple sm:text-6xl">
                 {stat.value}
               </p>
-              <p className="mt-1 text-xs font-bold uppercase tracking-wider text-dtd-purple/70">
+              <p className="mt-1 text-xs font-bold uppercase tracking-wider text-dtd-purple-dark">
                 {stat.label}
               </p>
             </div>
@@ -148,13 +148,13 @@ export default function Home() {
       {/* ── Why Join ─────────────────────────────────────────────────────── */}
       <section className="mx-auto max-w-6xl px-4 py-20">
         <div className="mb-10">
-          <p className="text-xs font-bold uppercase tracking-widest text-dtd-gold">
+          <p className="text-xs font-bold uppercase tracking-widest text-dtd-gold-dark">
             Why Delta Tau Delta?
           </p>
           <h2 className="mt-2 font-display text-4xl font-bold uppercase text-dtd-purple sm:text-5xl">
             More Than a Fraternity
           </h2>
-          <p className="mt-3 max-w-2xl text-foreground/70">
+          <p className="mt-3 max-w-2xl text-foreground/80">
             We&apos;re looking for men who want more than a club — who want a home, a family,
             and a launchpad for the rest of their lives.
           </p>
@@ -166,13 +166,13 @@ export default function Home() {
               className="border-l-4 border-dtd-gold bg-white px-6 py-8 shadow-sm transition hover:bg-dtd-cream"
               style={{ borderTop: i >= 2 ? "1px solid #e5e7eb" : undefined }}
             >
-              <span className="font-display text-4xl font-bold text-dtd-gold/40">
+              <span className="font-display text-4xl font-bold text-dtd-gold-dark">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 className="mt-2 font-display text-xl font-bold uppercase text-dtd-purple">
                 {pillar.title}
               </h3>
-              <p className="mt-2 text-sm text-foreground/70">{pillar.description}</p>
+              <p className="mt-2 text-sm text-foreground/80">{pillar.description}</p>
             </div>
           ))}
         </div>
@@ -182,7 +182,7 @@ export default function Home() {
       <section className="bg-dtd-cream">
         <div className="mx-auto max-w-4xl px-4 py-16">
           <div className="border-l-4 border-dtd-gold pl-8">
-            <p className="text-xs font-bold uppercase tracking-widest text-dtd-gold">Our Mission</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-dtd-gold-dark">Our Mission</p>
             <h2 className="mt-3 font-display text-4xl font-bold uppercase text-dtd-purple sm:text-5xl">
               Committed to Lives<br />of Excellence
             </h2>
@@ -230,13 +230,13 @@ export default function Home() {
       {/* ── Photo gallery teaser ─────────────────────────────────────────── */}
       <section className="mx-auto max-w-6xl px-4 py-20">
         <div className="mb-10">
-          <p className="text-xs font-bold uppercase tracking-widest text-dtd-gold">
+          <p className="text-xs font-bold uppercase tracking-widest text-dtd-gold-dark">
             Chapter Life
           </p>
           <h2 className="mt-2 font-display text-4xl font-bold uppercase text-dtd-purple sm:text-5xl">
             Life at the House
           </h2>
-          <p className="mt-3 max-w-2xl text-foreground/70">
+          <p className="mt-3 max-w-2xl text-foreground/80">
             A look at brotherhood, philanthropy, and the moments that define Delta Tau Delta
             at Missouri S&amp;T.
           </p>

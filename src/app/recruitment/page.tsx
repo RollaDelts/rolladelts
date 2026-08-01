@@ -31,16 +31,16 @@ const faqs = [
     a: "There's no minimum GPA to start the recruitment process. We do have academic expectations for new and active members, and we provide study tables and tutoring support to help everyone succeed.",
   },
   {
-    q: "What does it cost to join?",
-    a: "Costs include a one-time new member fee and semesterly dues, which cover housing, meals, national fraternity fees, and chapter operations. Contact our Recruitment Chair for current, detailed pricing — we're happy to discuss payment plans.",
-  },
-  {
     q: "Do I have to live in the house?",
     a: "Living in is encouraged for the full experience but not always required. Reach out to discuss housing availability and options.",
   },
   {
     q: "I'm a freshman / transfer / non-traditional student — can I still join?",
     a: "Absolutely. We welcome men at any point in their college career, including transfer students and non-traditional students.",
+  },
+  {
+    q: "What does it cost to join?",
+    a: "Costs include a one-time new member fee and semesterly dues, which cover housing, meals, national fraternity fees, and chapter operations. Contact our Recruitment Chair for current, detailed pricing — we're happy to discuss payment plans.",
   },
 ];
 
@@ -64,7 +64,7 @@ export default async function RecruitmentPage() {
                 {s.step}
               </span>
               <h3 className="mt-3 font-bold text-dtd-purple">{s.title}</h3>
-              <p className="mt-1 text-sm text-foreground/70">{s.description}</p>
+              <p className="mt-1 text-sm text-foreground/80">{s.description}</p>
             </div>
           ))}
         </div>
@@ -91,7 +91,7 @@ export default async function RecruitmentPage() {
                   <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-dtd-cream"}>
                     <td className="px-4 py-3 font-medium text-dtd-purple">{event.date}</td>
                     <td className="px-4 py-3">{event.name}</td>
-                    <td className="px-4 py-3 text-foreground/70">{event.location}</td>
+                    <td className="px-4 py-3 text-foreground/80">{event.location}</td>
                   </tr>
                 ))}
               </tbody>
@@ -132,7 +132,7 @@ export default async function RecruitmentPage() {
             {faqs.map((faq) => (
               <details key={faq.q} className="rounded-lg border border-dtd-purple/10 bg-white p-5 shadow-sm">
                 <summary className="cursor-pointer font-semibold text-dtd-purple">{faq.q}</summary>
-                <p className="mt-2 text-sm text-foreground/70">{faq.a}</p>
+                <p className="mt-2 text-sm text-foreground/80">{faq.a}</p>
               </details>
             ))}
           </div>
@@ -142,7 +142,7 @@ export default async function RecruitmentPage() {
       {/* Interest form */}
       <section className="mx-auto max-w-3xl px-4 py-16">
         <h2 className="text-center text-2xl font-bold text-dtd-purple">Get in Touch</h2>
-        <p className="mt-2 text-center text-foreground/70">
+        <p className="mt-2 text-center text-foreground/80">
           Interested in learning more? Send us your info and our Recruitment Chair will reach out.
         </p>
         <form className="mt-8 grid gap-4">

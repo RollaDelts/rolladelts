@@ -460,7 +460,7 @@ export default function RegisterPage() {
             ΔΤΔ
           </span>
           <h1 className="mt-4 text-2xl font-bold text-dtd-purple">Registration Submitted!</h1>
-          <p className="mt-3 text-foreground/70">
+          <p className="mt-3 text-foreground/80">
             Thanks, {form.firstName}! Your account is pending approval by a chapter admin.
             You&apos;ll be able to log in once your account is approved.
           </p>

@@ -25,7 +25,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-dtd-purple">Admin Dashboard</h1>
-      <p className="mt-1 text-foreground/70">
+      <p className="mt-1 text-foreground/80">
         Manage site content for Delta Tau Delta · Epsilon Nu Chapter.
       </p>
 
@@ -39,7 +39,7 @@ export default function AdminDashboard() {
             <span className="text-3xl">{s.icon}</span>
             <div>
               <p className="font-bold text-dtd-purple">{s.title}</p>
-              <p className="mt-1 text-sm text-foreground/70">{s.description}</p>
+              <p className="mt-1 text-sm text-foreground/80">{s.description}</p>
             </div>
           </Link>
         ))}
@@ -47,7 +47,7 @@ export default function AdminDashboard() {
 
       <div className="mt-10 rounded-xl border border-dtd-gold/40 bg-dtd-gold/10 p-5">
         <p className="text-sm font-semibold text-dtd-purple">Viewing the live site</p>
-        <p className="mt-1 text-sm text-foreground/70">
+        <p className="mt-1 text-sm text-foreground/80">
           Changes saved here are reflected immediately on the public site. Visit{" "}
           <Link href="/" className="font-semibold text-dtd-purple underline" target="_blank">
             the homepage
