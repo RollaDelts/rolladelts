@@ -21,6 +21,16 @@ CREATE TABLE IF NOT EXISTS rush_events (
   sort_order INTEGER   NOT NULL DEFAULT 0
 );
 
+-- Alumni profiles shown on the Alumni page
+CREATE TABLE IF NOT EXISTS alumni_spotlights (
+  id           BIGSERIAL PRIMARY KEY,
+  name         TEXT      NOT NULL,
+  pledge_class TEXT      NOT NULL DEFAULT '',
+  years        TEXT      NOT NULL DEFAULT '',
+  summary      TEXT      NOT NULL DEFAULT '',
+  sort_order   INTEGER   NOT NULL DEFAULT 0
+);
+
 -- ─── User profiles ───────────────────────────────────────────────────────────
 -- Extends Supabase Auth users with display name and role.
 -- role values: 'pending' | 'member' | 'admin'
@@ -39,9 +49,10 @@ CREATE TABLE IF NOT EXISTS profiles (
 -- via the service role key which bypasses RLS.
 -- Profiles: users can read their own row; service role handles all admin writes.
 
-ALTER TABLE officers    ENABLE ROW LEVEL SECURITY;
-ALTER TABLE rush_events ENABLE ROW LEVEL SECURITY;
-ALTER TABLE profiles    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE officers          ENABLE ROW LEVEL SECURITY;
+ALTER TABLE rush_events       ENABLE ROW LEVEL SECURITY;
+ALTER TABLE alumni_spotlights ENABLE ROW LEVEL SECURITY;
+ALTER TABLE profiles          ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can read own profile"
   ON profiles FOR SELECT

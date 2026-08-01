@@ -14,6 +14,12 @@ const sections = [
     icon: "📅",
   },
   {
+    href: "/admin/alumni",
+    title: "Alumni Spotlights",
+    description: "Edit alumni profiles featured on the Alumni page.",
+    icon: "🎓",
+  },
+  {
     href: "/admin/users",
     title: "Users",
     description: "Review pending registrations, approve members, and manage admin access.",
