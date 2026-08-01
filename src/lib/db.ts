@@ -74,7 +74,7 @@ export async function getAlumniSpotlights(): Promise<AlumniSpotlight[]> {
   if (!supabaseAvailable()) return defaultAlumniSpotlights;
   const { data, error } = await getServerClient()
     .from("alumni_spotlights")
-    .select("name, pledge_class, years, summary")
+    .select("name, pledge_class, years, photos, bio")
     .order("sort_order", { ascending: true })
     .order("id", { ascending: true });
 
@@ -83,7 +83,8 @@ export async function getAlumniSpotlights(): Promise<AlumniSpotlight[]> {
     name: row.name,
     pledgeClass: row.pledge_class,
     years: row.years,
-    summary: row.summary,
+    photos: row.photos,
+    bio: row.bio,
   })) as AlumniSpotlight[];
 }
 
@@ -96,7 +97,8 @@ export async function saveAlumniSpotlights(spotlights: AlumniSpotlight[]): Promi
       name: s.name,
       pledge_class: s.pledgeClass,
       years: s.years,
-      summary: s.summary,
+      photos: s.photos,
+      bio: s.bio,
       sort_order: i,
     }))
   );
