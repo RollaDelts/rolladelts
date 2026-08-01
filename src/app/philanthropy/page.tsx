@@ -13,13 +13,14 @@ export default function PhilanthropyPage() {
         <div>
           <h2 className="text-2xl font-bold text-dtd-purple">Annual Haunted Maze</h2>
           <p className="mt-3 text-foreground/80">
-            Each fall, Delta Tau Delta&apos;s Epsilon Nu Chapter hosts a haunted maze that brings together students,
-            families, and the greater Rolla community for a night of fun while raising
-            money for our chosen philanthropic partner.
+            Each fall, Delta Tau Delta&apos;s Epsilon Nu Chapter hosts a haunted maze that brings
+            together students, families, and the greater Rolla community for a night of fun
+            while raising money for <strong>JDRF</strong>, the leading funder of type 1 diabetes
+            research.
           </p>
           <p className="mt-3 text-foreground/80">
-            Replace this with details on the current year&apos;s event date, the cause it
-            supports, and how much has been raised historically.
+            Replace this with details on the current year&apos;s event date and how much has
+            been raised historically.
           </p>
         </div>
         <PlaceholderImage
@@ -31,16 +32,26 @@ export default function PhilanthropyPage() {
 
       <section className="bg-dtd-cream">
         <div className="mx-auto max-w-6xl px-4 py-12">
-          <h2 className="text-2xl font-bold text-dtd-purple">Our Partner Causes</h2>
+          <h2 className="text-2xl font-bold text-dtd-purple">Giving Back Year-Round</h2>
           <p className="mt-2 max-w-3xl text-foreground/80">
-            Delta Tau Delta partners with organizations that align with our values of
-            service and brotherhood. List the chapter&apos;s current philanthropic
-            partner(s) here, with a short description and a link to donate or volunteer.
+            Philanthropy isn&apos;t just one night a year — our brothers show up for the Rolla
+            community on an ongoing basis.
           </p>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <PlaceholderImage label="Partner Logo / Photo" suggestion="Logo or photo representing the philanthropic partner organization." />
-            <PlaceholderImage label="Volunteer Event" suggestion="Photo of brothers volunteering at a community event." />
-            <PlaceholderImage label="Fundraiser Results" suggestion="Photo or graphic showing total funds raised, presented to the partner org." />
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            <div className="rounded-lg border border-dtd-purple/10 bg-white p-6 shadow-sm">
+              <h3 className="font-bold text-dtd-purple">Community Park Cleanup</h3>
+              <p className="mt-2 text-sm text-foreground/80">
+                Brothers regularly volunteer to clean up local parks around Rolla, keeping
+                shared spaces safe and enjoyable for the community.
+              </p>
+            </div>
+            <div className="rounded-lg border border-dtd-purple/10 bg-white p-6 shadow-sm">
+              <h3 className="font-bold text-dtd-purple">Vienna Road Monthly Pickups</h3>
+              <p className="mt-2 text-sm text-foreground/80">
+                Each month, the chapter picks up litter along Vienna Road near the chapter
+                house — a small, consistent way of taking care of our neighborhood.
+              </p>
+            </div>
           </div>
         </div>
       </section>
