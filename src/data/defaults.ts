@@ -33,7 +33,7 @@ export const defaultRushEvents: RushEvent[] = [
 export const defaultAlumniSpotlights: AlumniSpotlight[] = [
   {
     name: 'Dan "Madman" Maddex',
-    pledgeClass: "ΔΥ 264",
+    pledgeClass: "AY 264",
     years: "1998–2001",
     photos:
       "/images/alumni/maddex-1.png|Dan showing his St. Pats spirit\n/images/alumni/maddex-2.png|Dan and his daughter Poppy",
@@ -47,7 +47,7 @@ With this job, he's worked all over the U.S. going from Southern California, Den
   },
   {
     name: "Jeffrey W. Sheets",
-    pledgeClass: "Π 122",
+    pledgeClass: "π 122",
     years: "Treasurer '78 · President '79 · B.S. 1980",
     photos:
       "/images/alumni/sheets-1.jpg|from conocophillips.com\n/images/alumni/sheets-2.jpg|Jeff and Pat Sheets Lecture Hall, Bertelsmeyer Hall",
@@ -61,7 +61,7 @@ Brother Sheets has not forgotten Rolla. Both he and his wife have donated money 
   },
   {
     name: 'Matthew "Matt" Vogel',
-    pledgeClass: "ΒΝ 378",
+    pledgeClass: "BN 378",
     years: "2009–2014",
     photos: "/images/alumni/vogel-1.png",
     bio: `Matthew "Matt" Vogel (BN 378) came to Missouri S&T in the fall of 2009 as a double major in Architectural and Civil Engineering student. When he came to S&T, he had no intentions of joining a fraternity. Going into his sophomore year he was set to have a roommate that he did not care for. In his own words, "I was at Def Con 2." He decided that he needed to take action. He came over for a few visits and that was it.
@@ -97,7 +97,7 @@ Tobey Yadon, a fantastic Delt who values his friends and family. He lives life t
   },
   {
     name: "Britt Braswell",
-    pledgeClass: "ΑΔ 180",
+    pledgeClass: "AΔ 180",
     years: "1985–1990",
     photos: "/images/alumni/braswell-1.jpg",
     bio: `Britt Braswell (AΔ, 180) came to UMR in 1985 as an electrical engineering student. He has worked hard at Ameren for nearly 26 years, enjoying the environment and loving what he does. He is in a very unique role and excels within the company. It all started out at Delta Tau Delta.
