@@ -14,11 +14,11 @@ export async function GET() {
     connected,
     message: connected
       ? "Supabase env vars are set. Run supabase/schema.sql in your Supabase SQL Editor if you haven't already."
-      : "Supabase env vars are missing. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
+      : "Supabase env vars are missing. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY.",
     instructions: [
       "1. Create a project at https://supabase.com",
       "2. Go to Project Settings → API to find your URL and service role key",
-      "3. Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to Vercel env vars",
+      "3. Add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY to Vercel env vars",
       "4. Open the Supabase SQL Editor and run the contents of supabase/schema.sql",
     ],
   });

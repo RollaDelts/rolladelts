@@ -3,14 +3,14 @@ import { cookies } from "next/headers";
 
 /**
  * Auth-aware Supabase client for Server Components and Server Actions.
- * Uses the anon key + the current user's session cookie.
+ * Uses the publishable key + the current user's session cookie.
  * Use this to read the current user's identity and their own data.
  */
 export async function createAuthClient() {
   const cookieStore = await cookies();
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
     {
       cookies: {
         getAll() {
@@ -34,6 +34,6 @@ export async function createAuthClient() {
 export function authAvailable() {
   return !!(
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
   );
 }

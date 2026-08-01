@@ -1,17 +1,17 @@
 import { createClient } from "@supabase/supabase-js";
 
 /**
- * Server-side Supabase client using the service role key.
+ * Server-side Supabase client using the secret key (bypasses RLS).
  * Only call this from Server Components, Server Actions, or Route Handlers —
  * never import this in client components.
  */
 export function getServerClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const key = process.env.SUPABASE_SECRET_KEY;
 
   if (!url || !key) {
     throw new Error(
-      "Missing Supabase env vars: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set."
+      "Missing Supabase env vars: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY must be set."
     );
   }
 
@@ -23,6 +23,6 @@ export function getServerClient() {
 export function supabaseAvailable() {
   return !!(
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.SUPABASE_SERVICE_ROLE_KEY
+    process.env.SUPABASE_SECRET_KEY
   );
 }
