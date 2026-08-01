@@ -1,7 +1,15 @@
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
+import LeadFormStatus from "@/components/LeadFormStatus";
+import { submitLeadAction } from "@/app/actions/leads";
 
-export default function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sent?: string }>;
+}) {
+  const { sent } = await searchParams;
+
   return (
     <div>
       <PageHero
@@ -45,25 +53,36 @@ export default function ContactPage() {
       <section className="bg-dtd-cream">
         <div className="mx-auto max-w-3xl px-4 py-16">
           <h2 className="text-center text-2xl font-bold text-dtd-purple">Send a Message</h2>
-          <form className="mt-8 grid gap-4">
+          <div id="lead-status" className="mt-8 scroll-mt-24">
+            <LeadFormStatus sent={sent} />
+          </div>
+          <form key={sent ?? "form"} action={submitLeadAction} className="grid gap-4">
+            <input type="hidden" name="source" value="contact" />
+            <input type="hidden" name="redirectTo" value="/contact" />
             <div className="grid gap-4 sm:grid-cols-2">
               <input
                 type="text"
+                name="name"
                 placeholder="Full Name"
+                required
                 className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
               />
               <input
                 type="email"
+                name="email"
                 placeholder="Email Address"
+                required
                 className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
               />
             </div>
             <input
               type="text"
+              name="detail"
               placeholder="Subject"
               className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
             />
             <textarea
+              name="message"
               placeholder="Message"
               rows={5}
               className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"

@@ -2,6 +2,12 @@ import Link from "next/link";
 
 const sections = [
   {
+    href: "/admin/leads",
+    title: "Leads & RSVPs",
+    description: "See everyone who's submitted a contact form or RSVP'd to a rush event.",
+    icon: "📬",
+  },
+  {
     href: "/admin/officers",
     title: "Chapter Leadership",
     description: "Update officer names and roles displayed on the About page.",

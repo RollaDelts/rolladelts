@@ -2,6 +2,7 @@ import Link from "next/link";
 
 const adminNav = [
   { href: "/admin", label: "Dashboard" },
+  { href: "/admin/leads", label: "Leads & RSVPs" },
   { href: "/admin/officers", label: "Chapter Leadership" },
   { href: "/admin/events", label: "Rush Events" },
   { href: "/admin/alumni", label: "Alumni Spotlights" },

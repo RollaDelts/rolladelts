@@ -1,5 +1,7 @@
 import Link from "next/link";
 import PlaceholderImage from "@/components/PlaceholderImage";
+import LeadFormStatus from "@/components/LeadFormStatus";
+import { submitLeadAction } from "@/app/actions/leads";
 
 const stats = [
   { label: "Founded at Missouri S&T", value: "1964" },
@@ -50,7 +52,13 @@ const values = [
   },
 ];
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ sent?: string }>;
+}) {
+  const { sent } = await searchParams;
+
   return (
     <div>
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
@@ -127,7 +135,7 @@ export default function Home() {
 
       {/* ── Rush CTA banner ──────────────────────────────────────────────── */}
       <section className="bg-dtd-purple-dark text-dtd-white">
-        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 px-4 py-8 sm:flex-row sm:items-center">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-2 lg:items-center">
           <div>
             <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-dtd-gold sm:text-4xl">
               Rush Delta Tau Delta
@@ -135,13 +143,49 @@ export default function Home() {
             <p className="mt-1 text-dtd-white/70">
               Fall Recruitment is Open &mdash; no GPA requirement to start the conversation.
             </p>
+            <Link
+              href="/recruitment"
+              className="mt-5 inline-block bg-dtd-gold px-7 py-3 text-sm font-bold uppercase tracking-widest text-dtd-purple-dark transition hover:bg-dtd-gold-light"
+            >
+              See Rush Events
+            </Link>
           </div>
-          <Link
-            href="/recruitment"
-            className="shrink-0 bg-dtd-gold px-7 py-3 text-sm font-bold uppercase tracking-widest text-dtd-purple-dark transition hover:bg-dtd-gold-light"
-          >
-            See Rush Events
-          </Link>
+
+          <div className="border-l-0 border-dtd-gold/30 lg:border-l lg:pl-8">
+            <p className="text-xs font-bold uppercase tracking-widest text-dtd-gold-light">
+              Get on Our Radar
+            </p>
+            <p className="mt-1 text-sm text-dtd-white/70">
+              Not ready for an event yet? Leave your info and we&apos;ll reach out.
+            </p>
+            <div id="lead-status" className="mt-4 scroll-mt-28">
+              <LeadFormStatus sent={sent} />
+            </div>
+            <form key={sent ?? "form"} action={submitLeadAction} className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <input type="hidden" name="source" value="homepage" />
+              <input type="hidden" name="redirectTo" value="/" />
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                required
+                className="w-full rounded-md border border-dtd-white/30 bg-dtd-purple-dark px-4 py-2.5 text-sm text-dtd-white placeholder:text-dtd-white/50 focus:border-dtd-gold focus:outline-none sm:flex-1"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+                className="w-full rounded-md border border-dtd-white/30 bg-dtd-purple-dark px-4 py-2.5 text-sm text-dtd-white placeholder:text-dtd-white/50 focus:border-dtd-gold focus:outline-none sm:flex-1"
+              />
+              <button
+                type="submit"
+                className="shrink-0 rounded-md bg-dtd-gold px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
+              >
+                Send
+              </button>
+            </form>
+          </div>
         </div>
       </section>
 

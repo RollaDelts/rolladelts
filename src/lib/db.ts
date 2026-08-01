@@ -103,3 +103,50 @@ export async function saveAlumniSpotlights(spotlights: AlumniSpotlight[]): Promi
     }))
   );
 }
+
+// ─── Leads (contact-capture submissions) ────────────────────────────────────
+// Covers the recruitment interest form, contact form, homepage quick-contact
+// form, and rush-event RSVPs (source: "rsvp", detail: the event identifier).
+
+export type Lead = {
+  name: string;
+  email: string;
+  detail: string;
+  message: string;
+  source: string;
+};
+
+export type SavedLead = Lead & { id: number; createdAt: string };
+
+export async function saveLead(lead: Lead): Promise<void> {
+  if (!supabaseAvailable()) {
+    throw new Error("Supabase is not configured — form submissions can't be saved right now.");
+  }
+  const { error } = await getServerClient().from("leads").insert({
+    name: lead.name,
+    email: lead.email,
+    detail: lead.detail,
+    message: lead.message,
+    source: lead.source,
+  });
+  if (error) throw new Error(error.message);
+}
+
+export async function getLeads(): Promise<SavedLead[]> {
+  if (!supabaseAvailable()) return [];
+  const { data, error } = await getServerClient()
+    .from("leads")
+    .select("id, name, email, detail, message, source, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error || !data) return [];
+  return data.map((row) => ({
+    id: row.id,
+    name: row.name,
+    email: row.email,
+    detail: row.detail,
+    message: row.message,
+    source: row.source,
+    createdAt: row.created_at,
+  }));
+}

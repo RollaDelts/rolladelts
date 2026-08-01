@@ -1,6 +1,8 @@
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
+import LeadFormStatus from "@/components/LeadFormStatus";
 import { getRushEvents } from "@/lib/db";
+import { submitLeadAction } from "@/app/actions/leads";
 
 const steps = [
   {
@@ -44,8 +46,13 @@ const faqs = [
   },
 ];
 
-export default async function RecruitmentPage() {
+export default async function RecruitmentPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sent?: string }>;
+}) {
   const events = await getRushEvents();
+  const { sent } = await searchParams;
 
   return (
     <div>
@@ -76,26 +83,48 @@ export default async function RecruitmentPage() {
           <h2 className="text-2xl font-bold text-dtd-purple">Upcoming Rush Events</h2>
           <p className="mt-2 max-w-3xl text-foreground/80">
             Dates update each semester &mdash; follow our social media for the latest schedule.
+            RSVP below so we know to expect you.
           </p>
-          <div className="mt-6 overflow-hidden rounded-lg border border-dtd-purple/10 bg-white shadow-sm">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-dtd-purple text-dtd-white">
-                <tr>
-                  <th className="px-4 py-3">Date</th>
-                  <th className="px-4 py-3">Event</th>
-                  <th className="px-4 py-3">Location</th>
-                </tr>
-              </thead>
-              <tbody>
-                {events.map((event, i) => (
-                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-dtd-cream"}>
-                    <td className="px-4 py-3 font-medium text-dtd-purple">{event.date}</td>
-                    <td className="px-4 py-3">{event.name}</td>
-                    <td className="px-4 py-3 text-foreground/80">{event.location}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="mt-6 divide-y divide-dtd-purple/10 overflow-hidden rounded-lg border border-dtd-purple/10 bg-white shadow-sm">
+            {events.map((event, i) => (
+              <div key={i} className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="font-bold text-dtd-purple">{event.name}</p>
+                  <p className="text-sm text-foreground/70">
+                    {event.date} &middot; {event.location}
+                  </p>
+                </div>
+                <form
+                  key={sent ?? "form"}
+                  action={submitLeadAction}
+                  className="flex flex-wrap items-center gap-2 sm:justify-end"
+                >
+                  <input type="hidden" name="source" value="rsvp" />
+                  <input type="hidden" name="detail" value={`${event.name} — ${event.date}`} />
+                  <input type="hidden" name="redirectTo" value="/recruitment" />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    required
+                    className="w-28 rounded-md border border-dtd-purple/20 px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none sm:w-32"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                    className="w-36 rounded-md border border-dtd-purple/20 px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none sm:w-44"
+                  />
+                  <button
+                    type="submit"
+                    className="shrink-0 rounded-full bg-dtd-gold px-5 py-2 text-xs font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
+                  >
+                    RSVP
+                  </button>
+                </form>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -140,30 +169,41 @@ export default async function RecruitmentPage() {
       </section>
 
       {/* Interest form */}
-      <section className="mx-auto max-w-3xl px-4 py-16">
+      <section id="interest-form" className="mx-auto max-w-3xl scroll-mt-20 px-4 py-16">
         <h2 className="text-center text-2xl font-bold text-dtd-purple">Get in Touch</h2>
         <p className="mt-2 text-center text-foreground/80">
           Interested in learning more? Send us your info and our Recruitment Chair will reach out.
         </p>
-        <form className="mt-8 grid gap-4">
+        <div id="lead-status" className="mt-8 scroll-mt-24">
+          <LeadFormStatus sent={sent} />
+        </div>
+        <form key={sent ?? "form"} action={submitLeadAction} className="grid gap-4">
+          <input type="hidden" name="source" value="recruitment" />
+          <input type="hidden" name="redirectTo" value="/recruitment" />
           <div className="grid gap-4 sm:grid-cols-2">
             <input
               type="text"
+              name="name"
               placeholder="Full Name"
+              required
               className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
             />
             <input
               type="email"
+              name="email"
               placeholder="Email Address"
+              required
               className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
             />
           </div>
           <input
             type="text"
+            name="detail"
             placeholder="Major / Graduation Year"
             className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
           />
           <textarea
+            name="message"
             placeholder="Anything you'd like us to know?"
             rows={4}
             className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
