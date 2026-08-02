@@ -296,6 +296,8 @@ export default async function Home({
             src="/images/site/house-exterior.jpg"
             alt="Chapter house at 2631 Vienna Rd"
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            fit="contain"
+            className="bg-dtd-cream"
           />
           <SiteImage
             src="/images/site/brotherhood-event.jpg"
@@ -308,8 +310,8 @@ export default async function Home({
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           />
           <SiteImage
-            src="/images/site/recruitment-cookout.jpg"
-            alt="Brothers hosting a rush cookout"
+            src="/images/site/brotherhood-friends.jpg"
+            alt="Brothers at a St. Pat's campus event"
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           />
           <SiteImage

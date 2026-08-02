@@ -72,6 +72,8 @@ export default async function AboutPage() {
             src="/images/site/house-exterior.jpg"
             alt="Daytime exterior of the chapter house"
             sizes="(min-width: 640px) 50vw, 100vw"
+            fit="contain"
+            className="bg-dtd-cream"
           />
           <PlaceholderImage label="Common Areas" suggestion="Interior photo of the living room, dining hall, or study area." />
         </div>
