@@ -16,6 +16,7 @@ const MIN_FILL_TIME_MS = 1500;
 export async function submitLeadAction(formData: FormData) {
   const name = ((formData.get("name") as string | null) ?? "").trim();
   const email = ((formData.get("email") as string | null) ?? "").trim();
+  const phone = ((formData.get("phone") as string | null) ?? "").trim();
   const detail = ((formData.get("detail") as string | null) ?? "").trim();
   const message = ((formData.get("message") as string | null) ?? "").trim();
   const source = ((formData.get("source") as string | null) ?? "unknown").trim();
@@ -37,7 +38,7 @@ export async function submitLeadAction(formData: FormData) {
   }
 
   try {
-    await saveLead({ name, email, detail, message, source });
+    await saveLead({ name, email, phone, detail, message, source });
   } catch {
     redirect(`${redirectTo}?sent=error#lead-status`);
   }

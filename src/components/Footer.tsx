@@ -37,8 +37,12 @@ export default function Footer() {
         <div>
           <p className="font-semibold text-dtd-gold-light">Follow Us</p>
           <ul className="mt-2 space-y-1 text-sm text-dtd-white/80">
-            <li>Facebook &mdash; ENDelts</li>
-            <li>Instagram &mdash; @epsilonnudelts</li>
+            <li>
+              <a href="https://www.facebook.com/ENDelts" className="hover:text-dtd-gold" target="_blank" rel="noopener noreferrer">
+                Facebook &mdash; ENDelts
+              </a>
+            </li>
+            <li>Instagram &mdash; @en.delts</li>
             <li>X &mdash; @ENDelts</li>
           </ul>
         </div>

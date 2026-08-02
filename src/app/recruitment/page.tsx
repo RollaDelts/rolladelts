@@ -10,7 +10,7 @@ const steps = [
   {
     step: "1",
     title: "Reach Out",
-    description: "Fill out the interest form below or message us on Instagram/Facebook (@epsilonnudelts). No commitment required.",
+    description: "Fill out the interest form below or message us on Instagram (@en.delts) or Facebook (ENDelts). No commitment required.",
   },
   {
     step: "2",
@@ -124,14 +124,14 @@ export default async function RecruitmentPage({
                     name="name"
                     placeholder="Name"
                     required
-                    className="w-28 rounded-md border border-dtd-purple/20 px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none sm:w-32"
+                    className="w-28 rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none sm:w-32"
                   />
                   <input
                     type="email"
                     name="email"
                     placeholder="Email"
                     required
-                    className="w-36 rounded-md border border-dtd-purple/20 px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none sm:w-44"
+                    className="w-36 rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none sm:w-44"
                   />
                   <button
                     type="submit"
@@ -224,27 +224,35 @@ export default async function RecruitmentPage({
               name="name"
               placeholder="Full Name"
               required
-              className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
+              className="rounded-md border border-dtd-purple/30 bg-white px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
             />
             <input
               type="email"
               name="email"
               placeholder="Email Address"
               required
-              className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
+              className="rounded-md border border-dtd-purple/30 bg-white px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
             />
           </div>
-          <input
-            type="text"
-            name="detail"
-            placeholder="Major / Graduation Year"
-            className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
-          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Phone Number (optional)"
+              className="rounded-md border border-dtd-purple/30 bg-white px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
+            />
+            <input
+              type="text"
+              name="detail"
+              placeholder="Major / Graduation Year"
+              className="rounded-md border border-dtd-purple/30 bg-white px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
+            />
+          </div>
           <textarea
             name="message"
             placeholder="Anything you'd like us to know?"
             rows={4}
-            className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
+            className="rounded-md border border-dtd-purple/30 bg-white px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
           />
           <button
             type="submit"

@@ -115,6 +115,7 @@ export async function saveAlumniSpotlights(spotlights: AlumniSpotlight[]): Promi
 export type Lead = {
   name: string;
   email: string;
+  phone: string;
   detail: string;
   message: string;
   source: string;
@@ -129,6 +130,7 @@ export async function saveLead(lead: Lead): Promise<void> {
   const { error } = await getServerClient().from("leads").insert({
     name: lead.name,
     email: lead.email,
+    phone: lead.phone,
     detail: lead.detail,
     message: lead.message,
     source: lead.source,
@@ -140,7 +142,7 @@ export async function getLeads(): Promise<SavedLead[]> {
   if (!supabaseAvailable()) return [];
   const { data, error } = await getServerClient()
     .from("leads")
-    .select("id, name, email, detail, message, source, created_at")
+    .select("id, name, email, phone, detail, message, source, created_at")
     .order("created_at", { ascending: false });
 
   if (error || !data) return [];
@@ -148,6 +150,7 @@ export async function getLeads(): Promise<SavedLead[]> {
     id: row.id,
     name: row.name,
     email: row.email,
+    phone: row.phone,
     detail: row.detail,
     message: row.message,
     source: row.source,

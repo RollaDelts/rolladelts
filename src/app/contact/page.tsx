@@ -29,8 +29,13 @@ export default async function ContactPage({
 
           <h2 className="mt-8 text-2xl font-bold text-dtd-purple">Follow Us</h2>
           <ul className="mt-3 space-y-2 text-foreground/80">
-            <li>Facebook: ENDelts</li>
-            <li>Instagram: @epsilonnudelts</li>
+            <li>
+              Facebook:{" "}
+              <a href="https://www.facebook.com/ENDelts" className="font-semibold text-dtd-purple underline" target="_blank" rel="noopener noreferrer">
+                ENDelts
+              </a>
+            </li>
+            <li>Instagram: @en.delts</li>
             <li>X (Twitter): @ENDelts</li>
           </ul>
 
@@ -67,27 +72,27 @@ export default async function ContactPage({
                 name="name"
                 placeholder="Full Name"
                 required
-                className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
+                className="rounded-md border border-dtd-purple/30 bg-white px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
               />
               <input
                 type="email"
                 name="email"
                 placeholder="Email Address"
                 required
-                className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
+                className="rounded-md border border-dtd-purple/30 bg-white px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
               />
             </div>
             <input
               type="text"
               name="detail"
               placeholder="Subject"
-              className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
+              className="rounded-md border border-dtd-purple/30 bg-white px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
             />
             <textarea
               name="message"
               placeholder="Message"
               rows={5}
-              className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
+              className="rounded-md border border-dtd-purple/30 bg-white px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
             />
             <button
               type="submit"

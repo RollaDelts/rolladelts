@@ -38,6 +38,7 @@ export default async function LeadsAdminPage() {
                 <th className="px-4 py-3">Source</th>
                 <th className="px-4 py-3">Name</th>
                 <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3">Phone</th>
                 <th className="px-4 py-3">Detail</th>
                 <th className="px-4 py-3">Message</th>
               </tr>
@@ -66,6 +67,15 @@ export default async function LeadsAdminPage() {
                     <a href={`mailto:${lead.email}`} className="text-dtd-purple underline">
                       {lead.email}
                     </a>
+                  </td>
+                  <td className="px-4 py-3 text-foreground/70">
+                    {lead.phone ? (
+                      <a href={`tel:${lead.phone}`} className="text-dtd-purple underline">
+                        {lead.phone}
+                      </a>
+                    ) : (
+                      "—"
+                    )}
                   </td>
                   <td className="px-4 py-3 text-foreground/70">{lead.detail || "—"}</td>
                   <td className="max-w-xs px-4 py-3 text-foreground/70">{lead.message || "—"}</td>
