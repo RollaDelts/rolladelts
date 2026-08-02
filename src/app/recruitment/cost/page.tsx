@@ -32,7 +32,7 @@ export default async function CostBreakdownPage() {
       <section className="mx-auto max-w-6xl px-4 py-12">
         <h2 className="text-2xl font-bold text-dtd-purple">Delta Tau Delta</h2>
         <div className="mt-6 grid gap-6 md:grid-cols-2">
-          <div className="rounded-lg border border-dtd-purple/10 bg-white shadow-sm">
+          <div className="flex flex-col rounded-lg border border-dtd-purple/10 bg-white shadow-sm">
             <h3 className="border-b border-dtd-purple/10 px-5 py-3 font-bold text-dtd-purple">
               Monthly Costs
             </h3>
@@ -46,14 +46,14 @@ export default async function CostBreakdownPage() {
                   <dd className="font-medium text-dtd-purple">{item.amount}</dd>
                 </div>
               ))}
-              <div className="flex items-center justify-between bg-dtd-cream px-5 py-3">
-                <dt className="font-bold text-dtd-purple">Total</dt>
-                <dd className="font-display text-lg font-bold text-dtd-purple">{summary.monthlyTotal}</dd>
-              </div>
             </dl>
+            <div className="mt-auto flex items-center justify-between border-t border-dtd-purple/10 bg-dtd-gold/10 px-5 py-3">
+              <dt className="font-bold text-dtd-purple">Total</dt>
+              <dd className="font-display text-lg font-bold text-dtd-purple">{summary.monthlyTotal}</dd>
+            </div>
           </div>
 
-          <div className="rounded-lg border border-dtd-purple/10 bg-white shadow-sm">
+          <div className="flex flex-col rounded-lg border border-dtd-purple/10 bg-white shadow-sm">
             <h3 className="border-b border-dtd-purple/10 px-5 py-3 font-bold text-dtd-purple">
               First-Semester Additional Fees
             </h3>
@@ -68,7 +68,7 @@ export default async function CostBreakdownPage() {
                 </div>
               ))}
             </dl>
-            <div className="grid grid-cols-2 divide-x divide-dtd-purple/10 border-t border-dtd-purple/10 bg-dtd-cream">
+            <div className="mt-auto grid grid-cols-2 divide-x divide-dtd-purple/10 border-t border-dtd-purple/10 bg-dtd-gold/10">
               <div className="px-5 py-3">
                 <p className="text-xs font-bold uppercase tracking-wide text-foreground/50">
                   First Semester
@@ -133,7 +133,7 @@ export default async function CostBreakdownPage() {
             </thead>
             <tbody>
               {meals.map((item, i) => (
-                <tr key={item.label} className={i % 2 === 0 ? "bg-white" : "bg-dtd-cream"}>
+                <tr key={item.label} className={i % 2 === 0 ? "bg-white" : "bg-dtd-purple/5"}>
                   <td className="px-4 py-3 font-medium text-dtd-purple">{item.label}</td>
                   <td className="px-4 py-3">{item.amount}</td>
                   <td className="px-4 py-3 text-foreground/70">{item.note}</td>
