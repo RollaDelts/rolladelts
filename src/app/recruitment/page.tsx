@@ -1,5 +1,5 @@
 import PageHero from "@/components/PageHero";
-import PlaceholderImage from "@/components/PlaceholderImage";
+import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import { getRushEvents } from "@/lib/db";
 import { submitLeadAction } from "@/app/actions/leads";
@@ -145,10 +145,11 @@ export default async function RecruitmentPage({
               any scholarship information once finalized.
             </p>
           </div>
-          <PlaceholderImage
-            label="New Member Photo"
-            suggestion="Photo of new members at initiation, big/little reveal, or pinning ceremony."
+          <SiteImage
+            src="/images/site/new-member-group.jpg"
+            alt="Delta Tau Delta brothers at a chapter event"
             aspect="aspect-[4/3]"
+            sizes="(min-width: 768px) 50vw, 100vw"
           />
         </div>
       </section>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PlaceholderImage from "@/components/PlaceholderImage";
+import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import { submitLeadAction } from "@/app/actions/leads";
 
@@ -108,11 +108,13 @@ export default async function Home({
 
             <div className="relative">
               <div className="absolute -left-3 -top-3 h-full w-full border-2 border-dtd-gold/30" aria-hidden />
-              <PlaceholderImage
-                label="Hero Photo"
-                suggestion="Wide group photo of brothers in front of the chapter house, or a candid shot from a recruitment/social event. High-resolution, bright, and welcoming."
+              <SiteImage
+                src="/images/site/hero-group.jpg"
+                alt="Delta Tau Delta brothers at Greek Week"
                 aspect="aspect-[4/3]"
-                className="relative bg-dtd-purple-dark/40 border-dtd-gold/40"
+                className="relative border border-dtd-gold/40"
+                sizes="(min-width: 768px) 50vw, 100vw"
+                priority
               />
             </div>
           </div>
@@ -288,12 +290,36 @@ export default async function Home({
           </p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <PlaceholderImage label="Chapter House" suggestion="Exterior photo of the chapter house at 2631 Vienna Rd." />
-          <PlaceholderImage label="Brotherhood Event" suggestion="Candid group photo from a formal, retreat, or game night." />
-          <PlaceholderImage label="Philanthropy Event" suggestion="Photo from the Haunted Maze or another fundraiser in action." />
-          <PlaceholderImage label="Recruitment Event" suggestion="Photo of PNMs interacting with brothers during a rush event." />
-          <PlaceholderImage label="Campus Life" suggestion="Brothers on Missouri S&T campus — academics, intramurals, or Greek Week." />
-          <PlaceholderImage label="Formal/Composite" suggestion="Chapter composite photo or formal group portrait." />
+          <SiteImage
+            src="/images/site/house-exterior.jpg"
+            alt="Chapter house at 2631 Vienna Rd"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          />
+          <SiteImage
+            src="/images/site/brotherhood-event.jpg"
+            alt="Brothers at a chapter event"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          />
+          <SiteImage
+            src="/images/site/philanthropy-park-cleanup.jpg"
+            alt="Brothers volunteering at a community park cleanup"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          />
+          <SiteImage
+            src="/images/site/recruitment-cookout.jpg"
+            alt="Brothers hosting a rush cookout"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          />
+          <SiteImage
+            src="/images/site/campus-life-stpats.jpg"
+            alt="Brothers at a Missouri S&T St. Pat's campus tradition"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          />
+          <SiteImage
+            src="/images/site/formal-1966.jpg"
+            alt="Formal chapter portrait"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          />
         </div>
       </section>
 

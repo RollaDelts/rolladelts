@@ -1,5 +1,5 @@
 import PageHero from "@/components/PageHero";
-import PlaceholderImage from "@/components/PlaceholderImage";
+import SiteImage from "@/components/SiteImage";
 
 export default function PhilanthropyPage() {
   return (
@@ -23,10 +23,13 @@ export default function PhilanthropyPage() {
             been raised historically.
           </p>
         </div>
-        <PlaceholderImage
-          label="Haunted Maze Photo"
-          suggestion="Action photo from the Haunted Maze — decorations, volunteers in costume, or attendees."
+        <SiteImage
+          src="/images/site/haunted-maze-flyer.png"
+          alt="Delta Tau Delta Haunted Maze event flyer"
           aspect="aspect-[4/3]"
+          className="bg-black"
+          fit="contain"
+          sizes="(min-width: 768px) 50vw, 100vw"
         />
       </section>
 

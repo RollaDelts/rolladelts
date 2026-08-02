@@ -1,5 +1,6 @@
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
+import SiteImage from "@/components/SiteImage";
 import { getOfficers } from "@/lib/db";
 
 export default async function AboutPage() {
@@ -27,10 +28,11 @@ export default async function AboutPage() {
             notable milestones, house renovations, and alumni achievements.
           </p>
         </div>
-        <PlaceholderImage
-          label="Chapter History Photo"
-          suggestion="Historic or archival photo of the chapter house, an old composite, or a founders' photo."
+        <SiteImage
+          src="/images/site/history-roof.jpg"
+          alt="Brothers on the chapter house roof, archival photo"
           aspect="aspect-[4/3]"
+          sizes="(min-width: 768px) 50vw, 100vw"
         />
       </section>
 
@@ -66,7 +68,11 @@ export default async function AboutPage() {
       <section className="mx-auto max-w-6xl px-4 pb-16">
         <h2 className="text-2xl font-bold text-dtd-purple">The House</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <PlaceholderImage label="House Exterior" suggestion="Daytime exterior photo of 2631 Vienna Rd, showing the full house and landscaping." />
+          <SiteImage
+            src="/images/site/house-exterior.jpg"
+            alt="Daytime exterior of the chapter house"
+            sizes="(min-width: 640px) 50vw, 100vw"
+          />
           <PlaceholderImage label="Common Areas" suggestion="Interior photo of the living room, dining hall, or study area." />
         </div>
       </section>
