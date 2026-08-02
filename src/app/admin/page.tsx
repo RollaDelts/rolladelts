@@ -20,6 +20,12 @@ const sections = [
     icon: "📅",
   },
   {
+    href: "/admin/cost",
+    title: "Recruitment Costs",
+    description: "Update chapter dues and the Missouri S&T housing/meal plan comparison.",
+    icon: "💲",
+  },
+  {
     href: "/admin/alumni",
     title: "Alumni Spotlights",
     description: "Edit alumni profiles featured on the Alumni page.",

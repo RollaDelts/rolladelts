@@ -1,8 +1,9 @@
+import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
-import { getRushEvents } from "@/lib/db";
+import { getRushEvents, getCostSummary, getCostLineItems } from "@/lib/db";
 import { submitLeadAction } from "@/app/actions/leads";
 
 const steps = [
@@ -43,7 +44,16 @@ const faqs = [
   },
   {
     q: "What does it cost to join?",
-    a: "Costs include a one-time new member fee and semesterly dues, which cover housing, meals, national fraternity fees, and chapter operations. Contact our Recruitment Chair for current, detailed pricing — we're happy to discuss payment plans.",
+    a: (
+      <>
+        Costs include a one-time new member fee and monthly dues, which cover housing, meals,
+        national fraternity fees, and chapter operations. See our{" "}
+        <Link href="/recruitment/cost" className="font-semibold text-dtd-purple underline">
+          full cost breakdown
+        </Link>{" "}
+        for exact figures — we&apos;re happy to discuss payment plans.
+      </>
+    ),
   },
 ];
 
@@ -52,7 +62,12 @@ export default async function RecruitmentPage({
 }: {
   searchParams: Promise<{ sent?: string }>;
 }) {
-  const events = await getRushEvents();
+  const [events, costSummary, costItems] = await Promise.all([
+    getRushEvents(),
+    getCostSummary(),
+    getCostLineItems(),
+  ]);
+  const monthlyCosts = costItems.filter((i) => i.section === "chapter-monthly");
   const { sent } = await searchParams;
 
   return (
@@ -137,15 +152,31 @@ export default async function RecruitmentPage({
           <div>
             <h2 className="text-2xl font-bold text-dtd-purple">Costs &amp; Transparency</h2>
             <p className="mt-3 text-foreground/80">
-              We believe in being upfront about cost. New member fees and semesterly dues
-              cover housing, meals, national/international fraternity fees, and chapter
-              programming. We offer payment plans and can talk through financial aid,
-              scholarships, and work-study options on a case-by-case basis.
+              We believe in being upfront about cost. Chapter dues cover housing, meals,
+              national/international fraternity fees, and chapter programming. We offer
+              payment plans and can talk through financial aid, scholarships, and work-study
+              options on a case-by-case basis.
             </p>
-            <p className="mt-3 text-foreground/80">
-              Replace this section with current dues figures, a cost breakdown table, and
-              any scholarship information once finalized.
-            </p>
+            <div className="mt-5 divide-y divide-dtd-purple/10 rounded-lg border border-dtd-purple/10 bg-white shadow-sm">
+              {monthlyCosts.map((item) => (
+                <div key={item.label} className="flex items-center justify-between px-4 py-2.5 text-sm">
+                  <span className="text-foreground/80">{item.label}</span>
+                  <span className="font-medium text-dtd-purple">{item.amount}</span>
+                </div>
+              ))}
+              <div className="flex items-center justify-between bg-dtd-cream px-4 py-2.5">
+                <span className="font-bold text-dtd-purple">Total</span>
+                <span className="font-display font-bold text-dtd-purple">
+                  {costSummary.monthlyTotal}
+                </span>
+              </div>
+            </div>
+            <Link
+              href="/recruitment/cost"
+              className="mt-4 inline-block text-sm font-bold text-dtd-purple underline underline-offset-2 hover:text-dtd-purple-dark"
+            >
+              See the full cost breakdown &amp; Missouri S&amp;T housing comparison →
+            </Link>
           </div>
           <SiteImage
             src="/images/site/new-member-group.jpg"

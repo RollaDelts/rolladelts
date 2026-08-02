@@ -1,5 +1,19 @@
 export type Officer = { role: string; name: string };
 export type RushEvent = { date: string; name: string; location: string };
+export type CostSummary = {
+  academicYear: string;
+  monthlyTotal: string;
+  firstSemesterTotal: string;
+  firstYearTotal: string;
+  disclaimer: string;
+};
+export type CostLineItem = {
+  section: "chapter-monthly" | "chapter-fees" | "university-housing" | "university-meals";
+  groupLabel: string;
+  label: string;
+  amount: string;
+  note: string;
+};
 export type AlumniSpotlight = {
   name: string;
   pledgeClass: string;
@@ -24,6 +38,50 @@ export const defaultRushEvents: RushEvent[] = [
   { date: "TBD", name: "Game Night & Pizza", location: "Chapter House" },
   { date: "TBD", name: "Campus Info Table", location: "Missouri S&T Student Union" },
   { date: "TBD", name: "Bid Night", location: "Chapter House (Invite Only)" },
+];
+
+// Migrated from the "Cost Breakdown" page at rolladelts.org/recruitment/cost/.
+export const defaultCostSummary: CostSummary = {
+  academicYear: "2026–2027",
+  monthlyTotal: "$1,155/month",
+  firstSemesterTotal: "$5,128",
+  firstYearTotal: "$9,905",
+  disclaimer:
+    "Missouri S&T residential rates as of February 2026. All dining and housing rates are subject to change until approved by the Board of Curators.",
+};
+
+export const defaultCostLineItems: CostLineItem[] = [
+  // Chapter — monthly costs
+  { section: "chapter-monthly", groupLabel: "", label: "General Fund", amount: "$95.00", note: "" },
+  { section: "chapter-monthly", groupLabel: "", label: "Table Fund", amount: "$310.00", note: "" },
+  { section: "chapter-monthly", groupLabel: "", label: "Shelter Fund", amount: "$725.00", note: "" },
+  { section: "chapter-monthly", groupLabel: "", label: "House Note & Laundry Fund", amount: "$25.00", note: "" },
+
+  // Chapter — first-semester one-time fees
+  { section: "chapter-fees", groupLabel: "", label: "Security Deposit", amount: "$200.00", note: "4 – $50 payments" },
+  { section: "chapter-fees", groupLabel: "", label: "New Member Fees", amount: "$85.00", note: "1 payment" },
+  { section: "chapter-fees", groupLabel: "", label: "Initiation Fees", amount: "$380.00", note: "1 payment" },
+
+  // Missouri S&T — residential life (housing) costs, grouped by hall
+  { section: "university-housing", groupLabel: "Residential Commons", label: "Single Deluxe Suite", amount: "$10,910", note: "" },
+  { section: "university-housing", groupLabel: "Residential Commons", label: "Double Deluxe Suite", amount: "$9,720", note: "" },
+  { section: "university-housing", groupLabel: "Residential Commons", label: "Double Suite", amount: "$9,390", note: "" },
+  { section: "university-housing", groupLabel: "Thomas Jefferson", label: "North Double", amount: "$8,150", note: "" },
+  { section: "university-housing", groupLabel: "Thomas Jefferson", label: "South Double", amount: "$8,260", note: "" },
+  { section: "university-housing", groupLabel: "Thomas Jefferson", label: "South Triple", amount: "$6,525", note: "" },
+  { section: "university-housing", groupLabel: "Thomas Jefferson", label: "North/South Single", amount: "$9,435", note: "" },
+  { section: "university-housing", groupLabel: "University Commons", label: "Double", amount: "$9,590", note: "" },
+  { section: "university-housing", groupLabel: "University Commons", label: "Single", amount: "$11,280", note: "" },
+  { section: "university-housing", groupLabel: "Miner Village", label: "2 Bedroom Apartment", amount: "$10,550", note: "" },
+  { section: "university-housing", groupLabel: "Miner Village", label: "4 Bedroom Apartment", amount: "$9,840", note: "" },
+  { section: "university-housing", groupLabel: "Rolla Suites", label: "Single Efficiency", amount: "$9,900", note: "" },
+
+  // Missouri S&T — meal plans (required if living in a residential hall)
+  { section: "university-meals", groupLabel: "", label: "Platinum Plan", amount: "$4,387/yr", note: "Unlimited meals + $150 DBD" },
+  { section: "university-meals", groupLabel: "", label: "Gold Plan", amount: "$4,217/yr", note: "400 meals + $200 DBDs" },
+  { section: "university-meals", groupLabel: "", label: "Silver Plan", amount: "$3,657/yr", note: "300 meals + $330 DBDs" },
+  { section: "university-meals", groupLabel: "", label: "Bronze Plan", amount: "$3,994/yr", note: "34 meals + $3,590 DBDs" },
+  { section: "university-meals", groupLabel: "", label: "Emerald Plan", amount: "$2,722/yr", note: "18 meals + $2,470 DBDs" },
 ];
 
 // Migrated verbatim (full text + photos) from the legacy rolladelts.org

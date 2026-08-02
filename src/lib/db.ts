@@ -12,9 +12,13 @@ import {
   defaultOfficers,
   defaultRushEvents,
   defaultAlumniSpotlights,
+  defaultCostSummary,
+  defaultCostLineItems,
   type Officer,
   type RushEvent,
   type AlumniSpotlight,
+  type CostSummary,
+  type CostLineItem,
 } from "@/data/defaults";
 
 // ─── Officers ────────────────────────────────────────────────────────────────
@@ -149,4 +153,73 @@ export async function getLeads(): Promise<SavedLead[]> {
     source: row.source,
     createdAt: row.created_at,
   }));
+}
+
+// ─── Recruitment Costs ───────────────────────────────────────────────────────
+// Backs the detailed /recruitment/cost page — chapter costs vs. Missouri
+// S&T housing/meal plans. Changes every academic year.
+
+export async function getCostSummary(): Promise<CostSummary> {
+  if (!supabaseAvailable()) return defaultCostSummary;
+  const { data, error } = await getServerClient()
+    .from("cost_summary")
+    .select("academic_year, monthly_total, first_semester_total, first_year_total, disclaimer")
+    .order("id", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return defaultCostSummary;
+  return {
+    academicYear: data.academic_year,
+    monthlyTotal: data.monthly_total,
+    firstSemesterTotal: data.first_semester_total,
+    firstYearTotal: data.first_year_total,
+    disclaimer: data.disclaimer,
+  };
+}
+
+export async function saveCostSummary(summary: CostSummary): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("cost_summary").delete().neq("id", 0);
+  await supabase.from("cost_summary").insert({
+    academic_year: summary.academicYear,
+    monthly_total: summary.monthlyTotal,
+    first_semester_total: summary.firstSemesterTotal,
+    first_year_total: summary.firstYearTotal,
+    disclaimer: summary.disclaimer,
+  });
+}
+
+export async function getCostLineItems(): Promise<CostLineItem[]> {
+  if (!supabaseAvailable()) return defaultCostLineItems;
+  const { data, error } = await getServerClient()
+    .from("cost_line_items")
+    .select("section, group_label, label, amount, note")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error || !data || data.length === 0) return defaultCostLineItems;
+  return data.map((row) => ({
+    section: row.section,
+    groupLabel: row.group_label,
+    label: row.label,
+    amount: row.amount,
+    note: row.note,
+  })) as CostLineItem[];
+}
+
+export async function saveCostLineItems(items: CostLineItem[]): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("cost_line_items").delete().neq("id", 0);
+  if (items.length === 0) return;
+  await supabase.from("cost_line_items").insert(
+    items.map((item, i) => ({
+      section: item.section,
+      group_label: item.groupLabel,
+      label: item.label,
+      amount: item.amount,
+      note: item.note,
+      sort_order: i,
+    }))
+  );
 }
