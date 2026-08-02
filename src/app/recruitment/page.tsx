@@ -160,7 +160,10 @@ export default async function RecruitmentPage({
             <div className="mt-5 divide-y divide-dtd-purple/10 rounded-lg border border-dtd-purple/10 bg-white shadow-sm">
               {monthlyCosts.map((item) => (
                 <div key={item.label} className="flex items-center justify-between px-4 py-2.5 text-sm">
-                  <span className="text-foreground/80">{item.label}</span>
+                  <span className="text-foreground/80">
+                    {item.label}
+                    {item.note && <span className="ml-1 text-xs text-foreground/50">({item.note})</span>}
+                  </span>
                   <span className="font-medium text-dtd-purple">{item.amount}</span>
                 </div>
               ))}

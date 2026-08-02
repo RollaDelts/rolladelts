@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { saveCostSummary, saveCostLineItems } from "@/lib/db";
 import type { CostSummary, CostLineItem } from "@/data/defaults";
 
@@ -45,4 +46,5 @@ export async function saveCostAction(formData: FormData) {
   revalidatePath("/recruitment");
   revalidatePath("/recruitment/cost");
   revalidatePath("/admin/cost");
+  redirect("/admin/cost?saved=1");
 }

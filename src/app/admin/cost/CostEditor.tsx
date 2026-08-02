@@ -19,10 +19,10 @@ function toEntries(items: CostLineItem[]): Entry[] {
 const blank: CostLineItem = { section: "chapter-monthly", groupLabel: "", label: "", amount: "", note: "" };
 
 const sectionLabels: Record<CostLineItem["section"], string> = {
-  "chapter-monthly": "Chapter — Monthly Cost",
-  "chapter-fees": "Chapter — First-Semester Fee",
-  "university-housing": "Missouri S&T — Housing",
-  "university-meals": "Missouri S&T — Meal Plan",
+  "chapter-monthly": "Chapter: Monthly",
+  "chapter-fees": "Chapter: First-Semester Fee",
+  "university-housing": "S&T: Housing",
+  "university-meals": "S&T: Meal Plan",
 };
 
 export default function CostEditor({
@@ -115,11 +115,11 @@ export default function CostEditor({
         <div className="mt-4 grid gap-3">
           {entries.map((entry, i) => (
             <div key={entry.id} className="rounded-xl border border-dtd-purple/10 bg-white p-4 shadow-sm">
-              <div className="grid gap-3 sm:grid-cols-5">
+              <div className="grid gap-3 sm:grid-cols-2">
                 <select
                   name="itemSection"
                   defaultValue={entry.section}
-                  className="rounded border border-dtd-purple/20 px-3 py-1.5 text-sm focus:border-dtd-purple focus:outline-none"
+                  className="w-full rounded border border-dtd-purple/20 px-3 py-1.5 text-sm focus:border-dtd-purple focus:outline-none"
                 >
                   {Object.entries(sectionLabels).map(([value, label]) => (
                     <option key={value} value={value}>
@@ -131,8 +131,10 @@ export default function CostEditor({
                   name="itemGroupLabel"
                   defaultValue={entry.groupLabel}
                   placeholder="Group (housing only)"
-                  className="rounded border border-dtd-purple/20 px-3 py-1.5 text-sm focus:border-dtd-purple focus:outline-none"
+                  className="w-full rounded border border-dtd-purple/20 px-3 py-1.5 text-sm focus:border-dtd-purple focus:outline-none"
                 />
+              </div>
+              <div className="mt-3 grid gap-3 sm:grid-cols-3">
                 <input
                   name="itemLabel"
                   defaultValue={entry.label}

@@ -39,7 +39,10 @@ export default async function CostBreakdownPage() {
             <dl className="divide-y divide-dtd-purple/10">
               {monthly.map((item) => (
                 <div key={item.label} className="flex items-center justify-between px-5 py-3 text-sm">
-                  <dt className="text-foreground/80">{item.label}</dt>
+                  <dt className="text-foreground/80">
+                    {item.label}
+                    {item.note && <span className="ml-1 text-xs text-foreground/50">({item.note})</span>}
+                  </dt>
                   <dd className="font-medium text-dtd-purple">{item.amount}</dd>
                 </div>
               ))}
