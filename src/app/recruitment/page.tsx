@@ -1,6 +1,7 @@
 import PageHero from "@/components/PageHero";
 import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
+import BotTrap from "@/components/BotTrap";
 import { getRushEvents } from "@/lib/db";
 import { submitLeadAction } from "@/app/actions/leads";
 
@@ -102,6 +103,7 @@ export default async function RecruitmentPage({
                   <input type="hidden" name="source" value="rsvp" />
                   <input type="hidden" name="detail" value={`${event.name} — ${event.date}`} />
                   <input type="hidden" name="redirectTo" value="/recruitment" />
+                  <BotTrap />
                   <input
                     type="text"
                     name="name"
@@ -181,6 +183,7 @@ export default async function RecruitmentPage({
         <form key={sent ?? "form"} action={submitLeadAction} className="grid gap-4">
           <input type="hidden" name="source" value="recruitment" />
           <input type="hidden" name="redirectTo" value="/recruitment" />
+          <BotTrap />
           <div className="grid gap-4 sm:grid-cols-2">
             <input
               type="text"

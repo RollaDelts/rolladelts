@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
+import BotTrap from "@/components/BotTrap";
 import { submitLeadAction } from "@/app/actions/leads";
 
 const stats = [
@@ -168,6 +169,7 @@ export default async function Home({
             <form key={sent ?? "form"} action={submitLeadAction} className="mt-4 flex flex-col gap-3 sm:flex-row">
               <input type="hidden" name="source" value="homepage" />
               <input type="hidden" name="redirectTo" value="/" />
+              <BotTrap />
               <input
                 type="text"
                 name="name"

@@ -1,6 +1,7 @@
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
+import BotTrap from "@/components/BotTrap";
 import { submitLeadAction } from "@/app/actions/leads";
 
 export default async function ContactPage({
@@ -59,6 +60,7 @@ export default async function ContactPage({
           <form key={sent ?? "form"} action={submitLeadAction} className="grid gap-4">
             <input type="hidden" name="source" value="contact" />
             <input type="hidden" name="redirectTo" value="/contact" />
+            <BotTrap />
             <div className="grid gap-4 sm:grid-cols-2">
               <input
                 type="text"
