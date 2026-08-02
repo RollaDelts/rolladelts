@@ -1,5 +1,4 @@
 import PageHero from "@/components/PageHero";
-import PlaceholderImage from "@/components/PlaceholderImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
 import { submitLeadAction } from "@/app/actions/leads";
@@ -49,11 +48,15 @@ export default async function ContactPage({
           </p>
         </div>
 
-        <PlaceholderImage
-          label="Map / Location"
-          suggestion="Embed a Google Map of 2631 Vienna Rd, Rolla, MO 65401, or use a styled map screenshot."
-          aspect="aspect-square"
-        />
+        <div className="aspect-square w-full overflow-hidden rounded-lg border border-dtd-purple/10 shadow-sm">
+          <iframe
+            title="Delta Tau Delta — Epsilon Nu Chapter House Map"
+            src="https://www.google.com/maps?q=37.971014,-91.771749&z=16&output=embed"
+            className="h-full w-full border-0"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
       </section>
 
       <section className="bg-dtd-cream">
