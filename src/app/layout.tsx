@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { createAuthClient, authAvailable } from "@/lib/supabase-server";
 import { getServerClient } from "@/lib/supabase";
+import { SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +25,30 @@ const oswald = Oswald({
   weight: ["600", "700"],
 });
 
+const title = "Epsilon Nu | Delta Tau Delta at Missouri S&T";
+const description =
+  "The Epsilon Nu chapter of Delta Tau Delta at Missouri University of Science & Technology. Join a brotherhood built on Truth, Courage, Faith, and Power.";
+
 export const metadata: Metadata = {
-  title: "Epsilon Nu | Delta Tau Delta at Missouri S&T",
-  description:
-    "The Epsilon Nu chapter of Delta Tau Delta at Missouri University of Science & Technology. Join a brotherhood built on Truth, Courage, Faith, and Power.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: title,
+    template: "%s | Delta Tau Delta — Epsilon Nu",
+  },
+  description,
+  openGraph: {
+    title,
+    description,
+    url: SITE_URL,
+    siteName: "Delta Tau Delta — Epsilon Nu Chapter",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 async function getUserDisplay() {
