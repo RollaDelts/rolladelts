@@ -77,30 +77,46 @@ export default function AboutEditor({
         <p className="mt-1 text-sm text-foreground/70">The executive board shown on the About page.</p>
         <div className="mt-4 grid gap-3">
           {officers.map((officer, i) => (
-            <div key={officer.id} className="flex items-center gap-3 rounded-xl border border-dtd-purple/10 bg-white p-4 shadow-sm">
-              <div className="grid flex-1 gap-3 sm:grid-cols-2">
-                <input name="officerRole" defaultValue={officer.role} placeholder="Role" className={inputClass} />
-                <input name="officerName" defaultValue={officer.name} placeholder="Name" className={inputClass} />
+            <div key={officer.id} className="rounded-xl border border-dtd-purple/10 bg-white p-4 shadow-sm">
+              <div className="flex gap-4">
+                <div className="w-24 shrink-0">
+                  <ImageUploader name="officerPhotoUrl" defaultValue={officer.photoUrl} aspect="aspect-square" />
+                </div>
+                <div className="grid flex-1 gap-2 sm:grid-cols-2">
+                  <input name="officerRole" defaultValue={officer.role} placeholder="Role" className={inputClass} />
+                  <input name="officerName" defaultValue={officer.name} placeholder="Name" className={inputClass} />
+                  <input
+                    name="officerEmail"
+                    type="email"
+                    defaultValue={officer.email}
+                    placeholder="Email (optional)"
+                    className={`${inputClass} sm:col-span-2`}
+                  />
+                </div>
               </div>
-              <ReorderButtons
-                onMoveUp={() => setOfficers((prev) => moveItem(prev, i, -1))}
-                onMoveDown={() => setOfficers((prev) => moveItem(prev, i, 1))}
-                disableUp={i === 0}
-                disableDown={i === officers.length - 1}
-              />
-              <button
-                type="button"
-                onClick={() => setOfficers((prev) => prev.filter((o) => o.id !== officer.id))}
-                className="shrink-0 rounded-full border border-red-300 px-3 py-1 text-xs font-bold uppercase tracking-wide text-red-600 transition hover:bg-red-50"
-              >
-                Remove
-              </button>
+              <div className="mt-3 flex items-center justify-end gap-2">
+                <ReorderButtons
+                  onMoveUp={() => setOfficers((prev) => moveItem(prev, i, -1))}
+                  onMoveDown={() => setOfficers((prev) => moveItem(prev, i, 1))}
+                  disableUp={i === 0}
+                  disableDown={i === officers.length - 1}
+                />
+                <button
+                  type="button"
+                  onClick={() => setOfficers((prev) => prev.filter((o) => o.id !== officer.id))}
+                  className="shrink-0 rounded-full border border-red-300 px-3 py-1 text-xs font-bold uppercase tracking-wide text-red-600 transition hover:bg-red-50"
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           ))}
         </div>
         <button
           type="button"
-          onClick={() => setOfficers((prev) => [...prev, { role: "", name: "", id: makeId() }])}
+          onClick={() =>
+            setOfficers((prev) => [...prev, { role: "", name: "", email: "", photoUrl: "", id: makeId() }])
+          }
           className="mt-3 rounded-full border-2 border-dtd-purple px-5 py-1.5 text-xs font-bold uppercase tracking-wide text-dtd-purple transition hover:bg-dtd-purple hover:text-white"
         >
           + Add Officer

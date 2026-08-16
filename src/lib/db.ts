@@ -11,6 +11,7 @@ import { getServerClient, supabaseAvailable } from "@/lib/supabase";
 import {
   defaultOfficers,
   defaultRushEvents,
+  defaultRushEventsSettings,
   defaultAlumniSpotlights,
   defaultCostSummary,
   defaultCostLineItems,
@@ -28,6 +29,7 @@ import {
   defaultPhilanthropyPrograms,
   type Officer,
   type RushEvent,
+  type RushEventsSettings,
   type AlumniSpotlight,
   type CostSummary,
   type CostLineItem,
@@ -51,12 +53,17 @@ export async function getOfficers(): Promise<Officer[]> {
   if (!supabaseAvailable()) return defaultOfficers;
   const { data, error } = await getServerClient()
     .from("officers")
-    .select("role, name")
+    .select("role, name, email, photo_url")
     .order("sort_order", { ascending: true })
     .order("id", { ascending: true });
 
   if (error || !data || data.length === 0) return defaultOfficers;
-  return data as Officer[];
+  return data.map((row) => ({
+    role: row.role,
+    name: row.name,
+    email: row.email,
+    photoUrl: row.photo_url,
+  })) as Officer[];
 }
 
 export async function saveOfficers(officers: Officer[]): Promise<void> {
@@ -64,7 +71,13 @@ export async function saveOfficers(officers: Officer[]): Promise<void> {
   await supabase.from("officers").delete().neq("id", 0);
   if (officers.length === 0) return;
   await supabase.from("officers").insert(
-    officers.map((o, i) => ({ role: o.role, name: o.name, sort_order: (i + 1) * 10 }))
+    officers.map((o, i) => ({
+      role: o.role,
+      name: o.name,
+      email: o.email,
+      photo_url: o.photoUrl,
+      sort_order: (i + 1) * 10,
+    }))
   );
 }
 
@@ -74,7 +87,7 @@ export async function getRushEvents(): Promise<RushEvent[]> {
   if (!supabaseAvailable()) return defaultRushEvents;
   const { data, error } = await getServerClient()
     .from("rush_events")
-    .select("date, name, location")
+    .select("date, name, location, description, photos")
     .order("sort_order", { ascending: true })
     .order("id", { ascending: true });
 
@@ -91,9 +104,38 @@ export async function saveRushEvents(events: RushEvent[]): Promise<void> {
       date: e.date,
       name: e.name,
       location: e.location,
+      description: e.description,
+      photos: e.photos,
       sort_order: (i + 1) * 10,
     }))
   );
+}
+
+// ─── Rush Events Settings (banner) ───────────────────────────────────────────
+
+export async function getRushEventsSettings(): Promise<RushEventsSettings> {
+  if (!supabaseAvailable()) return defaultRushEventsSettings;
+  const { data, error } = await getServerClient()
+    .from("rush_events_settings")
+    .select("banner_image_url, banner_display_until")
+    .order("id", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return defaultRushEventsSettings;
+  return {
+    bannerImageUrl: data.banner_image_url,
+    bannerDisplayUntil: data.banner_display_until ?? "",
+  };
+}
+
+export async function saveRushEventsSettings(settings: RushEventsSettings): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("rush_events_settings").delete().neq("id", 0);
+  await supabase.from("rush_events_settings").insert({
+    banner_image_url: settings.bannerImageUrl,
+    banner_display_until: settings.bannerDisplayUntil || null,
+  });
 }
 
 // ─── Alumni Spotlights ───────────────────────────────────────────────────────
@@ -259,7 +301,9 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   if (!supabaseAvailable()) return defaultSiteSettings;
   const { data, error } = await getServerClient()
     .from("site_settings")
-    .select("address, phone, email, facebook_url, instagram_handle, instagram_url, x_handle, x_url")
+    .select(
+      "address, phone, email, facebook_url, instagram_handle, instagram_url, x_handle, x_url, notification_email"
+    )
     .order("id", { ascending: true })
     .limit(1)
     .maybeSingle();
@@ -274,6 +318,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     instagramUrl: data.instagram_url,
     xHandle: data.x_handle,
     xUrl: data.x_url,
+    notificationEmail: data.notification_email,
   };
 }
 
@@ -289,6 +334,7 @@ export async function saveSiteSettings(settings: SiteSettings): Promise<void> {
     instagram_url: settings.instagramUrl,
     x_handle: settings.xHandle,
     x_url: settings.xUrl,
+    notification_email: settings.notificationEmail,
   });
 }
 
@@ -545,12 +591,16 @@ export async function getPhilanthropyPrograms(): Promise<PhilanthropyProgram[]> 
   if (!supabaseAvailable()) return defaultPhilanthropyPrograms;
   const { data, error } = await getServerClient()
     .from("philanthropy_programs")
-    .select("title, description")
+    .select("title, description, image_url")
     .order("sort_order", { ascending: true })
     .order("id", { ascending: true });
 
   if (error || !data || data.length === 0) return defaultPhilanthropyPrograms;
-  return data as PhilanthropyProgram[];
+  return data.map((row) => ({
+    title: row.title,
+    description: row.description,
+    imageUrl: row.image_url,
+  })) as PhilanthropyProgram[];
 }
 
 export async function savePhilanthropyPrograms(programs: PhilanthropyProgram[]): Promise<void> {
@@ -558,6 +608,11 @@ export async function savePhilanthropyPrograms(programs: PhilanthropyProgram[]):
   await supabase.from("philanthropy_programs").delete().neq("id", 0);
   if (programs.length === 0) return;
   await supabase.from("philanthropy_programs").insert(
-    programs.map((p, i) => ({ title: p.title, description: p.description, sort_order: (i + 1) * 10 }))
+    programs.map((p, i) => ({
+      title: p.title,
+      description: p.description,
+      image_url: p.imageUrl,
+      sort_order: (i + 1) * 10,
+    }))
   );
 }

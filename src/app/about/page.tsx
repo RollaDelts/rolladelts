@@ -1,3 +1,4 @@
+import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import SiteImage from "@/components/SiteImage";
@@ -72,9 +73,32 @@ export default async function AboutPage() {
         </p>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {officers.map((officer) => (
-            <div key={officer.role} className="rounded-lg border border-dtd-purple/10 bg-white p-5 shadow-sm">
-              <p className="font-bold text-dtd-purple">{officer.role}</p>
-              <p className="text-sm text-foreground/80">{officer.name}</p>
+            <div
+              key={officer.role}
+              className="flex items-center gap-4 rounded-lg border border-dtd-purple/10 bg-white p-5 shadow-sm"
+            >
+              {officer.photoUrl ? (
+                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-dtd-cream">
+                  <Image src={officer.photoUrl} alt={officer.name} fill sizes="64px" className="object-cover" />
+                </div>
+              ) : (
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-dtd-cream text-xs font-bold uppercase text-dtd-purple/40">
+                  {officer.name
+                    .split(" ")
+                    .map((p) => p[0])
+                    .join("")
+                    .slice(0, 2) || "?"}
+                </div>
+              )}
+              <div>
+                <p className="font-bold text-dtd-purple">{officer.role}</p>
+                <p className="text-sm text-foreground/80">{officer.name}</p>
+                {officer.email && (
+                  <a href={`mailto:${officer.email}`} className="text-xs text-dtd-purple underline">
+                    {officer.email}
+                  </a>
+                )}
+              </div>
             </div>
           ))}
         </div>

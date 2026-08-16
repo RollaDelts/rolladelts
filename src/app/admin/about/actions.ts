@@ -16,8 +16,15 @@ export async function saveAboutPageAction(formData: FormData) {
 
   const roles = formData.getAll("officerRole") as string[];
   const names = formData.getAll("officerName") as string[];
+  const emails = formData.getAll("officerEmail") as string[];
+  const photoUrls = formData.getAll("officerPhotoUrl") as string[];
   const officers: Officer[] = roles
-    .map((role, i) => ({ role: role.trim(), name: (names[i] ?? "").trim() }))
+    .map((role, i) => ({
+      role: role.trim(),
+      name: (names[i] ?? "").trim(),
+      email: (emails[i] ?? "").trim(),
+      photoUrl: (photoUrls[i] ?? "").trim(),
+    }))
     .filter((o) => o.role.length > 0);
 
   await saveAboutSettings(settings);

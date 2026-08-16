@@ -1,5 +1,13 @@
-export type Officer = { role: string; name: string };
-export type RushEvent = { date: string; name: string; location: string };
+export type Officer = { role: string; name: string; email: string; photoUrl: string };
+export type RushEvent = {
+  date: string;
+  name: string;
+  location: string;
+  description: string;
+  /** One photo per line: "url" or "url|caption". */
+  photos: string;
+};
+export type RushEventsSettings = { bannerImageUrl: string; bannerDisplayUntil: string };
 export type CostSummary = {
   academicYear: string;
   monthlyTotal: string;
@@ -32,6 +40,8 @@ export type SiteSettings = {
   instagramUrl: string;
   xHandle: string;
   xUrl: string;
+  /** Where new lead/RSVP submissions get emailed. Separate from the public-facing `email` above. */
+  notificationEmail: string;
 };
 export type HomeSettings = { heroImageUrl: string };
 export type AboutSettings = {
@@ -49,23 +59,25 @@ export type GalleryPhoto = { imageUrl: string; alt: string; fit: "cover" | "cont
 export type PillarPhoto = { imageUrl: string; caption: string };
 export type RecruitmentStep = { title: string; description: string };
 export type Faq = { question: string; answer: string };
-export type PhilanthropyProgram = { title: string; description: string };
+export type PhilanthropyProgram = { title: string; description: string; imageUrl: string };
 
 export const defaultOfficers: Officer[] = [
-  { role: "President", name: "TBD" },
-  { role: "Vice President", name: "TBD" },
-  { role: "Treasurer", name: "TBD" },
-  { role: "Recruitment Chair", name: "TBD" },
-  { role: "Risk Manager", name: "TBD" },
-  { role: "Philanthropy Chair", name: "TBD" },
+  { role: "President", name: "TBD", email: "", photoUrl: "" },
+  { role: "Vice President", name: "TBD", email: "", photoUrl: "" },
+  { role: "Treasurer", name: "TBD", email: "", photoUrl: "" },
+  { role: "Recruitment Chair", name: "TBD", email: "", photoUrl: "" },
+  { role: "Risk Manager", name: "TBD", email: "", photoUrl: "" },
+  { role: "Philanthropy Chair", name: "TBD", email: "", photoUrl: "" },
 ];
 
 export const defaultRushEvents: RushEvent[] = [
-  { date: "TBD", name: "Meet the Brothers BBQ", location: "Chapter House, 2631 Vienna Rd" },
-  { date: "TBD", name: "Game Night & Pizza", location: "Chapter House" },
-  { date: "TBD", name: "Campus Info Table", location: "Missouri S&T Student Union" },
-  { date: "TBD", name: "Bid Night", location: "Chapter House (Invite Only)" },
+  { date: "TBD", name: "Meet the Brothers BBQ", location: "Chapter House, 2631 Vienna Rd", description: "", photos: "" },
+  { date: "TBD", name: "Game Night & Pizza", location: "Chapter House", description: "", photos: "" },
+  { date: "TBD", name: "Campus Info Table", location: "Missouri S&T Student Union", description: "", photos: "" },
+  { date: "TBD", name: "Bid Night", location: "Chapter House (Invite Only)", description: "", photos: "" },
 ];
+
+export const defaultRushEventsSettings: RushEventsSettings = { bannerImageUrl: "", bannerDisplayUntil: "" };
 
 // Migrated from the "Cost Breakdown" page at rolladelts.org/recruitment/cost/.
 export const defaultCostSummary: CostSummary = {
@@ -246,6 +258,7 @@ export const defaultSiteSettings: SiteSettings = {
   instagramUrl: "",
   xHandle: "@ENDelts",
   xUrl: "",
+  notificationEmail: "",
 };
 
 export const defaultHomeSettings: HomeSettings = {
@@ -373,10 +386,12 @@ export const defaultPhilanthropyPrograms: PhilanthropyProgram[] = [
     title: "Community Park Cleanup",
     description:
       "Brothers regularly volunteer to clean up local parks around Rolla, keeping shared spaces safe and enjoyable for the community.",
+    imageUrl: "",
   },
   {
     title: "Vienna Road Monthly Pickups",
     description:
       "Each month, the chapter picks up litter along Vienna Road near the chapter house — a small, consistent way of taking care of our neighborhood.",
+    imageUrl: "",
   },
 ];
