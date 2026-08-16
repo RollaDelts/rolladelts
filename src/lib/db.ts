@@ -14,11 +14,25 @@ import {
   defaultAlumniSpotlights,
   defaultCostSummary,
   defaultCostLineItems,
+  defaultSiteSettings,
+  defaultSiteStats,
+  defaultHomePillars,
+  defaultGalleryPhotos,
+  defaultRecruitmentSteps,
+  defaultFaqs,
+  defaultPhilanthropyPrograms,
   type Officer,
   type RushEvent,
   type AlumniSpotlight,
   type CostSummary,
   type CostLineItem,
+  type SiteSettings,
+  type SiteStat,
+  type HomePillar,
+  type GalleryPhoto,
+  type RecruitmentStep,
+  type Faq,
+  type PhilanthropyProgram,
 } from "@/data/defaults";
 
 // ─── Officers ────────────────────────────────────────────────────────────────
@@ -40,7 +54,7 @@ export async function saveOfficers(officers: Officer[]): Promise<void> {
   await supabase.from("officers").delete().neq("id", 0);
   if (officers.length === 0) return;
   await supabase.from("officers").insert(
-    officers.map((o, i) => ({ role: o.role, name: o.name, sort_order: i }))
+    officers.map((o, i) => ({ role: o.role, name: o.name, sort_order: (i + 1) * 10 }))
   );
 }
 
@@ -67,7 +81,7 @@ export async function saveRushEvents(events: RushEvent[]): Promise<void> {
       date: e.date,
       name: e.name,
       location: e.location,
-      sort_order: i,
+      sort_order: (i + 1) * 10,
     }))
   );
 }
@@ -103,7 +117,7 @@ export async function saveAlumniSpotlights(spotlights: AlumniSpotlight[]): Promi
       years: s.years,
       photos: s.photos,
       bio: s.bio,
-      sort_order: i,
+      sort_order: (i + 1) * 10,
     }))
   );
 }
@@ -222,7 +236,207 @@ export async function saveCostLineItems(items: CostLineItem[]): Promise<void> {
       label: item.label,
       amount: item.amount,
       note: item.note,
-      sort_order: i,
+      sort_order: (i + 1) * 10,
     }))
+  );
+}
+
+// ─── Site Settings (singleton) ───────────────────────────────────────────────
+// Contact info, social handles, and a handful of singleton text/photo slots
+// previously hardcoded and duplicated across Footer/Contact/About/Philanthropy.
+
+export async function getSiteSettings(): Promise<SiteSettings> {
+  if (!supabaseAvailable()) return defaultSiteSettings;
+  const { data, error } = await getServerClient()
+    .from("site_settings")
+    .select(
+      "address, phone, email, facebook_url, instagram_handle, x_handle, about_history, haunted_maze_dates, haunted_maze_raised, hero_image_url, about_history_image_url, about_house_exterior_image_url, about_common_areas_image_url, recruitment_new_member_image_url, philanthropy_maze_image_url"
+    )
+    .order("id", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return defaultSiteSettings;
+  return {
+    address: data.address,
+    phone: data.phone,
+    email: data.email,
+    facebookUrl: data.facebook_url,
+    instagramHandle: data.instagram_handle,
+    xHandle: data.x_handle,
+    aboutHistory: data.about_history,
+    hauntedMazeDates: data.haunted_maze_dates,
+    hauntedMazeRaised: data.haunted_maze_raised,
+    heroImageUrl: data.hero_image_url,
+    aboutHistoryImageUrl: data.about_history_image_url,
+    aboutHouseExteriorImageUrl: data.about_house_exterior_image_url,
+    aboutCommonAreasImageUrl: data.about_common_areas_image_url,
+    recruitmentNewMemberImageUrl: data.recruitment_new_member_image_url,
+    philanthropyMazeImageUrl: data.philanthropy_maze_image_url,
+  };
+}
+
+export async function saveSiteSettings(settings: SiteSettings): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("site_settings").delete().neq("id", 0);
+  await supabase.from("site_settings").insert({
+    address: settings.address,
+    phone: settings.phone,
+    email: settings.email,
+    facebook_url: settings.facebookUrl,
+    instagram_handle: settings.instagramHandle,
+    x_handle: settings.xHandle,
+    about_history: settings.aboutHistory,
+    haunted_maze_dates: settings.hauntedMazeDates,
+    haunted_maze_raised: settings.hauntedMazeRaised,
+    hero_image_url: settings.heroImageUrl,
+    about_history_image_url: settings.aboutHistoryImageUrl,
+    about_house_exterior_image_url: settings.aboutHouseExteriorImageUrl,
+    about_common_areas_image_url: settings.aboutCommonAreasImageUrl,
+    recruitment_new_member_image_url: settings.recruitmentNewMemberImageUrl,
+    philanthropy_maze_image_url: settings.philanthropyMazeImageUrl,
+  });
+}
+
+// ─── Homepage Stats ──────────────────────────────────────────────────────────
+
+export async function getSiteStats(): Promise<SiteStat[]> {
+  if (!supabaseAvailable()) return defaultSiteStats;
+  const { data, error } = await getServerClient()
+    .from("site_stats")
+    .select("label, value")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error || !data || data.length === 0) return defaultSiteStats;
+  return data as SiteStat[];
+}
+
+export async function saveSiteStats(stats: SiteStat[]): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("site_stats").delete().neq("id", 0);
+  if (stats.length === 0) return;
+  await supabase.from("site_stats").insert(
+    stats.map((s, i) => ({ label: s.label, value: s.value, sort_order: (i + 1) * 10 }))
+  );
+}
+
+// ─── Homepage "Why Join" Pillars ─────────────────────────────────────────────
+
+export async function getHomePillars(): Promise<HomePillar[]> {
+  if (!supabaseAvailable()) return defaultHomePillars;
+  const { data, error } = await getServerClient()
+    .from("home_pillars")
+    .select("title, description")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error || !data || data.length === 0) return defaultHomePillars;
+  return data as HomePillar[];
+}
+
+export async function saveHomePillars(pillars: HomePillar[]): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("home_pillars").delete().neq("id", 0);
+  if (pillars.length === 0) return;
+  await supabase.from("home_pillars").insert(
+    pillars.map((p, i) => ({ title: p.title, description: p.description, sort_order: (i + 1) * 10 }))
+  );
+}
+
+// ─── Homepage Gallery ────────────────────────────────────────────────────────
+
+export async function getGalleryPhotos(): Promise<GalleryPhoto[]> {
+  if (!supabaseAvailable()) return defaultGalleryPhotos;
+  const { data, error } = await getServerClient()
+    .from("gallery_photos")
+    .select("image_url, alt, fit")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error || !data || data.length === 0) return defaultGalleryPhotos;
+  return data.map((row) => ({ imageUrl: row.image_url, alt: row.alt, fit: row.fit })) as GalleryPhoto[];
+}
+
+export async function saveGalleryPhotos(photos: GalleryPhoto[]): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("gallery_photos").delete().neq("id", 0);
+  if (photos.length === 0) return;
+  await supabase.from("gallery_photos").insert(
+    photos.map((p, i) => ({
+      image_url: p.imageUrl,
+      alt: p.alt,
+      fit: p.fit,
+      sort_order: (i + 1) * 10,
+    }))
+  );
+}
+
+// ─── Recruitment "How It Works" Steps ────────────────────────────────────────
+
+export async function getRecruitmentSteps(): Promise<RecruitmentStep[]> {
+  if (!supabaseAvailable()) return defaultRecruitmentSteps;
+  const { data, error } = await getServerClient()
+    .from("recruitment_steps")
+    .select("title, description")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error || !data || data.length === 0) return defaultRecruitmentSteps;
+  return data as RecruitmentStep[];
+}
+
+export async function saveRecruitmentSteps(steps: RecruitmentStep[]): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("recruitment_steps").delete().neq("id", 0);
+  if (steps.length === 0) return;
+  await supabase.from("recruitment_steps").insert(
+    steps.map((s, i) => ({ title: s.title, description: s.description, sort_order: (i + 1) * 10 }))
+  );
+}
+
+// ─── Recruitment FAQ ─────────────────────────────────────────────────────────
+
+export async function getFaqs(): Promise<Faq[]> {
+  if (!supabaseAvailable()) return defaultFaqs;
+  const { data, error } = await getServerClient()
+    .from("faqs")
+    .select("question, answer")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error || !data || data.length === 0) return defaultFaqs;
+  return data as Faq[];
+}
+
+export async function saveFaqs(faqs: Faq[]): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("faqs").delete().neq("id", 0);
+  if (faqs.length === 0) return;
+  await supabase.from("faqs").insert(
+    faqs.map((f, i) => ({ question: f.question, answer: f.answer, sort_order: (i + 1) * 10 }))
+  );
+}
+
+// ─── Philanthropy Programs ───────────────────────────────────────────────────
+
+export async function getPhilanthropyPrograms(): Promise<PhilanthropyProgram[]> {
+  if (!supabaseAvailable()) return defaultPhilanthropyPrograms;
+  const { data, error } = await getServerClient()
+    .from("philanthropy_programs")
+    .select("title, description")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error || !data || data.length === 0) return defaultPhilanthropyPrograms;
+  return data as PhilanthropyProgram[];
+}
+
+export async function savePhilanthropyPrograms(programs: PhilanthropyProgram[]): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("philanthropy_programs").delete().neq("id", 0);
+  if (programs.length === 0) return;
+  await supabase.from("philanthropy_programs").insert(
+    programs.map((p, i) => ({ title: p.title, description: p.description, sort_order: (i + 1) * 10 }))
   );
 }

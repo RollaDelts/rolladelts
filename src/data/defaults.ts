@@ -23,6 +23,29 @@ export type AlumniSpotlight = {
   /** Paragraphs separated by a blank line. */
   bio: string;
 };
+export type SiteSettings = {
+  address: string;
+  phone: string;
+  email: string;
+  facebookUrl: string;
+  instagramHandle: string;
+  xHandle: string;
+  aboutHistory: string;
+  hauntedMazeDates: string;
+  hauntedMazeRaised: string;
+  heroImageUrl: string;
+  aboutHistoryImageUrl: string;
+  aboutHouseExteriorImageUrl: string;
+  aboutCommonAreasImageUrl: string;
+  recruitmentNewMemberImageUrl: string;
+  philanthropyMazeImageUrl: string;
+};
+export type SiteStat = { label: string; value: string };
+export type HomePillar = { title: string; description: string };
+export type GalleryPhoto = { imageUrl: string; alt: string; fit: "cover" | "contain" };
+export type RecruitmentStep = { title: string; description: string };
+export type Faq = { question: string; answer: string };
+export type PhilanthropyProgram = { title: string; description: string };
 
 export const defaultOfficers: Officer[] = [
   { role: "President", name: "TBD" },
@@ -207,5 +230,128 @@ After college, John got a job with Roush Industries in May of 1995 to run tests 
 After his time at Boeing, he helped the University of Kansas chapter, Gamma Tau, recolonize after troubling times led to the chapter being dechartered in 2004. John and six other Delts from different chapters stepped in and helped the new members get a fresh start; the chapter got its charter back soon after and has been successful ever since.
 
 Today John works for Spirit AeroSystems as Senior Manager for Core Structures Engineering, largely a research and development group that tests new materials for airplanes with the goal of making them cheaper and lighter. His job is to lead a team that tests different metals and to watch over his group members, making sure everyone works in a productive, safe manner.`,
+  },
+];
+
+export const defaultSiteSettings: SiteSettings = {
+  address: "2631 Vienna Rd, Rolla, MO 65401",
+  phone: "(573) 364-1909",
+  email: "dtd@umsystem.edu",
+  facebookUrl: "https://www.facebook.com/ENDelts",
+  instagramHandle: "@en.delts",
+  xHandle: "@ENDelts",
+  aboutHistory:
+    "Founded at Missouri University of Science & Technology, Delta Tau Delta's Epsilon Nu Chapter has built a home on campus since 1964. For decades, our chapter house at 2631 Vienna Rd has been a home for engineers, scientists, and leaders who also know how to have a good time and give back to the Rolla community.",
+  hauntedMazeDates: "",
+  hauntedMazeRaised: "",
+  heroImageUrl: "/images/site/hero-group.jpg",
+  aboutHistoryImageUrl: "/images/site/history-roof.jpg",
+  aboutHouseExteriorImageUrl: "/images/site/house-exterior.jpg",
+  aboutCommonAreasImageUrl: "",
+  recruitmentNewMemberImageUrl: "/images/site/new-member-group.jpg",
+  philanthropyMazeImageUrl: "/images/site/haunted-maze-flyer.png",
+};
+
+export const defaultSiteStats: SiteStat[] = [
+  { label: "Founded at Missouri S&T", value: "1964" },
+  { label: "Active Brothers", value: "60+" },
+  { label: "Chapter GPA", value: "3.2" },
+  { label: "Raised for Philanthropy", value: "$10K+/yr" },
+];
+
+export const defaultHomePillars: HomePillar[] = [
+  {
+    title: "Brotherhood for Life",
+    description:
+      "Build friendships with a diverse group of men that last well beyond your four years at Missouri S&T.",
+  },
+  {
+    title: "Academic Support",
+    description:
+      "Study tables, tutoring from upperclassmen, and a culture that pushes you to succeed in the classroom.",
+  },
+  {
+    title: "Leadership Development",
+    description:
+      "Run committees, manage budgets, and plan events — real experience that sets you apart after graduation.",
+  },
+  {
+    title: "Community Impact",
+    description:
+      "Give back to Rolla through philanthropy events that raise money and awareness for causes that matter.",
+  },
+];
+
+export const defaultGalleryPhotos: GalleryPhoto[] = [
+  { imageUrl: "/images/site/house-exterior.jpg", alt: "Chapter house at 2631 Vienna Rd", fit: "contain" },
+  { imageUrl: "/images/site/brotherhood-event.jpg", alt: "Brothers at a chapter event", fit: "cover" },
+  {
+    imageUrl: "/images/site/philanthropy-park-cleanup.jpg",
+    alt: "Brothers volunteering at a community park cleanup",
+    fit: "cover",
+  },
+  { imageUrl: "/images/site/brotherhood-friends.jpg", alt: "Brothers at a St. Pat's campus event", fit: "cover" },
+  {
+    imageUrl: "/images/site/campus-life-stpats.jpg",
+    alt: "Brothers at a Missouri S&T St. Pat's campus tradition",
+    fit: "cover",
+  },
+  { imageUrl: "/images/site/formal-1966.jpg", alt: "Formal chapter portrait", fit: "cover" },
+];
+
+export const defaultRecruitmentSteps: RecruitmentStep[] = [
+  {
+    title: "Reach Out",
+    description:
+      "Fill out the interest form below or message us on Instagram (@en.delts) or Facebook (ENDelts). No commitment required.",
+  },
+  {
+    title: "Come to an Event",
+    description:
+      "Attend a rush event — meet & greets, game nights, BBQs, and info sessions are open to all Missouri S&T students.",
+  },
+  {
+    title: "Get to Know the Brothers",
+    description: "Hang out at the house, ask questions, and see if Delta Tau Delta feels like home.",
+  },
+  {
+    title: "Receive a Bid",
+    description:
+      "If it's a great fit for both sides, you'll receive a bid to join and begin new member education.",
+  },
+];
+
+export const defaultFaqs: Faq[] = [
+  {
+    question: "Is there a GPA requirement to join?",
+    answer:
+      "There's no minimum GPA to start the recruitment process. We do have academic expectations for new and active members, and we provide study tables and tutoring support to help everyone succeed.",
+  },
+  {
+    question: "Do I have to live in the house?",
+    answer:
+      "Living in is encouraged for the full experience but not always required. Reach out to discuss housing availability and options.",
+  },
+  {
+    question: "I'm a freshman / transfer / non-traditional student — can I still join?",
+    answer: "Absolutely. We welcome men at any point in their college career, including transfer students and non-traditional students.",
+  },
+  {
+    question: "What does it cost to join?",
+    answer:
+      "Costs include a one-time new member fee and monthly dues, which cover housing, meals, national fraternity fees, and chapter operations. See our [full cost breakdown](/recruitment/cost) for exact figures — we're happy to discuss payment plans.",
+  },
+];
+
+export const defaultPhilanthropyPrograms: PhilanthropyProgram[] = [
+  {
+    title: "Community Park Cleanup",
+    description:
+      "Brothers regularly volunteer to clean up local parks around Rolla, keeping shared spaces safe and enjoyable for the community.",
+  },
+  {
+    title: "Vienna Road Monthly Pickups",
+    description:
+      "Each month, the chapter picks up litter along Vienna Road near the chapter house — a small, consistent way of taking care of our neighborhood.",
   },
 ];
