@@ -62,6 +62,9 @@ export default function PhilanthropyEditor({
         {programs.map((program, i) => (
         <div key={program.id} className="rounded-xl border border-dtd-purple/10 bg-white p-4 shadow-sm">
           <div className="flex items-start gap-3">
+            <div className="w-24 shrink-0">
+              <ImageUploader name="programImageUrl" defaultValue={program.imageUrl} aspect="aspect-square" />
+            </div>
             <div className="flex-1 space-y-2">
               <input name="programTitle" defaultValue={program.title} placeholder="Title" className={inputClass} />
               <textarea
@@ -90,7 +93,7 @@ export default function PhilanthropyEditor({
       ))}
         <button
           type="button"
-          onClick={() => setPrograms((prev) => [...prev, { title: "", description: "", id: makeId() }])}
+          onClick={() => setPrograms((prev) => [...prev, { title: "", description: "", imageUrl: "", id: makeId() }])}
           className="justify-self-start rounded-full border-2 border-dtd-purple px-5 py-1.5 text-xs font-bold uppercase tracking-wide text-dtd-purple transition hover:bg-dtd-purple hover:text-white"
         >
           + Add Program

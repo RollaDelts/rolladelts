@@ -58,9 +58,17 @@ export default async function PhilanthropyPage() {
           </p>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             {programs.map((program) => (
-              <div key={program.title} className="rounded-lg border border-dtd-purple/10 bg-white p-6 shadow-sm">
-                <h3 className="font-bold text-dtd-purple">{program.title}</h3>
-                <p className="mt-2 text-sm text-foreground/80">{program.description}</p>
+              <div
+                key={program.title}
+                className="overflow-hidden rounded-lg border border-dtd-purple/10 bg-white shadow-sm"
+              >
+                {program.imageUrl && (
+                  <SiteImage src={program.imageUrl} alt={program.title} aspect="aspect-video" />
+                )}
+                <div className="p-6">
+                  <h3 className="font-bold text-dtd-purple">{program.title}</h3>
+                  <p className="mt-2 text-sm text-foreground/80">{program.description}</p>
+                </div>
               </div>
             ))}
           </div>

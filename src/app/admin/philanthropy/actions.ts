@@ -14,8 +14,13 @@ export async function savePhilanthropyPageAction(formData: FormData) {
 
   const titles = formData.getAll("programTitle") as string[];
   const descriptions = formData.getAll("programDescription") as string[];
+  const imageUrls = formData.getAll("programImageUrl") as string[];
   const programs: PhilanthropyProgram[] = titles
-    .map((title, i) => ({ title: title.trim(), description: (descriptions[i] ?? "").trim() }))
+    .map((title, i) => ({
+      title: title.trim(),
+      description: (descriptions[i] ?? "").trim(),
+      imageUrl: (imageUrls[i] ?? "").trim(),
+    }))
     .filter((p) => p.title.length > 0);
 
   await savePhilanthropySettings(settings);
