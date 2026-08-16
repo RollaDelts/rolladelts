@@ -71,6 +71,10 @@ export default function LoginPage() {
             className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
           />
 
+          <Link href="/forgot-password" className="-mt-2 text-right text-xs font-semibold text-dtd-purple hover:underline">
+            Forgot password?
+          </Link>
+
           {error && <p className="text-center text-sm text-red-600">{error}</p>}
 
           <button
