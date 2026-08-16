@@ -1,65 +1,6 @@
-import Image from "next/image";
 import PageHero from "@/components/PageHero";
+import AlumniGrid from "./AlumniGrid";
 import { getAlumniSpotlights } from "@/lib/db";
-import type { AlumniSpotlight } from "@/data/defaults";
-
-function parsePhotos(photos: string): { src: string; caption?: string }[] {
-  return photos
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => {
-      const [src, caption] = line.split("|");
-      return { src: src.trim(), caption: caption?.trim() };
-    });
-}
-
-function parseBio(bio: string): string[] {
-  return bio
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter(Boolean);
-}
-
-function AlumniEntry({ alum }: { alum: AlumniSpotlight }) {
-  const photos = parsePhotos(alum.photos);
-  const paragraphs = parseBio(alum.bio);
-
-  return (
-    <div className="grid gap-8 border-t border-dtd-purple/10 py-12 md:grid-cols-[240px_1fr]">
-      <div className="flex flex-col gap-3">
-        {photos.map((photo, i) => (
-          <figure key={i}>
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg border border-dtd-purple/10 bg-dtd-cream">
-              <Image
-                src={photo.src}
-                alt={photo.caption ?? alum.name}
-                fill
-                sizes="240px"
-                className="object-cover"
-              />
-            </div>
-            {photo.caption && (
-              <figcaption className="mt-1 text-xs text-foreground/60">{photo.caption}</figcaption>
-            )}
-          </figure>
-        ))}
-      </div>
-
-      <div>
-        <h2 className="font-display text-2xl font-bold uppercase text-dtd-purple">{alum.name}</h2>
-        <p className="mt-1 text-xs font-bold uppercase tracking-wider text-dtd-gold-dark">
-          {alum.pledgeClass} &middot; {alum.years}
-        </p>
-        <div className="mt-4 space-y-4 text-sm text-foreground/80">
-          {paragraphs.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default async function AlumniPage() {
   const spotlights = await getAlumniSpotlights();
@@ -71,10 +12,8 @@ export default async function AlumniPage() {
         subtitle="Delta Tau Delta is a brotherhood for life. Here's a look at where some of our alumni have gone since Rolla."
       />
 
-      <section className="mx-auto max-w-4xl px-4 py-4">
-        {spotlights.map((alum) => (
-          <AlumniEntry key={alum.name} alum={alum} />
-        ))}
+      <section className="mx-auto max-w-6xl px-4 py-12">
+        <AlumniGrid spotlights={spotlights} />
       </section>
 
       <section className="bg-dtd-cream">
