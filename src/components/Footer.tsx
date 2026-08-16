@@ -68,6 +68,10 @@ export default async function Footer() {
 
       <div className="border-t border-dtd-purple/60 px-4 py-4 text-center text-xs text-dtd-white/60">
         &copy; {new Date().getFullYear()} Epsilon Nu Chapter of Delta Tau Delta. All rights reserved.
+        {" · "}
+        <Link href="/privacy" className="hover:text-dtd-gold">
+          Privacy Policy
+        </Link>
       </div>
     </footer>
   );
