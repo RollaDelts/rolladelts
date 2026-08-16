@@ -18,7 +18,7 @@ export default function RushEventsList({ events, sent }: { events: RushEvent[]; 
         {events.map((event, i) => {
           const hasDetails = Boolean(event.description.trim() || event.photos.trim());
           return (
-            <div key={i} className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div key={i} className="grid gap-3 p-4 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-6">
               {hasDetails ? (
                 <button type="button" onClick={() => setSelected(i)} className="text-left">
                   <p className="font-bold text-dtd-purple underline decoration-dotted underline-offset-4">
@@ -39,7 +39,7 @@ export default function RushEventsList({ events, sent }: { events: RushEvent[]; 
               <form
                 key={sent ?? "form"}
                 action={submitLeadAction}
-                className="flex flex-wrap items-center gap-2 sm:justify-end"
+                className="grid grid-cols-2 gap-2 sm:w-72"
               >
                 <input type="hidden" name="source" value="rsvp" />
                 <input type="hidden" name="detail" value={`${event.name} — ${event.date}`} />
@@ -50,24 +50,24 @@ export default function RushEventsList({ events, sent }: { events: RushEvent[]; 
                   name="name"
                   placeholder="Name"
                   required
-                  className="w-28 rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none sm:w-32"
+                  className="w-full rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none"
                 />
                 <input
                   type="email"
                   name="email"
                   placeholder="Email"
                   required
-                  className="w-36 rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none sm:w-44"
+                  className="w-full rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none"
                 />
                 <input
                   type="tel"
                   name="phone"
                   placeholder="Phone (optional)"
-                  className="w-32 rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none"
+                  className="w-full rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="shrink-0 rounded-full bg-dtd-gold px-5 py-2 text-xs font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
+                  className="w-full rounded-full bg-dtd-gold px-5 py-2 text-xs font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
                 >
                   RSVP
                 </button>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import SiteImage from "@/components/SiteImage";
+import ZoomableImage from "@/components/ZoomableImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
 import RichText from "@/components/RichText";
@@ -71,7 +72,7 @@ export default async function RecruitmentPage({
           </p>
           <div className={`mt-6 grid gap-6 ${showEventsBanner ? "md:grid-cols-[240px_1fr]" : ""}`}>
             {showEventsBanner && (
-              <SiteImage
+              <ZoomableImage
                 src={eventsSettings.bannerImageUrl}
                 alt="Upcoming rush events"
                 aspect="aspect-[3/4]"
