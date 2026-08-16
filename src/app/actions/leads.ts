@@ -22,11 +22,11 @@ export async function submitLeadAction(formData: FormData) {
   const source = ((formData.get("source") as string | null) ?? "unknown").trim();
   const redirectTo = ((formData.get("redirectTo") as string | null) ?? "/").trim() || "/";
 
-  // Honeypot: real visitors never see or fill this field; bots that autofill
-  // every input trip it. (A fill-time check used to also gate this, but it
-  // was dropping genuine fast/autofilled submissions with no visible error —
-  // silent data loss is worse than the marginal spam it prevented.)
-  const honeypot = ((formData.get("company") as string | null) ?? "").trim();
+  // Honeypot: real visitors never see or fill this field; bots that blindly
+  // fill every input trip it. (A fill-time check used to also gate this,
+  // but it was dropping genuine fast/autofilled submissions with no visible
+  // error — silent data loss is worse than the marginal spam it prevented.)
+  const honeypot = ((formData.get("hp_confirm_9f2") as string | null) ?? "").trim();
 
   if (honeypot) {
     // Pretend success so bots get no signal their submission was dropped.
