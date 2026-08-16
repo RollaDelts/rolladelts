@@ -57,6 +57,22 @@ export default function SettingsEditor({ initialSettings }: { initialSettings: S
         </div>
       </div>
 
+      <div className="rounded-xl border border-dtd-purple/10 bg-white p-5 shadow-sm">
+        <h2 className="font-bold text-dtd-purple">Notifications</h2>
+        <p className="mt-1 text-sm text-foreground/70">
+          Where new lead/RSVP submissions get emailed. Separate from the public-facing contact
+          email above — leave blank to disable email alerts.
+        </p>
+        <div className="mt-4 max-w-sm">
+          <Field
+            label="Notification Email"
+            name="notificationEmail"
+            defaultValue={s.notificationEmail}
+            placeholder="you@example.com"
+          />
+        </div>
+      </div>
+
       <div className="flex items-center gap-4">
         <button
           type="submit"

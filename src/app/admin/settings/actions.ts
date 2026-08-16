@@ -19,6 +19,7 @@ export async function saveSiteSettingsAction(formData: FormData) {
     instagramUrl: field(formData, "instagramUrl"),
     xHandle: field(formData, "xHandle"),
     xUrl: field(formData, "xUrl"),
+    notificationEmail: field(formData, "notificationEmail"),
   };
 
   await saveSiteSettings(settings);

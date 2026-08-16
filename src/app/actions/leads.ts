@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { saveLead } from "@/lib/db";
+import { sendLeadNotification } from "@/lib/email";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_FILL_TIME_MS = 1500;
@@ -41,6 +42,12 @@ export async function submitLeadAction(formData: FormData) {
     await saveLead({ name, email, phone, detail, message, source });
   } catch {
     redirect(`${redirectTo}?sent=error#lead-status`);
+  }
+
+  try {
+    await sendLeadNotification({ name, email, phone, detail, message, source });
+  } catch {
+    // Email is a nice-to-have on top of the saved lead — never block the user on it.
   }
 
   redirect(`${redirectTo}?sent=ok#lead-status`);
