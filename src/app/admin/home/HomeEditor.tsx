@@ -5,7 +5,7 @@ import { moveItem } from "@/lib/reorder";
 import ReorderButtons from "@/components/admin/ReorderButtons";
 import ImageUploader from "@/components/admin/ImageUploader";
 import { saveHomePageAction } from "./actions";
-import type { HomeSettings, SiteStat, HomePillar, GalleryPhoto } from "@/data/defaults";
+import type { HomeSettings, SiteStat, HomePillar, GalleryPhoto, PillarPhoto } from "@/data/defaults";
 
 let nextId = 0;
 function makeId() {
@@ -19,21 +19,27 @@ const inputClass =
 type StatEntry = SiteStat & { id: string };
 type PillarEntry = HomePillar & { id: string };
 type GalleryEntry = GalleryPhoto & { id: string };
+type PillarPhotoEntry = PillarPhoto & { id: string };
 
 export default function HomeEditor({
   initialSettings,
   initialStats,
   initialPillars,
   initialGallery,
+  initialPillarPhotos,
 }: {
   initialSettings: HomeSettings;
   initialStats: SiteStat[];
   initialPillars: HomePillar[];
   initialGallery: GalleryPhoto[];
+  initialPillarPhotos: PillarPhoto[];
 }) {
   const [stats, setStats] = useState<StatEntry[]>(() => initialStats.map((s) => ({ ...s, id: makeId() })));
   const [pillars, setPillars] = useState<PillarEntry[]>(() => initialPillars.map((p) => ({ ...p, id: makeId() })));
   const [gallery, setGallery] = useState<GalleryEntry[]>(() => initialGallery.map((g) => ({ ...g, id: makeId() })));
+  const [pillarPhotos, setPillarPhotos] = useState<PillarPhotoEntry[]>(() =>
+    initialPillarPhotos.map((p) => ({ ...p, id: makeId() }))
+  );
 
   return (
     <form action={saveHomePageAction} className="mt-8 grid gap-10">
@@ -123,6 +129,51 @@ export default function HomeEditor({
           className="mt-3 rounded-full border-2 border-dtd-purple px-5 py-1.5 text-xs font-bold uppercase tracking-wide text-dtd-purple transition hover:bg-dtd-purple hover:text-white"
         >
           + Add Pillar
+        </button>
+      </div>
+
+      {/* ── Brotherhood in Action photos ── */}
+      <div>
+        <h2 className="font-bold text-dtd-purple">&ldquo;Brotherhood in Action&rdquo; Photos</h2>
+        <p className="mt-1 text-sm text-foreground/70">
+          Real photos of actives carrying out the pillars above — tutoring, leading a committee,
+          a philanthropy event, and so on. Shown as a strip under the pillars on the homepage;
+          leave empty to hide the section.
+        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {pillarPhotos.map((photo, i) => (
+            <div key={photo.id} className="rounded-xl border border-dtd-purple/10 bg-white p-4 shadow-sm">
+              <ImageUploader name="pillarPhotoImageUrl" defaultValue={photo.imageUrl} aspect="aspect-square" />
+              <input
+                name="pillarPhotoCaption"
+                defaultValue={photo.caption}
+                placeholder="Caption (e.g. Weekly tutoring session)"
+                className={`${inputClass} mt-2`}
+              />
+              <div className="mt-2 flex items-center justify-between gap-2">
+                <ReorderButtons
+                  onMoveUp={() => setPillarPhotos((prev) => moveItem(prev, i, -1))}
+                  onMoveDown={() => setPillarPhotos((prev) => moveItem(prev, i, 1))}
+                  disableUp={i === 0}
+                  disableDown={i === pillarPhotos.length - 1}
+                />
+                <button
+                  type="button"
+                  onClick={() => setPillarPhotos((prev) => prev.filter((p) => p.id !== photo.id))}
+                  className="rounded-full border border-red-300 px-3 py-1 text-xs font-bold uppercase tracking-wide text-red-600 transition hover:bg-red-50"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={() => setPillarPhotos((prev) => [...prev, { imageUrl: "", caption: "", id: makeId() }])}
+          className="mt-3 rounded-full border-2 border-dtd-purple px-5 py-1.5 text-xs font-bold uppercase tracking-wide text-dtd-purple transition hover:bg-dtd-purple hover:text-white"
+        >
+          + Add Photo
         </button>
       </div>
 

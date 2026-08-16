@@ -6,6 +6,7 @@ import { getOfficers, getAboutSettings } from "@/lib/db";
 export default async function AboutPage() {
   const [officers, settings] = await Promise.all([getOfficers(), getAboutSettings()]);
   const historyParagraphs = settings.history.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  const hazingParagraphs = settings.hazingPolicy.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 
   return (
     <div>
@@ -51,6 +52,17 @@ export default async function AboutPage() {
           </p>
         </div>
       </section>
+
+      {hazingParagraphs.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 py-12">
+          <h2 className="text-2xl font-bold text-dtd-purple">Zero Tolerance for Hazing</h2>
+          {hazingParagraphs.map((p, i) => (
+            <p key={i} className="mt-3 max-w-3xl text-foreground/80">
+              {p}
+            </p>
+          ))}
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-4 py-12">
         <h2 className="text-2xl font-bold text-dtd-purple">Chapter Leadership</h2>

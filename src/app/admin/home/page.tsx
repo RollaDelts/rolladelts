@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getHomeSettings, getSiteStats, getHomePillars, getGalleryPhotos } from "@/lib/db";
+import { getHomeSettings, getSiteStats, getHomePillars, getGalleryPhotos, getPillarPhotos } from "@/lib/db";
 import HomeEditor from "./HomeEditor";
 
 export default async function HomeAdminPage({
@@ -8,11 +8,12 @@ export default async function HomeAdminPage({
 }: {
   searchParams: Promise<{ saved?: string }>;
 }) {
-  const [settings, stats, pillars, gallery] = await Promise.all([
+  const [settings, stats, pillars, gallery, pillarPhotos] = await Promise.all([
     getHomeSettings(),
     getSiteStats(),
     getHomePillars(),
     getGalleryPhotos(),
+    getPillarPhotos(),
   ]);
   const { saved } = await searchParams;
 
@@ -36,6 +37,7 @@ export default async function HomeAdminPage({
         initialStats={stats}
         initialPillars={pillars}
         initialGallery={gallery}
+        initialPillarPhotos={pillarPhotos}
       />
     </div>
   );

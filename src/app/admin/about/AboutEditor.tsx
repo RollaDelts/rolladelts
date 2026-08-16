@@ -61,6 +61,17 @@ export default function AboutEditor({
         </div>
       </div>
 
+      <div className="rounded-xl border border-dtd-purple/10 bg-white p-5 shadow-sm">
+        <h2 className="font-bold text-dtd-purple">Anti-Hazing Policy</h2>
+        <p className="mt-1 text-sm text-foreground/70">Shown on the About page.</p>
+        <textarea
+          name="hazingPolicy"
+          defaultValue={initialSettings.hazingPolicy}
+          rows={5}
+          className={`${inputClass} mt-3`}
+        />
+      </div>
+
       <div>
         <h2 className="font-bold text-dtd-purple">Chapter Leadership</h2>
         <p className="mt-1 text-sm text-foreground/70">The executive board shown on the About page.</p>

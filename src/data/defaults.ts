@@ -39,12 +39,14 @@ export type AboutSettings = {
   historyImageUrl: string;
   houseExteriorImageUrl: string;
   commonAreasImageUrl: string;
+  hazingPolicy: string;
 };
 export type RecruitmentSettings = { newMemberImageUrl: string };
 export type PhilanthropySettings = { hauntedMazeDates: string; hauntedMazeRaised: string; mazeImageUrl: string };
 export type SiteStat = { label: string; value: string };
 export type HomePillar = { title: string; description: string };
 export type GalleryPhoto = { imageUrl: string; alt: string; fit: "cover" | "contain" };
+export type PillarPhoto = { imageUrl: string; caption: string };
 export type RecruitmentStep = { title: string; description: string };
 export type Faq = { question: string; answer: string };
 export type PhilanthropyProgram = { title: string; description: string };
@@ -256,6 +258,8 @@ export const defaultAboutSettings: AboutSettings = {
   historyImageUrl: "/images/site/history-roof.jpg",
   houseExteriorImageUrl: "/images/site/house-exterior.jpg",
   commonAreasImageUrl: "",
+  hazingPolicy:
+    "Delta Tau Delta's Epsilon Nu Chapter maintains a strict zero-tolerance policy toward hazing in any form. Real brotherhood is built through shared purpose, mutual respect, and genuine connection — never humiliation, coercion, or abuse. This standard applies at every stage of membership, from recruitment through initiation and beyond, and is enforced by both our chapter leadership and Delta Tau Delta International Fraternity. If you ever have a question or concern about how our new members are treated, we welcome you to reach out to our chapter leadership directly.",
 };
 
 export const defaultRecruitmentSettings: RecruitmentSettings = {
@@ -314,6 +318,11 @@ export const defaultGalleryPhotos: GalleryPhoto[] = [
   },
   { imageUrl: "/images/site/formal-1966.jpg", alt: "Formal chapter portrait", fit: "cover" },
 ];
+
+// Intentionally empty — populated with real photos of actives carrying
+// out each pillar (tutoring, leading a committee, a philanthropy event,
+// etc.) via the Home Page Updates admin.
+export const defaultPillarPhotos: PillarPhoto[] = [];
 
 export const defaultRecruitmentSteps: RecruitmentStep[] = [
   {

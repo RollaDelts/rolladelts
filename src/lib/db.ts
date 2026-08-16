@@ -22,6 +22,7 @@ import {
   defaultSiteStats,
   defaultHomePillars,
   defaultGalleryPhotos,
+  defaultPillarPhotos,
   defaultRecruitmentSteps,
   defaultFaqs,
   defaultPhilanthropyPrograms,
@@ -38,6 +39,7 @@ import {
   type SiteStat,
   type HomePillar,
   type GalleryPhoto,
+  type PillarPhoto,
   type RecruitmentStep,
   type Faq,
   type PhilanthropyProgram,
@@ -317,7 +319,7 @@ export async function getAboutSettings(): Promise<AboutSettings> {
   if (!supabaseAvailable()) return defaultAboutSettings;
   const { data, error } = await getServerClient()
     .from("about_settings")
-    .select("history, history_image_url, house_exterior_image_url, common_areas_image_url")
+    .select("history, history_image_url, house_exterior_image_url, common_areas_image_url, hazing_policy")
     .order("id", { ascending: true })
     .limit(1)
     .maybeSingle();
@@ -328,6 +330,7 @@ export async function getAboutSettings(): Promise<AboutSettings> {
     historyImageUrl: data.history_image_url,
     houseExteriorImageUrl: data.house_exterior_image_url,
     commonAreasImageUrl: data.common_areas_image_url,
+    hazingPolicy: data.hazing_policy,
   };
 }
 
@@ -339,6 +342,7 @@ export async function saveAboutSettings(settings: AboutSettings): Promise<void> 
     history_image_url: settings.historyImageUrl,
     house_exterior_image_url: settings.houseExteriorImageUrl,
     common_areas_image_url: settings.commonAreasImageUrl,
+    hazing_policy: settings.hazingPolicy,
   });
 }
 
@@ -463,6 +467,29 @@ export async function saveGalleryPhotos(photos: GalleryPhoto[]): Promise<void> {
       fit: p.fit,
       sort_order: (i + 1) * 10,
     }))
+  );
+}
+
+// ─── Homepage "Brotherhood in Action" Pillar Photos ─────────────────────────
+
+export async function getPillarPhotos(): Promise<PillarPhoto[]> {
+  if (!supabaseAvailable()) return defaultPillarPhotos;
+  const { data, error } = await getServerClient()
+    .from("pillar_photos")
+    .select("image_url, caption")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error || !data || data.length === 0) return defaultPillarPhotos;
+  return data.map((row) => ({ imageUrl: row.image_url, caption: row.caption })) as PillarPhoto[];
+}
+
+export async function savePillarPhotos(photos: PillarPhoto[]): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("pillar_photos").delete().neq("id", 0);
+  if (photos.length === 0) return;
+  await supabase.from("pillar_photos").insert(
+    photos.map((p, i) => ({ image_url: p.imageUrl, caption: p.caption, sort_order: (i + 1) * 10 }))
   );
 }
 

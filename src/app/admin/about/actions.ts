@@ -11,6 +11,7 @@ export async function saveAboutPageAction(formData: FormData) {
     historyImageUrl: ((formData.get("historyImageUrl") as string | null) ?? "").trim(),
     houseExteriorImageUrl: ((formData.get("houseExteriorImageUrl") as string | null) ?? "").trim(),
     commonAreasImageUrl: ((formData.get("commonAreasImageUrl") as string | null) ?? "").trim(),
+    hazingPolicy: ((formData.get("hazingPolicy") as string | null) ?? "").trim(),
   };
 
   const roles = formData.getAll("officerRole") as string[];

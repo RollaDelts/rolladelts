@@ -2,8 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { saveHomeSettings, saveSiteStats, saveHomePillars, saveGalleryPhotos } from "@/lib/db";
-import type { HomeSettings, SiteStat, HomePillar, GalleryPhoto } from "@/data/defaults";
+import {
+  saveHomeSettings,
+  saveSiteStats,
+  saveHomePillars,
+  saveGalleryPhotos,
+  savePillarPhotos,
+} from "@/lib/db";
+import type { HomeSettings, SiteStat, HomePillar, GalleryPhoto, PillarPhoto } from "@/data/defaults";
 
 export async function saveHomePageAction(formData: FormData) {
   const settings: HomeSettings = {
@@ -33,10 +39,17 @@ export async function saveHomePageAction(formData: FormData) {
     }))
     .filter((g) => g.imageUrl.length > 0);
 
+  const pillarPhotoUrls = formData.getAll("pillarPhotoImageUrl") as string[];
+  const pillarPhotoCaptions = formData.getAll("pillarPhotoCaption") as string[];
+  const pillarPhotos: PillarPhoto[] = pillarPhotoUrls
+    .map((imageUrl, i) => ({ imageUrl: imageUrl.trim(), caption: (pillarPhotoCaptions[i] ?? "").trim() }))
+    .filter((p) => p.imageUrl.length > 0);
+
   await saveHomeSettings(settings);
   await saveSiteStats(stats);
   await saveHomePillars(pillars);
   await saveGalleryPhotos(gallery);
+  await savePillarPhotos(pillarPhotos);
 
   revalidatePath("/");
   revalidatePath("/admin/home");

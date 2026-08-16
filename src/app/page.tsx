@@ -3,7 +3,7 @@ import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
 import { submitLeadAction } from "@/app/actions/leads";
-import { getHomeSettings, getSiteStats, getHomePillars, getGalleryPhotos } from "@/lib/db";
+import { getHomeSettings, getSiteStats, getHomePillars, getGalleryPhotos, getPillarPhotos } from "@/lib/db";
 
 const values = [
   {
@@ -29,11 +29,12 @@ export default async function Home({
 }: {
   searchParams: Promise<{ sent?: string }>;
 }) {
-  const [settings, stats, pillars, gallery] = await Promise.all([
+  const [settings, stats, pillars, gallery, pillarPhotos] = await Promise.all([
     getHomeSettings(),
     getSiteStats(),
     getHomePillars(),
     getGalleryPhotos(),
+    getPillarPhotos(),
   ]);
   const { sent } = await searchParams;
 
@@ -203,6 +204,24 @@ export default async function Home({
             </div>
           ))}
         </div>
+
+        {pillarPhotos.length > 0 && (
+          <div className="mt-10">
+            <p className="text-xs font-bold uppercase tracking-widest text-dtd-gold-dark">
+              Brotherhood in Action
+            </p>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {pillarPhotos.map((photo, i) => (
+                <figure key={i}>
+                  <SiteImage src={photo.imageUrl} alt={photo.caption} aspect="aspect-square" />
+                  {photo.caption && (
+                    <figcaption className="mt-2 text-sm text-foreground/70">{photo.caption}</figcaption>
+                  )}
+                </figure>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* ── Mission statement ────────────────────────────────────────────── */}
