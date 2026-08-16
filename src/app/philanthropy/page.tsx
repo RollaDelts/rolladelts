@@ -1,10 +1,10 @@
 import PageHero from "@/components/PageHero";
 import SiteImage from "@/components/SiteImage";
 import PlaceholderImage from "@/components/PlaceholderImage";
-import { getSiteSettings, getPhilanthropyPrograms } from "@/lib/db";
+import { getPhilanthropySettings, getPhilanthropyPrograms } from "@/lib/db";
 
 export default async function PhilanthropyPage() {
-  const [settings, programs] = await Promise.all([getSiteSettings(), getPhilanthropyPrograms()]);
+  const [settings, programs] = await Promise.all([getPhilanthropySettings(), getPhilanthropyPrograms()]);
 
   return (
     <div>
@@ -31,9 +31,9 @@ export default async function PhilanthropyPage() {
             <p className="mt-3 text-foreground/80">{settings.hauntedMazeRaised}</p>
           )}
         </div>
-        {settings.philanthropyMazeImageUrl ? (
+        {settings.mazeImageUrl ? (
           <SiteImage
-            src={settings.philanthropyMazeImageUrl}
+            src={settings.mazeImageUrl}
             alt="Delta Tau Delta Haunted Maze"
             aspect="aspect-[4/3]"
             className="bg-black"

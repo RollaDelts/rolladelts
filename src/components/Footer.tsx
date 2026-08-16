@@ -44,8 +44,24 @@ export default async function Footer() {
                 Facebook &mdash; {settings.facebookUrl.replace(/^https?:\/\/(www\.)?facebook\.com\//, "")}
               </a>
             </li>
-            <li>Instagram &mdash; {settings.instagramHandle}</li>
-            <li>X &mdash; {settings.xHandle}</li>
+            <li>
+              {settings.instagramUrl ? (
+                <a href={settings.instagramUrl} className="hover:text-dtd-gold" target="_blank" rel="noopener noreferrer">
+                  Instagram &mdash; {settings.instagramHandle}
+                </a>
+              ) : (
+                <>Instagram &mdash; {settings.instagramHandle}</>
+              )}
+            </li>
+            <li>
+              {settings.xUrl ? (
+                <a href={settings.xUrl} className="hover:text-dtd-gold" target="_blank" rel="noopener noreferrer">
+                  X &mdash; {settings.xHandle}
+                </a>
+              ) : (
+                <>X &mdash; {settings.xHandle}</>
+              )}
+            </li>
           </ul>
         </div>
       </div>

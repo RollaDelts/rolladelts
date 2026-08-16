@@ -35,8 +35,26 @@ export default async function ContactPage({
                 {settings.facebookUrl.replace(/^https?:\/\/(www\.)?facebook\.com\//, "")}
               </a>
             </li>
-            <li>Instagram: {settings.instagramHandle}</li>
-            <li>X (Twitter): {settings.xHandle}</li>
+            <li>
+              Instagram:{" "}
+              {settings.instagramUrl ? (
+                <a href={settings.instagramUrl} className="font-semibold text-dtd-purple underline" target="_blank" rel="noopener noreferrer">
+                  {settings.instagramHandle}
+                </a>
+              ) : (
+                settings.instagramHandle
+              )}
+            </li>
+            <li>
+              X (Twitter):{" "}
+              {settings.xUrl ? (
+                <a href={settings.xUrl} className="font-semibold text-dtd-purple underline" target="_blank" rel="noopener noreferrer">
+                  {settings.xHandle}
+                </a>
+              ) : (
+                settings.xHandle
+              )}
+            </li>
           </ul>
 
           <h2 className="mt-8 text-2xl font-bold text-dtd-purple">Recruitment</h2>

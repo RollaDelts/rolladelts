@@ -10,7 +10,7 @@ import {
   getCostLineItems,
   getRecruitmentSteps,
   getFaqs,
-  getSiteSettings,
+  getRecruitmentSettings,
 } from "@/lib/db";
 import { submitLeadAction } from "@/app/actions/leads";
 
@@ -25,7 +25,7 @@ export default async function RecruitmentPage({
     getCostLineItems(),
     getRecruitmentSteps(),
     getFaqs(),
-    getSiteSettings(),
+    getRecruitmentSettings(),
   ]);
   const monthlyCosts = costItems.filter((i) => i.section === "chapter-monthly");
   const { sent } = await searchParams;
@@ -142,7 +142,7 @@ export default async function RecruitmentPage({
             </Link>
           </div>
           <SiteImage
-            src={settings.recruitmentNewMemberImageUrl}
+            src={settings.newMemberImageUrl}
             alt="Delta Tau Delta brothers at a chapter event"
             aspect="aspect-[4/3]"
             sizes="(min-width: 768px) 50vw, 100vw"

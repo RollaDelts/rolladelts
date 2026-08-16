@@ -1,11 +1,11 @@
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import SiteImage from "@/components/SiteImage";
-import { getOfficers, getSiteSettings } from "@/lib/db";
+import { getOfficers, getAboutSettings } from "@/lib/db";
 
 export default async function AboutPage() {
-  const [officers, settings] = await Promise.all([getOfficers(), getSiteSettings()]);
-  const historyParagraphs = settings.aboutHistory.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  const [officers, settings] = await Promise.all([getOfficers(), getAboutSettings()]);
+  const historyParagraphs = settings.history.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 
   return (
     <div>
@@ -23,9 +23,9 @@ export default async function AboutPage() {
             </p>
           ))}
         </div>
-        {settings.aboutHistoryImageUrl ? (
+        {settings.historyImageUrl ? (
           <SiteImage
-            src={settings.aboutHistoryImageUrl}
+            src={settings.historyImageUrl}
             alt="Chapter history photo"
             aspect="aspect-[4/3]"
             sizes="(min-width: 768px) 50vw, 100vw"
@@ -71,9 +71,9 @@ export default async function AboutPage() {
       <section className="mx-auto max-w-6xl px-4 pb-16">
         <h2 className="text-2xl font-bold text-dtd-purple">The House</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {settings.aboutHouseExteriorImageUrl ? (
+          {settings.houseExteriorImageUrl ? (
             <SiteImage
-              src={settings.aboutHouseExteriorImageUrl}
+              src={settings.houseExteriorImageUrl}
               alt="Daytime exterior of the chapter house"
               sizes="(min-width: 640px) 50vw, 100vw"
               fit="contain"
@@ -82,9 +82,9 @@ export default async function AboutPage() {
           ) : (
             <PlaceholderImage label="House Exterior" suggestion="Daytime exterior photo of 2631 Vienna Rd, showing the full house and landscaping." />
           )}
-          {settings.aboutCommonAreasImageUrl ? (
+          {settings.commonAreasImageUrl ? (
             <SiteImage
-              src={settings.aboutCommonAreasImageUrl}
+              src={settings.commonAreasImageUrl}
               alt="Chapter house common areas"
               sizes="(min-width: 640px) 50vw, 100vw"
             />

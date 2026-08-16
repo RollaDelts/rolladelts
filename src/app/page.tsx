@@ -3,7 +3,7 @@ import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
 import { submitLeadAction } from "@/app/actions/leads";
-import { getSiteSettings, getSiteStats, getHomePillars, getGalleryPhotos } from "@/lib/db";
+import { getHomeSettings, getSiteStats, getHomePillars, getGalleryPhotos } from "@/lib/db";
 
 const values = [
   {
@@ -30,7 +30,7 @@ export default async function Home({
   searchParams: Promise<{ sent?: string }>;
 }) {
   const [settings, stats, pillars, gallery] = await Promise.all([
-    getSiteSettings(),
+    getHomeSettings(),
     getSiteStats(),
     getHomePillars(),
     getGalleryPhotos(),
