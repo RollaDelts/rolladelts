@@ -8,6 +8,18 @@ const sections = [
     icon: "📬",
   },
   {
+    href: "/admin/settings",
+    title: "Site Settings",
+    description: "Contact info, social handles, and singleton content shared across pages.",
+    icon: "⚙️",
+  },
+  {
+    href: "/admin/homepage",
+    title: "Homepage",
+    description: "Stats bar, \"Why Join\" pillars, and the photo gallery.",
+    icon: "🏠",
+  },
+  {
     href: "/admin/officers",
     title: "Chapter Leadership",
     description: "Update officer names and roles displayed on the About page.",
@@ -20,10 +32,22 @@ const sections = [
     icon: "📅",
   },
   {
+    href: "/admin/recruitment-content",
+    title: "Recruitment Content",
+    description: "The \"How Recruitment Works\" steps and FAQ.",
+    icon: "📋",
+  },
+  {
     href: "/admin/cost",
     title: "Recruitment Costs",
     description: "Update chapter dues and the Missouri S&T housing/meal plan comparison.",
     icon: "💲",
+  },
+  {
+    href: "/admin/philanthropy",
+    title: "Philanthropy",
+    description: "The \"Giving Back Year-Round\" program cards.",
+    icon: "🤝",
   },
   {
     href: "/admin/alumni",

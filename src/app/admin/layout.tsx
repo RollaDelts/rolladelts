@@ -3,9 +3,13 @@ import Link from "next/link";
 const adminNav = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/leads", label: "Leads & RSVPs" },
+  { href: "/admin/settings", label: "Site Settings" },
+  { href: "/admin/homepage", label: "Homepage" },
   { href: "/admin/officers", label: "Chapter Leadership" },
   { href: "/admin/events", label: "Rush Events" },
+  { href: "/admin/recruitment-content", label: "Recruitment Content" },
   { href: "/admin/cost", label: "Recruitment Costs" },
+  { href: "/admin/philanthropy", label: "Philanthropy" },
   { href: "/admin/alumni", label: "Alumni Spotlights" },
   { href: "/admin/users", label: "Users" },
 ];
