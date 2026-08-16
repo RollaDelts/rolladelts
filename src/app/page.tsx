@@ -3,36 +3,7 @@ import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
 import { submitLeadAction } from "@/app/actions/leads";
-
-const stats = [
-  { label: "Founded at Missouri S&T", value: "1964" },
-  { label: "Active Brothers", value: "60+" },
-  { label: "Chapter GPA", value: "3.2" },
-  { label: "Raised for Philanthropy", value: "$10K+/yr" },
-];
-
-const pillars = [
-  {
-    title: "Brotherhood for Life",
-    description:
-      "Build friendships with a diverse group of men that last well beyond your four years at Missouri S&T.",
-  },
-  {
-    title: "Academic Support",
-    description:
-      "Study tables, tutoring from upperclassmen, and a culture that pushes you to succeed in the classroom.",
-  },
-  {
-    title: "Leadership Development",
-    description:
-      "Run committees, manage budgets, and plan events — real experience that sets you apart after graduation.",
-  },
-  {
-    title: "Community Impact",
-    description:
-      "Give back to Rolla through philanthropy events that raise money and awareness for causes that matter.",
-  },
-];
+import { getSiteSettings, getSiteStats, getHomePillars, getGalleryPhotos } from "@/lib/db";
 
 const values = [
   {
@@ -58,6 +29,12 @@ export default async function Home({
 }: {
   searchParams: Promise<{ sent?: string }>;
 }) {
+  const [settings, stats, pillars, gallery] = await Promise.all([
+    getSiteSettings(),
+    getSiteStats(),
+    getHomePillars(),
+    getGalleryPhotos(),
+  ]);
   const { sent } = await searchParams;
 
   return (
@@ -110,8 +87,8 @@ export default async function Home({
             <div className="relative">
               <div className="absolute -left-3 -top-3 h-full w-full border-2 border-dtd-gold/30" aria-hidden />
               <SiteImage
-                src="/images/site/hero-group.jpg"
-                alt="Delta Tau Delta brothers at Greek Week"
+                src={settings.heroImageUrl}
+                alt="Delta Tau Delta brothers"
                 aspect="aspect-[4/3]"
                 className="relative border border-dtd-gold/40"
                 sizes="(min-width: 768px) 50vw, 100vw"
@@ -292,38 +269,16 @@ export default async function Home({
           </p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <SiteImage
-            src="/images/site/house-exterior.jpg"
-            alt="Chapter house at 2631 Vienna Rd"
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            fit="contain"
-            className="bg-dtd-cream"
-          />
-          <SiteImage
-            src="/images/site/brotherhood-event.jpg"
-            alt="Brothers at a chapter event"
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          />
-          <SiteImage
-            src="/images/site/philanthropy-park-cleanup.jpg"
-            alt="Brothers volunteering at a community park cleanup"
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          />
-          <SiteImage
-            src="/images/site/brotherhood-friends.jpg"
-            alt="Brothers at a St. Pat's campus event"
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          />
-          <SiteImage
-            src="/images/site/campus-life-stpats.jpg"
-            alt="Brothers at a Missouri S&T St. Pat's campus tradition"
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          />
-          <SiteImage
-            src="/images/site/formal-1966.jpg"
-            alt="Formal chapter portrait"
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          />
+          {gallery.map((photo, i) => (
+            <SiteImage
+              key={i}
+              src={photo.imageUrl}
+              alt={photo.alt}
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              fit={photo.fit}
+              className={photo.fit === "contain" ? "bg-dtd-cream" : undefined}
+            />
+          ))}
         </div>
       </section>
 

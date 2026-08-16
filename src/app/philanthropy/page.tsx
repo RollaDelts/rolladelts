@@ -1,7 +1,11 @@
 import PageHero from "@/components/PageHero";
 import SiteImage from "@/components/SiteImage";
+import PlaceholderImage from "@/components/PlaceholderImage";
+import { getSiteSettings, getPhilanthropyPrograms } from "@/lib/db";
 
-export default function PhilanthropyPage() {
+export default async function PhilanthropyPage() {
+  const [settings, programs] = await Promise.all([getSiteSettings(), getPhilanthropyPrograms()]);
+
   return (
     <div>
       <PageHero
@@ -18,19 +22,31 @@ export default function PhilanthropyPage() {
             while raising money for <strong>JDRF</strong>, the leading funder of type 1 diabetes
             research.
           </p>
-          <p className="mt-3 text-foreground/80">
-            Replace this with details on the current year&apos;s event date and how much has
-            been raised historically.
-          </p>
+          {settings.hauntedMazeDates && (
+            <p className="mt-3 text-foreground/80">
+              This year&apos;s maze runs <strong>{settings.hauntedMazeDates}</strong>.
+            </p>
+          )}
+          {settings.hauntedMazeRaised && (
+            <p className="mt-3 text-foreground/80">{settings.hauntedMazeRaised}</p>
+          )}
         </div>
-        <SiteImage
-          src="/images/site/haunted-maze-flyer.png"
-          alt="Delta Tau Delta Haunted Maze event flyer"
-          aspect="aspect-[4/3]"
-          className="bg-black"
-          fit="contain"
-          sizes="(min-width: 768px) 50vw, 100vw"
-        />
+        {settings.philanthropyMazeImageUrl ? (
+          <SiteImage
+            src={settings.philanthropyMazeImageUrl}
+            alt="Delta Tau Delta Haunted Maze"
+            aspect="aspect-[4/3]"
+            className="bg-black"
+            fit="contain"
+            sizes="(min-width: 768px) 50vw, 100vw"
+          />
+        ) : (
+          <PlaceholderImage
+            label="Haunted Maze Photo"
+            suggestion="Action photo from the Haunted Maze — decorations, volunteers in costume, or attendees."
+            aspect="aspect-[4/3]"
+          />
+        )}
       </section>
 
       <section className="bg-dtd-cream">
@@ -41,20 +57,12 @@ export default function PhilanthropyPage() {
             community on an ongoing basis.
           </p>
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
-            <div className="rounded-lg border border-dtd-purple/10 bg-white p-6 shadow-sm">
-              <h3 className="font-bold text-dtd-purple">Community Park Cleanup</h3>
-              <p className="mt-2 text-sm text-foreground/80">
-                Brothers regularly volunteer to clean up local parks around Rolla, keeping
-                shared spaces safe and enjoyable for the community.
-              </p>
-            </div>
-            <div className="rounded-lg border border-dtd-purple/10 bg-white p-6 shadow-sm">
-              <h3 className="font-bold text-dtd-purple">Vienna Road Monthly Pickups</h3>
-              <p className="mt-2 text-sm text-foreground/80">
-                Each month, the chapter picks up litter along Vienna Road near the chapter
-                house — a small, consistent way of taking care of our neighborhood.
-              </p>
-            </div>
+            {programs.map((program) => (
+              <div key={program.title} className="rounded-lg border border-dtd-purple/10 bg-white p-6 shadow-sm">
+                <h3 className="font-bold text-dtd-purple">{program.title}</h3>
+                <p className="mt-2 text-sm text-foreground/80">{program.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

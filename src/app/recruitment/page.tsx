@@ -3,69 +3,29 @@ import PageHero from "@/components/PageHero";
 import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
-import { getRushEvents, getCostSummary, getCostLineItems } from "@/lib/db";
+import RichText from "@/components/RichText";
+import {
+  getRushEvents,
+  getCostSummary,
+  getCostLineItems,
+  getRecruitmentSteps,
+  getFaqs,
+  getSiteSettings,
+} from "@/lib/db";
 import { submitLeadAction } from "@/app/actions/leads";
-
-const steps = [
-  {
-    step: "1",
-    title: "Reach Out",
-    description: "Fill out the interest form below or message us on Instagram (@en.delts) or Facebook (ENDelts). No commitment required.",
-  },
-  {
-    step: "2",
-    title: "Come to an Event",
-    description: "Attend a rush event — meet & greets, game nights, BBQs, and info sessions are open to all Missouri S&T students.",
-  },
-  {
-    step: "3",
-    title: "Get to Know the Brothers",
-    description: "Hang out at the house, ask questions, and see if Delta Tau Delta feels like home.",
-  },
-  {
-    step: "4",
-    title: "Receive a Bid",
-    description: "If it's a great fit for both sides, you'll receive a bid to join and begin new member education.",
-  },
-];
-
-const faqs = [
-  {
-    q: "Is there a GPA requirement to join?",
-    a: "There's no minimum GPA to start the recruitment process. We do have academic expectations for new and active members, and we provide study tables and tutoring support to help everyone succeed.",
-  },
-  {
-    q: "Do I have to live in the house?",
-    a: "Living in is encouraged for the full experience but not always required. Reach out to discuss housing availability and options.",
-  },
-  {
-    q: "I'm a freshman / transfer / non-traditional student — can I still join?",
-    a: "Absolutely. We welcome men at any point in their college career, including transfer students and non-traditional students.",
-  },
-  {
-    q: "What does it cost to join?",
-    a: (
-      <>
-        Costs include a one-time new member fee and monthly dues, which cover housing, meals,
-        national fraternity fees, and chapter operations. See our{" "}
-        <Link href="/recruitment/cost" className="font-semibold text-dtd-purple underline">
-          full cost breakdown
-        </Link>{" "}
-        for exact figures — we&apos;re happy to discuss payment plans.
-      </>
-    ),
-  },
-];
 
 export default async function RecruitmentPage({
   searchParams,
 }: {
   searchParams: Promise<{ sent?: string }>;
 }) {
-  const [events, costSummary, costItems] = await Promise.all([
+  const [events, costSummary, costItems, steps, faqs, settings] = await Promise.all([
     getRushEvents(),
     getCostSummary(),
     getCostLineItems(),
+    getRecruitmentSteps(),
+    getFaqs(),
+    getSiteSettings(),
   ]);
   const monthlyCosts = costItems.filter((i) => i.section === "chapter-monthly");
   const { sent } = await searchParams;
@@ -81,10 +41,10 @@ export default async function RecruitmentPage({
       <section className="mx-auto max-w-6xl px-4 py-12">
         <h2 className="text-2xl font-bold text-dtd-purple">How Recruitment Works</h2>
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((s) => (
-            <div key={s.step} className="rounded-lg border border-dtd-purple/10 bg-white p-6 shadow-sm">
+          {steps.map((s, i) => (
+            <div key={s.title} className="rounded-lg border border-dtd-purple/10 bg-white p-6 shadow-sm">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-dtd-gold text-lg font-bold text-dtd-purple-dark">
-                {s.step}
+                {i + 1}
               </span>
               <h3 className="mt-3 font-bold text-dtd-purple">{s.title}</h3>
               <p className="mt-1 text-sm text-foreground/80">{s.description}</p>
@@ -182,7 +142,7 @@ export default async function RecruitmentPage({
             </Link>
           </div>
           <SiteImage
-            src="/images/site/new-member-group.jpg"
+            src={settings.recruitmentNewMemberImageUrl}
             alt="Delta Tau Delta brothers at a chapter event"
             aspect="aspect-[4/3]"
             sizes="(min-width: 768px) 50vw, 100vw"
@@ -196,9 +156,11 @@ export default async function RecruitmentPage({
           <h2 className="text-2xl font-bold text-dtd-purple">Frequently Asked Questions</h2>
           <div className="mt-6 space-y-4">
             {faqs.map((faq) => (
-              <details key={faq.q} className="rounded-lg border border-dtd-purple/10 bg-white p-5 shadow-sm">
-                <summary className="cursor-pointer font-semibold text-dtd-purple">{faq.q}</summary>
-                <p className="mt-2 text-sm text-foreground/80">{faq.a}</p>
+              <details key={faq.question} className="rounded-lg border border-dtd-purple/10 bg-white p-5 shadow-sm">
+                <summary className="cursor-pointer font-semibold text-dtd-purple">{faq.question}</summary>
+                <p className="mt-2 text-sm text-foreground/80">
+                  <RichText text={faq.answer} />
+                </p>
               </details>
             ))}
           </div>

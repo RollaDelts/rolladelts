@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { getSiteSettings } from "@/lib/db";
 
-export default function Footer() {
+export default async function Footer() {
+  const settings = await getSiteSettings();
+
   return (
     <footer className="bg-dtd-purple-dark text-dtd-white">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 md:grid-cols-4">
@@ -16,10 +19,9 @@ export default function Footer() {
         <div>
           <p className="font-semibold text-dtd-gold-light">Contact</p>
           <ul className="mt-2 space-y-1 text-sm text-dtd-white/80">
-            <li>2631 Vienna Rd</li>
-            <li>Rolla, MO 65401</li>
-            <li>(573) 364-1909</li>
-            <li>dtd@umsystem.edu</li>
+            <li>{settings.address}</li>
+            <li>{settings.phone}</li>
+            <li>{settings.email}</li>
           </ul>
         </div>
 
@@ -38,12 +40,12 @@ export default function Footer() {
           <p className="font-semibold text-dtd-gold-light">Follow Us</p>
           <ul className="mt-2 space-y-1 text-sm text-dtd-white/80">
             <li>
-              <a href="https://www.facebook.com/ENDelts" className="hover:text-dtd-gold" target="_blank" rel="noopener noreferrer">
-                Facebook &mdash; ENDelts
+              <a href={settings.facebookUrl} className="hover:text-dtd-gold" target="_blank" rel="noopener noreferrer">
+                Facebook &mdash; {settings.facebookUrl.replace(/^https?:\/\/(www\.)?facebook\.com\//, "")}
               </a>
             </li>
-            <li>Instagram &mdash; @en.delts</li>
-            <li>X &mdash; @ENDelts</li>
+            <li>Instagram &mdash; {settings.instagramHandle}</li>
+            <li>X &mdash; {settings.xHandle}</li>
           </ul>
         </div>
       </div>

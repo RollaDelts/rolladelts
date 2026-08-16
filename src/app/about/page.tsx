@@ -1,10 +1,11 @@
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import SiteImage from "@/components/SiteImage";
-import { getOfficers } from "@/lib/db";
+import { getOfficers, getSiteSettings } from "@/lib/db";
 
 export default async function AboutPage() {
-  const officers = await getOfficers();
+  const [officers, settings] = await Promise.all([getOfficers(), getSiteSettings()]);
+  const historyParagraphs = settings.aboutHistory.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 
   return (
     <div>
@@ -16,24 +17,26 @@ export default async function AboutPage() {
       <section className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-2 md:items-center">
         <div>
           <h2 className="text-2xl font-bold text-dtd-purple">Our History</h2>
-          <p className="mt-3 text-foreground/80">
-            Founded at Missouri University of Science &amp; Technology, Delta Tau Delta&apos;s
-            Epsilon Nu Chapter has built a home on campus since 1964. For decades, our
-            chapter house at 2631 Vienna Rd has been a home for engineers, scientists, and
-            leaders who also know how to have a good time and give back to the Rolla
-            community.
-          </p>
-          <p className="mt-3 text-foreground/80">
-            Replace this section with a longer history of the chapter &mdash; founding date,
-            notable milestones, house renovations, and alumni achievements.
-          </p>
+          {historyParagraphs.map((p, i) => (
+            <p key={i} className="mt-3 text-foreground/80">
+              {p}
+            </p>
+          ))}
         </div>
-        <SiteImage
-          src="/images/site/history-roof.jpg"
-          alt="Brothers on the chapter house roof, archival photo"
-          aspect="aspect-[4/3]"
-          sizes="(min-width: 768px) 50vw, 100vw"
-        />
+        {settings.aboutHistoryImageUrl ? (
+          <SiteImage
+            src={settings.aboutHistoryImageUrl}
+            alt="Chapter history photo"
+            aspect="aspect-[4/3]"
+            sizes="(min-width: 768px) 50vw, 100vw"
+          />
+        ) : (
+          <PlaceholderImage
+            label="Chapter History Photo"
+            suggestion="Historic or archival photo of the chapter house, an old composite, or a founders' photo."
+            aspect="aspect-[4/3]"
+          />
+        )}
       </section>
 
       <section className="bg-dtd-cream">
@@ -68,14 +71,26 @@ export default async function AboutPage() {
       <section className="mx-auto max-w-6xl px-4 pb-16">
         <h2 className="text-2xl font-bold text-dtd-purple">The House</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <SiteImage
-            src="/images/site/house-exterior.jpg"
-            alt="Daytime exterior of the chapter house"
-            sizes="(min-width: 640px) 50vw, 100vw"
-            fit="contain"
-            className="bg-dtd-cream"
-          />
-          <PlaceholderImage label="Common Areas" suggestion="Interior photo of the living room, dining hall, or study area." />
+          {settings.aboutHouseExteriorImageUrl ? (
+            <SiteImage
+              src={settings.aboutHouseExteriorImageUrl}
+              alt="Daytime exterior of the chapter house"
+              sizes="(min-width: 640px) 50vw, 100vw"
+              fit="contain"
+              className="bg-dtd-cream"
+            />
+          ) : (
+            <PlaceholderImage label="House Exterior" suggestion="Daytime exterior photo of 2631 Vienna Rd, showing the full house and landscaping." />
+          )}
+          {settings.aboutCommonAreasImageUrl ? (
+            <SiteImage
+              src={settings.aboutCommonAreasImageUrl}
+              alt="Chapter house common areas"
+              sizes="(min-width: 640px) 50vw, 100vw"
+            />
+          ) : (
+            <PlaceholderImage label="Common Areas" suggestion="Interior photo of the living room, dining hall, or study area." />
+          )}
         </div>
       </section>
     </div>

@@ -2,13 +2,14 @@ import PageHero from "@/components/PageHero";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
 import { submitLeadAction } from "@/app/actions/leads";
+import { getSiteSettings } from "@/lib/db";
 
 export default async function ContactPage({
   searchParams,
 }: {
   searchParams: Promise<{ sent?: string }>;
 }) {
-  const { sent } = await searchParams;
+  const [settings, { sent }] = await Promise.all([getSiteSettings(), searchParams]);
 
   return (
     <div>
@@ -21,21 +22,21 @@ export default async function ContactPage({
         <div>
           <h2 className="text-2xl font-bold text-dtd-purple">Chapter House</h2>
           <ul className="mt-3 space-y-2 text-foreground/80">
-            <li>2631 Vienna Rd, Rolla, MO 65401</li>
-            <li>Phone: (573) 364-1909</li>
-            <li>Email: dtd@umsystem.edu</li>
+            <li>{settings.address}</li>
+            <li>Phone: {settings.phone}</li>
+            <li>Email: {settings.email}</li>
           </ul>
 
           <h2 className="mt-8 text-2xl font-bold text-dtd-purple">Follow Us</h2>
           <ul className="mt-3 space-y-2 text-foreground/80">
             <li>
               Facebook:{" "}
-              <a href="https://www.facebook.com/ENDelts" className="font-semibold text-dtd-purple underline" target="_blank" rel="noopener noreferrer">
-                ENDelts
+              <a href={settings.facebookUrl} className="font-semibold text-dtd-purple underline" target="_blank" rel="noopener noreferrer">
+                {settings.facebookUrl.replace(/^https?:\/\/(www\.)?facebook\.com\//, "")}
               </a>
             </li>
-            <li>Instagram: @en.delts</li>
-            <li>X (Twitter): @ENDelts</li>
+            <li>Instagram: {settings.instagramHandle}</li>
+            <li>X (Twitter): {settings.xHandle}</li>
           </ul>
 
           <h2 className="mt-8 text-2xl font-bold text-dtd-purple">Recruitment</h2>
