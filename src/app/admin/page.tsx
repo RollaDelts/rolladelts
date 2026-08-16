@@ -37,8 +37,14 @@ const pageSections = [
   {
     href: "/admin/recruitment",
     title: "Recruitment Page Updates",
-    description: "New member photo, \"How Recruitment Works\" steps, FAQ, and rush events.",
+    description: "New member photo, \"How Recruitment Works\" steps, and FAQ.",
     icon: "📋",
+  },
+  {
+    href: "/admin/rush-events",
+    title: "Rush Events",
+    description: "Upcoming events, RSVP details, and the optional events banner photo.",
+    icon: "📅",
   },
   {
     href: "/admin/cost",

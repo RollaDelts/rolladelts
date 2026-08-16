@@ -4,8 +4,10 @@ import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
 import RichText from "@/components/RichText";
+import RushEventsList from "./RushEventsList";
 import {
   getRushEvents,
+  getRushEventsSettings,
   getCostSummary,
   getCostLineItems,
   getRecruitmentSteps,
@@ -19,8 +21,9 @@ export default async function RecruitmentPage({
 }: {
   searchParams: Promise<{ sent?: string }>;
 }) {
-  const [events, costSummary, costItems, steps, faqs, settings] = await Promise.all([
+  const [events, eventsSettings, costSummary, costItems, steps, faqs, settings] = await Promise.all([
     getRushEvents(),
+    getRushEventsSettings(),
     getCostSummary(),
     getCostLineItems(),
     getRecruitmentSteps(),
@@ -29,6 +32,11 @@ export default async function RecruitmentPage({
   ]);
   const monthlyCosts = costItems.filter((i) => i.section === "chapter-monthly");
   const { sent } = await searchParams;
+
+  const today = new Date().toISOString().slice(0, 10);
+  const showEventsBanner = Boolean(
+    eventsSettings.bannerImageUrl && eventsSettings.bannerDisplayUntil && eventsSettings.bannerDisplayUntil >= today
+  );
 
   return (
     <div>
@@ -61,47 +69,16 @@ export default async function RecruitmentPage({
             Dates update each semester &mdash; follow our social media for the latest schedule.
             RSVP below so we know to expect you.
           </p>
-          <div className="mt-6 divide-y divide-dtd-purple/10 overflow-hidden rounded-lg border border-dtd-purple/10 bg-white shadow-sm">
-            {events.map((event, i) => (
-              <div key={i} className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="font-bold text-dtd-purple">{event.name}</p>
-                  <p className="text-sm text-foreground/70">
-                    {event.date} &middot; {event.location}
-                  </p>
-                </div>
-                <form
-                  key={sent ?? "form"}
-                  action={submitLeadAction}
-                  className="flex flex-wrap items-center gap-2 sm:justify-end"
-                >
-                  <input type="hidden" name="source" value="rsvp" />
-                  <input type="hidden" name="detail" value={`${event.name} — ${event.date}`} />
-                  <input type="hidden" name="redirectTo" value="/recruitment" />
-                  <BotTrap />
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    required
-                    className="w-28 rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none sm:w-32"
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    className="w-36 rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none sm:w-44"
-                  />
-                  <button
-                    type="submit"
-                    className="shrink-0 rounded-full bg-dtd-gold px-5 py-2 text-xs font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
-                  >
-                    RSVP
-                  </button>
-                </form>
-              </div>
-            ))}
+          <div className={`mt-6 grid gap-6 ${showEventsBanner ? "md:grid-cols-[240px_1fr]" : ""}`}>
+            {showEventsBanner && (
+              <SiteImage
+                src={eventsSettings.bannerImageUrl}
+                alt="Upcoming rush events"
+                aspect="aspect-[3/4]"
+                sizes="240px"
+              />
+            )}
+            <RushEventsList events={events} sent={sent} />
           </div>
         </div>
       </section>

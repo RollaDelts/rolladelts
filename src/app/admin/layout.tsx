@@ -7,6 +7,7 @@ const adminNav = [
   { href: "/admin/home", label: "Home Page" },
   { href: "/admin/about", label: "About Page" },
   { href: "/admin/recruitment", label: "Recruitment Page" },
+  { href: "/admin/rush-events", label: "Rush Events" },
   { href: "/admin/cost", label: "Recruitment Costs" },
   { href: "/admin/philanthropy", label: "Philanthropy Page" },
   { href: "/admin/alumni", label: "Alumni Spotlights" },

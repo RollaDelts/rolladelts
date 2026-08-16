@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getRecruitmentSettings, getRecruitmentSteps, getFaqs, getRushEvents } from "@/lib/db";
+import { getRecruitmentSettings, getRecruitmentSteps, getFaqs } from "@/lib/db";
 import RecruitmentEditor from "./RecruitmentEditor";
 
 export default async function RecruitmentAdminPage({
@@ -8,11 +8,10 @@ export default async function RecruitmentAdminPage({
 }: {
   searchParams: Promise<{ saved?: string }>;
 }) {
-  const [settings, steps, faqs, events] = await Promise.all([
+  const [settings, steps, faqs] = await Promise.all([
     getRecruitmentSettings(),
     getRecruitmentSteps(),
     getFaqs(),
-    getRushEvents(),
   ]);
   const { saved } = await searchParams;
 
@@ -20,8 +19,8 @@ export default async function RecruitmentAdminPage({
     <div>
       <h1 className="text-2xl font-bold text-dtd-purple">Recruitment Page Updates</h1>
       <p className="mt-1 text-foreground/80">
-        The new member photo, &ldquo;How Recruitment Works&rdquo; steps, FAQ, and upcoming rush
-        events shown on the Recruitment page.
+        The new member photo, &ldquo;How Recruitment Works&rdquo; steps, and FAQ shown on the
+        Recruitment page. Rush Events have their own update page.
       </p>
 
       {saved === "1" && (
@@ -30,13 +29,7 @@ export default async function RecruitmentAdminPage({
         </div>
       )}
 
-      <RecruitmentEditor
-        key={saved ?? "initial"}
-        initialSettings={settings}
-        initialSteps={steps}
-        initialFaqs={faqs}
-        initialEvents={events}
-      />
+      <RecruitmentEditor key={saved ?? "initial"} initialSettings={settings} initialSteps={steps} initialFaqs={faqs} />
     </div>
   );
 }
