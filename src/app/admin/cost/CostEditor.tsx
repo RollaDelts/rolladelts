@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { moveItem } from "@/lib/reorder";
+import ReorderButtons from "@/components/admin/ReorderButtons";
 import { saveCostAction } from "./actions";
 import type { CostSummary, CostLineItem } from "@/data/defaults";
 
@@ -154,14 +156,22 @@ export default function CostEditor({
                   className="rounded border border-dtd-purple/20 px-3 py-1.5 text-sm focus:border-dtd-purple focus:outline-none"
                 />
               </div>
-              <button
-                type="button"
-                onClick={() => removeEntry(entry.id)}
-                className="mt-3 rounded-full border border-red-300 px-3 py-1 text-xs font-bold uppercase tracking-wide text-red-600 transition hover:bg-red-50"
-                aria-label={`Remove ${entry.label || `row ${i + 1}`}`}
-              >
-                Remove
-              </button>
+              <div className="mt-3 flex items-center gap-2">
+                <ReorderButtons
+                  onMoveUp={() => setEntries((prev) => moveItem(prev, i, -1))}
+                  onMoveDown={() => setEntries((prev) => moveItem(prev, i, 1))}
+                  disableUp={i === 0}
+                  disableDown={i === entries.length - 1}
+                />
+                <button
+                  type="button"
+                  onClick={() => removeEntry(entry.id)}
+                  className="rounded-full border border-red-300 px-3 py-1 text-xs font-bold uppercase tracking-wide text-red-600 transition hover:bg-red-50"
+                  aria-label={`Remove ${entry.label || `row ${i + 1}`}`}
+                >
+                  Remove
+                </button>
+              </div>
             </div>
           ))}
         </div>

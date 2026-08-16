@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { moveItem } from "@/lib/reorder";
+import ReorderButtons from "@/components/admin/ReorderButtons";
 import { saveOfficersAction } from "./actions";
 import type { Officer } from "@/data/defaults";
 
@@ -59,14 +61,22 @@ export default function OfficersEditor({ initialOfficers }: { initialOfficers: O
                   />
                 </td>
                 <td className="px-2 py-2">
-                  <button
-                    type="button"
-                    onClick={() => removeEntry(entry.id)}
-                    className="rounded-full border border-red-300 px-3 py-1 text-xs font-bold uppercase tracking-wide text-red-600 transition hover:bg-red-50"
-                    aria-label={`Remove ${entry.role || `row ${i + 1}`}`}
-                  >
-                    Remove
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <ReorderButtons
+                      onMoveUp={() => setEntries((prev) => moveItem(prev, i, -1))}
+                      onMoveDown={() => setEntries((prev) => moveItem(prev, i, 1))}
+                      disableUp={i === 0}
+                      disableDown={i === entries.length - 1}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeEntry(entry.id)}
+                      className="rounded-full border border-red-300 px-3 py-1 text-xs font-bold uppercase tracking-wide text-red-600 transition hover:bg-red-50"
+                      aria-label={`Remove ${entry.role || `row ${i + 1}`}`}
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
