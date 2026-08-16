@@ -1,8 +1,15 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import SiteImage from "@/components/SiteImage";
 import { getOfficers, getAboutSettings } from "@/lib/db";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about Delta Tau Delta's Epsilon Nu Chapter at Missouri S&T — our history, mission, chapter leadership, and zero-tolerance anti-hazing policy.",
+};
 
 export default async function AboutPage() {
   const [officers, settings] = await Promise.all([getOfficers(), getAboutSettings()]);

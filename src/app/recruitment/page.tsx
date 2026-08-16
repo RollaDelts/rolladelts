@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import SiteImage from "@/components/SiteImage";
 import ZoomableImage from "@/components/ZoomableImage";
@@ -16,6 +17,12 @@ import {
   getRecruitmentSettings,
 } from "@/lib/db";
 import { submitLeadAction } from "@/app/actions/leads";
+
+export const metadata: Metadata = {
+  title: "Rush Delta Tau Delta",
+  description:
+    "Everything you need to know about joining Delta Tau Delta at Missouri S&T: how recruitment works, upcoming rush events, costs, and FAQs.",
+};
 
 export default async function RecruitmentPage({
   searchParams,

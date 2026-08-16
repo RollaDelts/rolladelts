@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import AlumniGrid from "./AlumniGrid";
 import { getAlumniSpotlights } from "@/lib/db";
+
+export const metadata: Metadata = {
+  title: "Alumni Spotlights",
+  description:
+    "Meet Delta Tau Delta alumni from Missouri S&T's Epsilon Nu Chapter and see where brotherhood has taken them since Rolla.",
+};
 
 export default async function AlumniPage() {
   const spotlights = await getAlumniSpotlights();

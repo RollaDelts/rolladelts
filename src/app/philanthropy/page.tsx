@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import SiteImage from "@/components/SiteImage";
 import PlaceholderImage from "@/components/PlaceholderImage";
 import { getPhilanthropySettings, getPhilanthropyPrograms } from "@/lib/db";
+
+export const metadata: Metadata = {
+  title: "Philanthropy",
+  description:
+    "See how Delta Tau Delta's Epsilon Nu Chapter gives back to the Rolla community, from our annual Haunted Maze fundraiser to year-round volunteer programs.",
+};
 
 export default async function PhilanthropyPage() {
   const [settings, programs] = await Promise.all([getPhilanthropySettings(), getPhilanthropyPrograms()]);

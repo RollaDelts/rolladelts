@@ -1,7 +1,14 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import { getCostSummary, getCostLineItems } from "@/lib/db";
 import type { CostLineItem } from "@/data/defaults";
+
+export const metadata: Metadata = {
+  title: "Cost Breakdown",
+  description:
+    "A full breakdown of Delta Tau Delta chapter dues compared against Missouri S&T university housing and meal plan costs.",
+};
 
 function groupHousing(items: CostLineItem[]) {
   const groups = new Map<string, CostLineItem[]>();

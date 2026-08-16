@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
 import { submitLeadAction } from "@/app/actions/leads";
 import { getSiteSettings } from "@/lib/db";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Get in touch with Delta Tau Delta's Epsilon Nu Chapter at Missouri S&T — chapter house address, phone, email, and social media.",
+};
 
 export default async function ContactPage({
   searchParams,
