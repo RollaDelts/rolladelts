@@ -43,63 +43,60 @@ export default async function LeadsAdminPage() {
       {leads.length === 0 ? (
         <p className="mt-8 text-sm text-foreground/60">No submissions yet.</p>
       ) : (
-        <div className="mt-8 overflow-x-auto rounded-xl border border-dtd-purple/10 bg-white shadow-sm">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-dtd-purple text-dtd-white">
-              <tr>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Source</th>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Phone</th>
-                <th className="px-4 py-3">Detail</th>
-                <th className="px-4 py-3">Message</th>
-                <th className="px-4 py-3">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leads.map((lead, i) => (
-                <tr key={lead.id} className={i % 2 === 0 ? "bg-white" : "bg-dtd-cream"}>
-                  <td className="whitespace-nowrap px-4 py-3 text-foreground/70">
+        <div className="mt-8 grid gap-3">
+          {leads.map((lead) => (
+            <div key={lead.id} className="rounded-xl border border-dtd-purple/10 bg-white p-4 shadow-sm">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="font-bold text-dtd-purple">{lead.name}</p>
+                  <p className="text-xs text-foreground/50">
                     {new Date(lead.createdAt).toLocaleDateString(undefined, {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
                     })}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={`rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${
-                        sourceStyles[lead.source] ?? "bg-dtd-purple/10 text-dtd-purple"
-                      }`}
-                    >
-                      {sourceLabels[lead.source] ?? lead.source}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 font-medium text-dtd-purple">{lead.name}</td>
-                  <td className="px-4 py-3">
-                    <a href={`mailto:${lead.email}`} className="text-dtd-purple underline">
-                      {lead.email}
-                    </a>
-                  </td>
-                  <td className="px-4 py-3 text-foreground/70">
-                    {lead.phone ? (
-                      <a href={`tel:${lead.phone}`} className="text-dtd-purple underline">
-                        {lead.phone}
-                      </a>
-                    ) : (
-                      "—"
-                    )}
-                  </td>
-                  <td className="px-4 py-3 text-foreground/70">{lead.detail || "—"}</td>
-                  <td className="max-w-xs px-4 py-3 text-foreground/70">{lead.message || "—"}</td>
-                  <td className="px-4 py-3">
-                    <LeadRowActions id={lead.id} name={lead.name} initialStatus={lead.status} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </p>
+                </div>
+                <span
+                  className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${
+                    sourceStyles[lead.source] ?? "bg-dtd-purple/10 text-dtd-purple"
+                  }`}
+                >
+                  {sourceLabels[lead.source] ?? lead.source}
+                </span>
+              </div>
+
+              <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+                <a href={`mailto:${lead.email}`} className="text-dtd-purple underline">
+                  {lead.email}
+                </a>
+                {lead.phone && (
+                  <a href={`tel:${lead.phone}`} className="text-dtd-purple underline">
+                    {lead.phone}
+                  </a>
+                )}
+              </div>
+
+              {(lead.detail || lead.message) && (
+                <div className="mt-3 space-y-1 text-sm text-foreground/70">
+                  {lead.detail && (
+                    <p>
+                      <span className="font-semibold text-foreground/80">Detail:</span> {lead.detail}
+                    </p>
+                  )}
+                  {lead.message && (
+                    <p>
+                      <span className="font-semibold text-foreground/80">Message:</span> {lead.message}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div className="mt-4 border-t border-dtd-purple/10 pt-3">
+                <LeadRowActions id={lead.id} name={lead.name} initialStatus={lead.status} />
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>
