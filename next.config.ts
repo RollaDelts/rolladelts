@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+  experimental: {
+    serverActions: {
+      // Matches the 8MB limit enforced in src/app/admin/actions/upload.ts —
+      // Next's own default (1MB) was silently rejecting larger photo uploads.
+      bodySizeLimit: "8mb",
+    },
+  },
   images: {
     remotePatterns: supabaseHostname
       ? [

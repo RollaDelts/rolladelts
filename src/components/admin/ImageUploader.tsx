@@ -28,16 +28,21 @@ export default function ImageUploader({
 
     setUploading(true);
     setError(null);
-    const formData = new FormData();
-    formData.append("file", file);
-    const result = await uploadImageAction(formData);
-    setUploading(false);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const result = await uploadImageAction(formData);
 
-    if ("error" in result) {
-      setError(result.error);
-      return;
+      if ("error" in result) {
+        setError(result.error);
+        return;
+      }
+      setUrl(result.url);
+    } catch {
+      setError("Upload failed — the image may be too large or the connection dropped. Please try again.");
+    } finally {
+      setUploading(false);
     }
-    setUrl(result.url);
   }
 
   return (
