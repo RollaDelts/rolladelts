@@ -29,17 +29,19 @@ export type SiteSettings = {
   email: string;
   facebookUrl: string;
   instagramHandle: string;
+  instagramUrl: string;
   xHandle: string;
-  aboutHistory: string;
-  hauntedMazeDates: string;
-  hauntedMazeRaised: string;
-  heroImageUrl: string;
-  aboutHistoryImageUrl: string;
-  aboutHouseExteriorImageUrl: string;
-  aboutCommonAreasImageUrl: string;
-  recruitmentNewMemberImageUrl: string;
-  philanthropyMazeImageUrl: string;
+  xUrl: string;
 };
+export type HomeSettings = { heroImageUrl: string };
+export type AboutSettings = {
+  history: string;
+  historyImageUrl: string;
+  houseExteriorImageUrl: string;
+  commonAreasImageUrl: string;
+};
+export type RecruitmentSettings = { newMemberImageUrl: string };
+export type PhilanthropySettings = { hauntedMazeDates: string; hauntedMazeRaised: string; mazeImageUrl: string };
 export type SiteStat = { label: string; value: string };
 export type HomePillar = { title: string; description: string };
 export type GalleryPhoto = { imageUrl: string; alt: string; fit: "cover" | "contain" };
@@ -239,17 +241,31 @@ export const defaultSiteSettings: SiteSettings = {
   email: "dtd@umsystem.edu",
   facebookUrl: "https://www.facebook.com/ENDelts",
   instagramHandle: "@en.delts",
+  instagramUrl: "",
   xHandle: "@ENDelts",
-  aboutHistory:
+  xUrl: "",
+};
+
+export const defaultHomeSettings: HomeSettings = {
+  heroImageUrl: "/images/site/hero-group.jpg",
+};
+
+export const defaultAboutSettings: AboutSettings = {
+  history:
     "Founded at Missouri University of Science & Technology, Delta Tau Delta's Epsilon Nu Chapter has built a home on campus since 1964. For decades, our chapter house at 2631 Vienna Rd has been a home for engineers, scientists, and leaders who also know how to have a good time and give back to the Rolla community.",
+  historyImageUrl: "/images/site/history-roof.jpg",
+  houseExteriorImageUrl: "/images/site/house-exterior.jpg",
+  commonAreasImageUrl: "",
+};
+
+export const defaultRecruitmentSettings: RecruitmentSettings = {
+  newMemberImageUrl: "/images/site/new-member-group.jpg",
+};
+
+export const defaultPhilanthropySettings: PhilanthropySettings = {
   hauntedMazeDates: "",
   hauntedMazeRaised: "",
-  heroImageUrl: "/images/site/hero-group.jpg",
-  aboutHistoryImageUrl: "/images/site/history-roof.jpg",
-  aboutHouseExteriorImageUrl: "/images/site/house-exterior.jpg",
-  aboutCommonAreasImageUrl: "",
-  recruitmentNewMemberImageUrl: "/images/site/new-member-group.jpg",
-  philanthropyMazeImageUrl: "/images/site/haunted-maze-flyer.png",
+  mazeImageUrl: "/images/site/haunted-maze-flyer.png",
 };
 
 export const defaultSiteStats: SiteStat[] = [

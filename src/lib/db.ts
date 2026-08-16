@@ -15,6 +15,10 @@ import {
   defaultCostSummary,
   defaultCostLineItems,
   defaultSiteSettings,
+  defaultHomeSettings,
+  defaultAboutSettings,
+  defaultRecruitmentSettings,
+  defaultPhilanthropySettings,
   defaultSiteStats,
   defaultHomePillars,
   defaultGalleryPhotos,
@@ -27,6 +31,10 @@ import {
   type CostSummary,
   type CostLineItem,
   type SiteSettings,
+  type HomeSettings,
+  type AboutSettings,
+  type RecruitmentSettings,
+  type PhilanthropySettings,
   type SiteStat,
   type HomePillar,
   type GalleryPhoto,
@@ -249,9 +257,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   if (!supabaseAvailable()) return defaultSiteSettings;
   const { data, error } = await getServerClient()
     .from("site_settings")
-    .select(
-      "address, phone, email, facebook_url, instagram_handle, x_handle, about_history, haunted_maze_dates, haunted_maze_raised, hero_image_url, about_history_image_url, about_house_exterior_image_url, about_common_areas_image_url, recruitment_new_member_image_url, philanthropy_maze_image_url"
-    )
+    .select("address, phone, email, facebook_url, instagram_handle, instagram_url, x_handle, x_url")
     .order("id", { ascending: true })
     .limit(1)
     .maybeSingle();
@@ -263,16 +269,9 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     email: data.email,
     facebookUrl: data.facebook_url,
     instagramHandle: data.instagram_handle,
+    instagramUrl: data.instagram_url,
     xHandle: data.x_handle,
-    aboutHistory: data.about_history,
-    hauntedMazeDates: data.haunted_maze_dates,
-    hauntedMazeRaised: data.haunted_maze_raised,
-    heroImageUrl: data.hero_image_url,
-    aboutHistoryImageUrl: data.about_history_image_url,
-    aboutHouseExteriorImageUrl: data.about_house_exterior_image_url,
-    aboutCommonAreasImageUrl: data.about_common_areas_image_url,
-    recruitmentNewMemberImageUrl: data.recruitment_new_member_image_url,
-    philanthropyMazeImageUrl: data.philanthropy_maze_image_url,
+    xUrl: data.x_url,
   };
 }
 
@@ -285,16 +284,111 @@ export async function saveSiteSettings(settings: SiteSettings): Promise<void> {
     email: settings.email,
     facebook_url: settings.facebookUrl,
     instagram_handle: settings.instagramHandle,
+    instagram_url: settings.instagramUrl,
     x_handle: settings.xHandle,
-    about_history: settings.aboutHistory,
-    haunted_maze_dates: settings.hauntedMazeDates,
-    haunted_maze_raised: settings.hauntedMazeRaised,
-    hero_image_url: settings.heroImageUrl,
-    about_history_image_url: settings.aboutHistoryImageUrl,
-    about_house_exterior_image_url: settings.aboutHouseExteriorImageUrl,
-    about_common_areas_image_url: settings.aboutCommonAreasImageUrl,
-    recruitment_new_member_image_url: settings.recruitmentNewMemberImageUrl,
-    philanthropy_maze_image_url: settings.philanthropyMazeImageUrl,
+    x_url: settings.xUrl,
+  });
+}
+
+// ─── Home Page Settings ──────────────────────────────────────────────────────
+
+export async function getHomeSettings(): Promise<HomeSettings> {
+  if (!supabaseAvailable()) return defaultHomeSettings;
+  const { data, error } = await getServerClient()
+    .from("home_settings")
+    .select("hero_image_url")
+    .order("id", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return defaultHomeSettings;
+  return { heroImageUrl: data.hero_image_url };
+}
+
+export async function saveHomeSettings(settings: HomeSettings): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("home_settings").delete().neq("id", 0);
+  await supabase.from("home_settings").insert({ hero_image_url: settings.heroImageUrl });
+}
+
+// ─── About Page Settings ─────────────────────────────────────────────────────
+
+export async function getAboutSettings(): Promise<AboutSettings> {
+  if (!supabaseAvailable()) return defaultAboutSettings;
+  const { data, error } = await getServerClient()
+    .from("about_settings")
+    .select("history, history_image_url, house_exterior_image_url, common_areas_image_url")
+    .order("id", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return defaultAboutSettings;
+  return {
+    history: data.history,
+    historyImageUrl: data.history_image_url,
+    houseExteriorImageUrl: data.house_exterior_image_url,
+    commonAreasImageUrl: data.common_areas_image_url,
+  };
+}
+
+export async function saveAboutSettings(settings: AboutSettings): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("about_settings").delete().neq("id", 0);
+  await supabase.from("about_settings").insert({
+    history: settings.history,
+    history_image_url: settings.historyImageUrl,
+    house_exterior_image_url: settings.houseExteriorImageUrl,
+    common_areas_image_url: settings.commonAreasImageUrl,
+  });
+}
+
+// ─── Recruitment Page Settings ───────────────────────────────────────────────
+
+export async function getRecruitmentSettings(): Promise<RecruitmentSettings> {
+  if (!supabaseAvailable()) return defaultRecruitmentSettings;
+  const { data, error } = await getServerClient()
+    .from("recruitment_settings")
+    .select("new_member_image_url")
+    .order("id", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return defaultRecruitmentSettings;
+  return { newMemberImageUrl: data.new_member_image_url };
+}
+
+export async function saveRecruitmentSettings(settings: RecruitmentSettings): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("recruitment_settings").delete().neq("id", 0);
+  await supabase.from("recruitment_settings").insert({ new_member_image_url: settings.newMemberImageUrl });
+}
+
+// ─── Philanthropy Page Settings ──────────────────────────────────────────────
+
+export async function getPhilanthropySettings(): Promise<PhilanthropySettings> {
+  if (!supabaseAvailable()) return defaultPhilanthropySettings;
+  const { data, error } = await getServerClient()
+    .from("philanthropy_settings")
+    .select("maze_dates, maze_raised, maze_image_url")
+    .order("id", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  if (error || !data) return defaultPhilanthropySettings;
+  return {
+    hauntedMazeDates: data.maze_dates,
+    hauntedMazeRaised: data.maze_raised,
+    mazeImageUrl: data.maze_image_url,
+  };
+}
+
+export async function savePhilanthropySettings(settings: PhilanthropySettings): Promise<void> {
+  const supabase = getServerClient();
+  await supabase.from("philanthropy_settings").delete().neq("id", 0);
+  await supabase.from("philanthropy_settings").insert({
+    maze_dates: settings.hauntedMazeDates,
+    maze_raised: settings.hauntedMazeRaised,
+    maze_image_url: settings.mazeImageUrl,
   });
 }
 
