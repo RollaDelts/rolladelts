@@ -187,7 +187,9 @@ export type Lead = {
   source: string;
 };
 
-export type SavedLead = Lead & { id: number; createdAt: string };
+export type LeadStatus = "new" | "contacted" | "no_response";
+
+export type SavedLead = Lead & { id: number; createdAt: string; status: LeadStatus };
 
 export async function saveLead(lead: Lead): Promise<void> {
   if (!supabaseAvailable()) {
@@ -208,7 +210,7 @@ export async function getLeads(): Promise<SavedLead[]> {
   if (!supabaseAvailable()) return [];
   const { data, error } = await getServerClient()
     .from("leads")
-    .select("id, name, email, phone, detail, message, source, created_at")
+    .select("id, name, email, phone, detail, message, source, status, created_at")
     .order("created_at", { ascending: false });
 
   if (error || !data) return [];
@@ -220,8 +222,19 @@ export async function getLeads(): Promise<SavedLead[]> {
     detail: row.detail,
     message: row.message,
     source: row.source,
+    status: row.status as LeadStatus,
     createdAt: row.created_at,
   }));
+}
+
+export async function updateLeadStatus(id: number, status: LeadStatus): Promise<void> {
+  const { error } = await getServerClient().from("leads").update({ status }).eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteLead(id: number): Promise<void> {
+  const { error } = await getServerClient().from("leads").delete().eq("id", id);
+  if (error) throw new Error(error.message);
 }
 
 // ─── Recruitment Costs ───────────────────────────────────────────────────────

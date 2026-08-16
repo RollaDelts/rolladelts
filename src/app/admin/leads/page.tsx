@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { getLeads } from "@/lib/db";
+import LeadRowActions from "./LeadRowActions";
 
 const sourceLabels: Record<string, string> = {
   recruitment: "Recruitment Interest",
@@ -21,11 +22,23 @@ export default async function LeadsAdminPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-dtd-purple">Leads &amp; RSVPs</h1>
-      <p className="mt-1 text-foreground/80">
-        Everyone who&apos;s submitted the recruitment interest form, the contact form, the
-        homepage quick-contact form, or RSVP&apos;d to a rush event. Newest first.
-      </p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-dtd-purple">Leads &amp; RSVPs</h1>
+          <p className="mt-1 text-foreground/80">
+            Everyone who&apos;s submitted the recruitment interest form, the contact form, the
+            homepage quick-contact form, or RSVP&apos;d to a rush event. Newest first.
+          </p>
+        </div>
+        {leads.length > 0 && (
+          <a
+            href="/admin/leads/export"
+            className="shrink-0 rounded-full border-2 border-dtd-purple px-5 py-2 text-xs font-bold uppercase tracking-wide text-dtd-purple transition hover:bg-dtd-purple hover:text-white"
+          >
+            Export CSV
+          </a>
+        )}
+      </div>
 
       {leads.length === 0 ? (
         <p className="mt-8 text-sm text-foreground/60">No submissions yet.</p>
@@ -41,6 +54,7 @@ export default async function LeadsAdminPage() {
                 <th className="px-4 py-3">Phone</th>
                 <th className="px-4 py-3">Detail</th>
                 <th className="px-4 py-3">Message</th>
+                <th className="px-4 py-3">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -79,6 +93,9 @@ export default async function LeadsAdminPage() {
                   </td>
                   <td className="px-4 py-3 text-foreground/70">{lead.detail || "—"}</td>
                   <td className="max-w-xs px-4 py-3 text-foreground/70">{lead.message || "—"}</td>
+                  <td className="px-4 py-3">
+                    <LeadRowActions id={lead.id} name={lead.name} initialStatus={lead.status} />
+                  </td>
                 </tr>
               ))}
             </tbody>
