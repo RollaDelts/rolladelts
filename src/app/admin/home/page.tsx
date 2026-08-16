@@ -1,14 +1,15 @@
 export const dynamic = "force-dynamic";
 
-import { getSiteStats, getHomePillars, getGalleryPhotos } from "@/lib/db";
-import HomepageEditor from "./HomepageEditor";
+import { getHomeSettings, getSiteStats, getHomePillars, getGalleryPhotos } from "@/lib/db";
+import HomeEditor from "./HomeEditor";
 
-export default async function HomepageAdminPage({
+export default async function HomeAdminPage({
   searchParams,
 }: {
   searchParams: Promise<{ saved?: string }>;
 }) {
-  const [stats, pillars, gallery] = await Promise.all([
+  const [settings, stats, pillars, gallery] = await Promise.all([
+    getHomeSettings(),
     getSiteStats(),
     getHomePillars(),
     getGalleryPhotos(),
@@ -17,9 +18,10 @@ export default async function HomepageAdminPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-dtd-purple">Homepage Content</h1>
+      <h1 className="text-2xl font-bold text-dtd-purple">Home Page Updates</h1>
       <p className="mt-1 text-foreground/80">
-        The stats bar, &ldquo;Why Join&rdquo; pillars, and photo gallery shown on the homepage.
+        Everything editable on the homepage: the hero photo, stats bar, &ldquo;Why Join&rdquo;
+        pillars, and photo gallery.
       </p>
 
       {saved === "1" && (
@@ -28,8 +30,9 @@ export default async function HomepageAdminPage({
         </div>
       )}
 
-      <HomepageEditor
+      <HomeEditor
         key={saved ?? "initial"}
+        initialSettings={settings}
         initialStats={stats}
         initialPillars={pillars}
         initialGallery={gallery}

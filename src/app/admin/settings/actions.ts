@@ -16,25 +16,14 @@ export async function saveSiteSettingsAction(formData: FormData) {
     email: field(formData, "email"),
     facebookUrl: field(formData, "facebookUrl"),
     instagramHandle: field(formData, "instagramHandle"),
+    instagramUrl: field(formData, "instagramUrl"),
     xHandle: field(formData, "xHandle"),
-    aboutHistory: field(formData, "aboutHistory"),
-    hauntedMazeDates: field(formData, "hauntedMazeDates"),
-    hauntedMazeRaised: field(formData, "hauntedMazeRaised"),
-    heroImageUrl: field(formData, "heroImageUrl"),
-    aboutHistoryImageUrl: field(formData, "aboutHistoryImageUrl"),
-    aboutHouseExteriorImageUrl: field(formData, "aboutHouseExteriorImageUrl"),
-    aboutCommonAreasImageUrl: field(formData, "aboutCommonAreasImageUrl"),
-    recruitmentNewMemberImageUrl: field(formData, "recruitmentNewMemberImageUrl"),
-    philanthropyMazeImageUrl: field(formData, "philanthropyMazeImageUrl"),
+    xUrl: field(formData, "xUrl"),
   };
 
   await saveSiteSettings(settings);
 
-  revalidatePath("/");
-  revalidatePath("/about");
-  revalidatePath("/philanthropy");
-  revalidatePath("/recruitment");
-  revalidatePath("/contact");
+  revalidatePath("/", "layout");
   revalidatePath("/admin/settings");
   redirect("/admin/settings?saved=1");
 }

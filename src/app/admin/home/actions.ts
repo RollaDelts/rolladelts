@@ -2,10 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { saveSiteStats, saveHomePillars, saveGalleryPhotos } from "@/lib/db";
-import type { SiteStat, HomePillar, GalleryPhoto } from "@/data/defaults";
+import { saveHomeSettings, saveSiteStats, saveHomePillars, saveGalleryPhotos } from "@/lib/db";
+import type { HomeSettings, SiteStat, HomePillar, GalleryPhoto } from "@/data/defaults";
 
-export async function saveHomepageAction(formData: FormData) {
+export async function saveHomePageAction(formData: FormData) {
+  const settings: HomeSettings = {
+    heroImageUrl: ((formData.get("heroImageUrl") as string | null) ?? "").trim(),
+  };
+
   const statLabels = formData.getAll("statLabel") as string[];
   const statValues = formData.getAll("statValue") as string[];
   const stats: SiteStat[] = statLabels
@@ -29,11 +33,12 @@ export async function saveHomepageAction(formData: FormData) {
     }))
     .filter((g) => g.imageUrl.length > 0);
 
+  await saveHomeSettings(settings);
   await saveSiteStats(stats);
   await saveHomePillars(pillars);
   await saveGalleryPhotos(gallery);
 
   revalidatePath("/");
-  revalidatePath("/admin/homepage");
-  redirect("/admin/homepage?saved=1");
+  revalidatePath("/admin/home");
+  redirect("/admin/home?saved=1");
 }

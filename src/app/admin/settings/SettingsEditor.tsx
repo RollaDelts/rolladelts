@@ -1,6 +1,5 @@
 "use client";
 
-import ImageUploader from "@/components/admin/ImageUploader";
 import { saveSiteSettingsAction } from "./actions";
 import type { SiteSettings } from "@/data/defaults";
 
@@ -43,48 +42,18 @@ export default function SettingsEditor({ initialSettings }: { initialSettings: S
 
       <div className="rounded-xl border border-dtd-purple/10 bg-white p-5 shadow-sm">
         <h2 className="font-bold text-dtd-purple">Social Media</h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
-          <Field label="Facebook URL" name="facebookUrl" defaultValue={s.facebookUrl} placeholder="https://www.facebook.com/..." />
-          <Field label="Instagram Handle" name="instagramHandle" defaultValue={s.instagramHandle} placeholder="@handle" />
-          <Field label="X Handle" name="xHandle" defaultValue={s.xHandle} placeholder="@handle" />
-        </div>
-      </div>
-
-      <div className="rounded-xl border border-dtd-purple/10 bg-white p-5 shadow-sm">
-        <h2 className="font-bold text-dtd-purple">About Page</h2>
-        <label className="mt-4 block">
-          <span className={labelClass}>Our History</span>
-          <textarea name="aboutHistory" defaultValue={s.aboutHistory} rows={5} className={inputClass} />
-        </label>
         <div className="mt-4 grid gap-6 sm:grid-cols-3">
-          <ImageUploader name="aboutHistoryImageUrl" defaultValue={s.aboutHistoryImageUrl} label="Chapter History Photo" aspect="aspect-[4/3]" />
-          <ImageUploader name="aboutHouseExteriorImageUrl" defaultValue={s.aboutHouseExteriorImageUrl} label="House Exterior Photo" aspect="aspect-[4/3]" />
-          <ImageUploader name="aboutCommonAreasImageUrl" defaultValue={s.aboutCommonAreasImageUrl} label="Common Areas Photo" aspect="aspect-[4/3]" />
-        </div>
-      </div>
-
-      <div className="rounded-xl border border-dtd-purple/10 bg-white p-5 shadow-sm">
-        <h2 className="font-bold text-dtd-purple">Philanthropy — Haunted Maze</h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <Field label="This Year's Dates" name="hauntedMazeDates" defaultValue={s.hauntedMazeDates} placeholder="e.g. Oct 24, 25, 30, 31 & Nov 1" />
-          <Field label="Amount Raised" name="hauntedMazeRaised" defaultValue={s.hauntedMazeRaised} placeholder="e.g. $3,200 raised in 2025" />
-        </div>
-        <div className="mt-4 max-w-xs">
-          <ImageUploader name="philanthropyMazeImageUrl" defaultValue={s.philanthropyMazeImageUrl} label="Haunted Maze Photo/Flyer" aspect="aspect-[4/3]" />
-        </div>
-      </div>
-
-      <div className="rounded-xl border border-dtd-purple/10 bg-white p-5 shadow-sm">
-        <h2 className="font-bold text-dtd-purple">Recruitment</h2>
-        <div className="mt-4 max-w-xs">
-          <ImageUploader name="recruitmentNewMemberImageUrl" defaultValue={s.recruitmentNewMemberImageUrl} label="New Member Photo" aspect="aspect-[4/3]" />
-        </div>
-      </div>
-
-      <div className="rounded-xl border border-dtd-purple/10 bg-white p-5 shadow-sm">
-        <h2 className="font-bold text-dtd-purple">Homepage Hero</h2>
-        <div className="mt-4 max-w-xs">
-          <ImageUploader name="heroImageUrl" defaultValue={s.heroImageUrl} label="Hero Photo" aspect="aspect-[4/3]" />
+          <div className="grid gap-3">
+            <Field label="Facebook URL" name="facebookUrl" defaultValue={s.facebookUrl} placeholder="https://www.facebook.com/..." />
+          </div>
+          <div className="grid gap-3">
+            <Field label="Instagram Handle" name="instagramHandle" defaultValue={s.instagramHandle} placeholder="@handle" />
+            <Field label="Instagram URL" name="instagramUrl" defaultValue={s.instagramUrl} placeholder="https://instagram.com/..." />
+          </div>
+          <div className="grid gap-3">
+            <Field label="X Handle" name="xHandle" defaultValue={s.xHandle} placeholder="@handle" />
+            <Field label="X URL" name="xUrl" defaultValue={s.xUrl} placeholder="https://x.com/..." />
+          </div>
         </div>
       </div>
 

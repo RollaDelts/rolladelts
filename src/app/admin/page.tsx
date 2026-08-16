@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const sections = [
+const topSections = [
   {
     href: "/admin/leads",
     title: "Leads & RSVPs",
@@ -10,50 +10,8 @@ const sections = [
   {
     href: "/admin/settings",
     title: "Site Settings",
-    description: "Contact info, social handles, and singleton content shared across pages.",
+    description: "Contact info and social media links shared across the site.",
     icon: "⚙️",
-  },
-  {
-    href: "/admin/homepage",
-    title: "Homepage",
-    description: "Stats bar, \"Why Join\" pillars, and the photo gallery.",
-    icon: "🏠",
-  },
-  {
-    href: "/admin/officers",
-    title: "Chapter Leadership",
-    description: "Update officer names and roles displayed on the About page.",
-    icon: "👥",
-  },
-  {
-    href: "/admin/events",
-    title: "Rush Events",
-    description: "Add, edit, or remove upcoming recruitment events shown on the Recruitment page.",
-    icon: "📅",
-  },
-  {
-    href: "/admin/recruitment-content",
-    title: "Recruitment Content",
-    description: "The \"How Recruitment Works\" steps and FAQ.",
-    icon: "📋",
-  },
-  {
-    href: "/admin/cost",
-    title: "Recruitment Costs",
-    description: "Update chapter dues and the Missouri S&T housing/meal plan comparison.",
-    icon: "💲",
-  },
-  {
-    href: "/admin/philanthropy",
-    title: "Philanthropy",
-    description: "The \"Giving Back Year-Round\" program cards.",
-    icon: "🤝",
-  },
-  {
-    href: "/admin/alumni",
-    title: "Alumni Spotlights",
-    description: "Edit alumni profiles featured on the Alumni page.",
-    icon: "🎓",
   },
   {
     href: "/admin/users",
@@ -63,6 +21,65 @@ const sections = [
   },
 ];
 
+const pageSections = [
+  {
+    href: "/admin/home",
+    title: "Home Page Updates",
+    description: "Hero photo, stats bar, \"Why Join\" pillars, and the photo gallery.",
+    icon: "🏠",
+  },
+  {
+    href: "/admin/about",
+    title: "About Page Updates",
+    description: "Chapter history, house photos, and chapter leadership.",
+    icon: "👥",
+  },
+  {
+    href: "/admin/recruitment",
+    title: "Recruitment Page Updates",
+    description: "New member photo, \"How Recruitment Works\" steps, FAQ, and rush events.",
+    icon: "📋",
+  },
+  {
+    href: "/admin/cost",
+    title: "Recruitment Costs",
+    description: "Chapter dues and the Missouri S&T housing/meal plan comparison.",
+    icon: "💲",
+  },
+  {
+    href: "/admin/philanthropy",
+    title: "Philanthropy Page Updates",
+    description: "Haunted Maze details and the \"Giving Back Year-Round\" program cards.",
+    icon: "🤝",
+  },
+  {
+    href: "/admin/alumni",
+    title: "Alumni Spotlights",
+    description: "Edit alumni profiles featured on the Alumni page.",
+    icon: "🎓",
+  },
+];
+
+function SectionGrid({ sections }: { sections: typeof topSections }) {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {sections.map((s) => (
+        <Link
+          key={s.href}
+          href={s.href}
+          className="flex items-start gap-4 rounded-xl border border-dtd-purple/10 bg-white p-6 shadow-sm transition hover:shadow-md"
+        >
+          <span className="text-3xl">{s.icon}</span>
+          <div>
+            <p className="font-bold text-dtd-purple">{s.title}</p>
+            <p className="mt-1 text-sm text-foreground/80">{s.description}</p>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
 export default function AdminDashboard() {
   return (
     <div>
@@ -71,20 +88,18 @@ export default function AdminDashboard() {
         Manage site content for Delta Tau Delta · Epsilon Nu Chapter.
       </p>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {sections.map((s) => (
-          <Link
-            key={s.href}
-            href={s.href}
-            className="flex items-start gap-4 rounded-xl border border-dtd-purple/10 bg-white p-6 shadow-sm transition hover:shadow-md"
-          >
-            <span className="text-3xl">{s.icon}</span>
-            <div>
-              <p className="font-bold text-dtd-purple">{s.title}</p>
-              <p className="mt-1 text-sm text-foreground/80">{s.description}</p>
-            </div>
-          </Link>
-        ))}
+      <div className="mt-8">
+        <SectionGrid sections={topSections} />
+      </div>
+
+      <div className="mt-10">
+        <h2 className="text-lg font-bold text-dtd-purple">Webpage Updates</h2>
+        <p className="mt-1 text-sm text-foreground/70">
+          Everything shown on each public page, grouped together in one place.
+        </p>
+        <div className="mt-4">
+          <SectionGrid sections={pageSections} />
+        </div>
       </div>
 
       <div className="mt-10 rounded-xl border border-dtd-gold/40 bg-dtd-gold/10 p-5">

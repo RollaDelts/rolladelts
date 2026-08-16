@@ -4,8 +4,8 @@ import { useState } from "react";
 import { moveItem } from "@/lib/reorder";
 import ReorderButtons from "@/components/admin/ReorderButtons";
 import ImageUploader from "@/components/admin/ImageUploader";
-import { saveHomepageAction } from "./actions";
-import type { SiteStat, HomePillar, GalleryPhoto } from "@/data/defaults";
+import { saveHomePageAction } from "./actions";
+import type { HomeSettings, SiteStat, HomePillar, GalleryPhoto } from "@/data/defaults";
 
 let nextId = 0;
 function makeId() {
@@ -20,11 +20,13 @@ type StatEntry = SiteStat & { id: string };
 type PillarEntry = HomePillar & { id: string };
 type GalleryEntry = GalleryPhoto & { id: string };
 
-export default function HomepageEditor({
+export default function HomeEditor({
+  initialSettings,
   initialStats,
   initialPillars,
   initialGallery,
 }: {
+  initialSettings: HomeSettings;
   initialStats: SiteStat[];
   initialPillars: HomePillar[];
   initialGallery: GalleryPhoto[];
@@ -34,7 +36,16 @@ export default function HomepageEditor({
   const [gallery, setGallery] = useState<GalleryEntry[]>(() => initialGallery.map((g) => ({ ...g, id: makeId() })));
 
   return (
-    <form action={saveHomepageAction} className="mt-8 grid gap-10">
+    <form action={saveHomePageAction} className="mt-8 grid gap-10">
+      {/* ── Hero ── */}
+      <div className="rounded-xl border border-dtd-purple/10 bg-white p-5 shadow-sm">
+        <h2 className="font-bold text-dtd-purple">Hero Photo</h2>
+        <p className="mt-1 text-sm text-foreground/70">The large photo at the top of the homepage.</p>
+        <div className="mt-4 max-w-xs">
+          <ImageUploader name="heroImageUrl" defaultValue={initialSettings.heroImageUrl} aspect="aspect-[4/3]" />
+        </div>
+      </div>
+
       {/* ── Stats bar ── */}
       <div>
         <h2 className="font-bold text-dtd-purple">Stats Bar</h2>

@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import { getPhilanthropyPrograms } from "@/lib/db";
+import { getPhilanthropySettings, getPhilanthropyPrograms } from "@/lib/db";
 import PhilanthropyEditor from "./PhilanthropyEditor";
 
 export default async function PhilanthropyAdminPage({
@@ -8,14 +8,15 @@ export default async function PhilanthropyAdminPage({
 }: {
   searchParams: Promise<{ saved?: string }>;
 }) {
-  const programs = await getPhilanthropyPrograms();
+  const [settings, programs] = await Promise.all([getPhilanthropySettings(), getPhilanthropyPrograms()]);
   const { saved } = await searchParams;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-dtd-purple">Philanthropy Content</h1>
+      <h1 className="text-2xl font-bold text-dtd-purple">Philanthropy Page Updates</h1>
       <p className="mt-1 text-foreground/80">
-        The &ldquo;Giving Back Year-Round&rdquo; program cards shown on the Philanthropy page.
+        The Haunted Maze details and &ldquo;Giving Back Year-Round&rdquo; program cards shown on the
+        Philanthropy page.
       </p>
 
       {saved === "1" && (
@@ -24,7 +25,7 @@ export default async function PhilanthropyAdminPage({
         </div>
       )}
 
-      <PhilanthropyEditor key={saved ?? "initial"} initialPrograms={programs} />
+      <PhilanthropyEditor key={saved ?? "initial"} initialSettings={settings} initialPrograms={programs} />
     </div>
   );
 }
