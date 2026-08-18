@@ -432,13 +432,15 @@ export async function getPhilanthropySettings(): Promise<PhilanthropySettings> {
   if (!supabaseAvailable()) return defaultPhilanthropySettings;
   const { data, error } = await getServerClient()
     .from("philanthropy_settings")
-    .select("maze_dates, maze_raised, maze_image_url")
+    .select("maze_title, maze_description, maze_dates, maze_raised, maze_image_url")
     .order("id", { ascending: true })
     .limit(1)
     .maybeSingle();
 
   if (error || !data) return defaultPhilanthropySettings;
   return {
+    mazeTitle: data.maze_title,
+    mazeDescription: data.maze_description,
     hauntedMazeDates: data.maze_dates,
     hauntedMazeRaised: data.maze_raised,
     mazeImageUrl: data.maze_image_url,
@@ -449,6 +451,8 @@ export async function savePhilanthropySettings(settings: PhilanthropySettings): 
   const supabase = getServerClient();
   await supabase.from("philanthropy_settings").delete().neq("id", 0);
   await supabase.from("philanthropy_settings").insert({
+    maze_title: settings.mazeTitle,
+    maze_description: settings.mazeDescription,
     maze_dates: settings.hauntedMazeDates,
     maze_raised: settings.hauntedMazeRaised,
     maze_image_url: settings.mazeImageUrl,

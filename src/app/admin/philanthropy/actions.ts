@@ -7,6 +7,8 @@ import type { PhilanthropyProgram, PhilanthropySettings } from "@/data/defaults"
 
 export async function savePhilanthropyPageAction(formData: FormData) {
   const settings: PhilanthropySettings = {
+    mazeTitle: ((formData.get("mazeTitle") as string | null) ?? "").trim(),
+    mazeDescription: ((formData.get("mazeDescription") as string | null) ?? "").trim(),
     hauntedMazeDates: ((formData.get("hauntedMazeDates") as string | null) ?? "").trim(),
     hauntedMazeRaised: ((formData.get("hauntedMazeRaised") as string | null) ?? "").trim(),
     mazeImageUrl: ((formData.get("mazeImageUrl") as string | null) ?? "").trim(),

@@ -31,6 +31,24 @@ export default function PhilanthropyEditor({
     <form action={savePhilanthropyPageAction} className="mt-8 grid gap-10">
       <div className="rounded-xl border border-dtd-purple/10 bg-white p-5 shadow-sm">
         <h2 className="font-bold text-dtd-purple">Haunted Maze</h2>
+        <div className="mt-4">
+          <label className="text-sm font-medium text-foreground/70">Title</label>
+          <input
+            name="mazeTitle"
+            defaultValue={initialSettings.mazeTitle}
+            placeholder="e.g. Annual Haunted Maze"
+            className={`${inputClass} mt-1`}
+          />
+        </div>
+        <div className="mt-4">
+          <label className="text-sm font-medium text-foreground/70">Description</label>
+          <textarea
+            name="mazeDescription"
+            defaultValue={initialSettings.mazeDescription}
+            rows={4}
+            className={`${inputClass} mt-1`}
+          />
+        </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <div>
             <label className="text-sm font-medium text-foreground/70">Dates</label>

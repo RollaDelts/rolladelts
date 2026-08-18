@@ -52,7 +52,13 @@ export type AboutSettings = {
   hazingPolicy: string;
 };
 export type RecruitmentSettings = { newMemberImageUrl: string };
-export type PhilanthropySettings = { hauntedMazeDates: string; hauntedMazeRaised: string; mazeImageUrl: string };
+export type PhilanthropySettings = {
+  mazeTitle: string;
+  mazeDescription: string;
+  hauntedMazeDates: string;
+  hauntedMazeRaised: string;
+  mazeImageUrl: string;
+};
 export type SiteStat = { label: string; value: string };
 export type HomePillar = { title: string; description: string };
 export type GalleryPhoto = { imageUrl: string; alt: string; fit: "cover" | "contain" };
@@ -280,6 +286,9 @@ export const defaultRecruitmentSettings: RecruitmentSettings = {
 };
 
 export const defaultPhilanthropySettings: PhilanthropySettings = {
+  mazeTitle: "Annual Haunted Maze",
+  mazeDescription:
+    "Each fall, Delta Tau Delta's Epsilon Nu Chapter hosts a haunted maze that brings together students, families, and the greater Rolla community for a night of fun while raising money for JDRF, the leading funder of type 1 diabetes research.",
   hauntedMazeDates: "",
   hauntedMazeRaised: "",
   mazeImageUrl: "/images/site/haunted-maze-flyer.png",

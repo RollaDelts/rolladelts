@@ -12,6 +12,10 @@ export const metadata: Metadata = {
 
 export default async function PhilanthropyPage() {
   const [settings, programs] = await Promise.all([getPhilanthropySettings(), getPhilanthropyPrograms()]);
+  const mazeDescriptionParagraphs = settings.mazeDescription
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
 
   return (
     <div>
@@ -22,13 +26,12 @@ export default async function PhilanthropyPage() {
 
       <section className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-2 md:items-center">
         <div>
-          <h2 className="text-2xl font-bold text-dtd-purple">Annual Haunted Maze</h2>
-          <p className="mt-3 text-foreground/80">
-            Each fall, Delta Tau Delta&apos;s Epsilon Nu Chapter hosts a haunted maze that brings
-            together students, families, and the greater Rolla community for a night of fun
-            while raising money for <strong>JDRF</strong>, the leading funder of type 1 diabetes
-            research.
-          </p>
+          <h2 className="text-2xl font-bold text-dtd-purple">{settings.mazeTitle}</h2>
+          {mazeDescriptionParagraphs.map((p, i) => (
+            <p key={i} className="mt-3 text-foreground/80">
+              {p}
+            </p>
+          ))}
           {settings.hauntedMazeDates && (
             <p className="mt-3 text-foreground/80">
               This year&apos;s maze runs <strong>{settings.hauntedMazeDates}</strong>.
