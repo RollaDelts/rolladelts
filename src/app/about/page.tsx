@@ -62,7 +62,7 @@ export default async function AboutPage() {
       </section>
 
       {hazingParagraphs.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-12">
+        <section id="hazing" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-12">
           <h2 className="text-2xl font-bold text-dtd-purple">Zero Tolerance for Hazing</h2>
           {hazingParagraphs.map((p, i) => (
             <p key={i} className="mt-3 max-w-3xl text-foreground/80">

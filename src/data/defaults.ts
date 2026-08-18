@@ -370,6 +370,16 @@ export const defaultRecruitmentSteps: RecruitmentStep[] = [
 
 export const defaultFaqs: Faq[] = [
   {
+    question: "Is hazing tolerated in your chapter?",
+    answer:
+      "No — Epsilon Nu has a strict zero-tolerance policy toward hazing in any form, from recruitment through initiation and beyond. Read our full [anti-hazing policy](/about#hazing), or reach out directly with any questions or concerns.",
+  },
+  {
+    question: "How much time does joining take?",
+    answer:
+      "Chapter commitments include a weekly meeting, philanthropy events, and study tables, but we work hard to keep things manageable alongside a full course load. Most brothers balance academics, work, and other campus involvement without issue.",
+  },
+  {
     question: "Is there a GPA requirement to join?",
     answer:
       "There's no minimum GPA to start the recruitment process. We do have academic expectations for new and active members, and we provide study tables and tutoring support to help everyone succeed.",
