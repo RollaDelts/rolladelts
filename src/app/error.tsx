@@ -5,10 +5,10 @@ import Link from "next/link";
 
 export default function ErrorBoundary({
   error,
-  unstable_retry,
+  retry,
 }: {
   error: Error & { digest?: string };
-  unstable_retry: () => void;
+  retry: () => void;
 }) {
   useEffect(() => {
     // Surfaces in Vercel's Logs tab — the primary way errors get noticed for now.
@@ -29,7 +29,7 @@ export default function ErrorBoundary({
       <div className="mt-8 flex flex-wrap justify-center gap-4">
         <button
           type="button"
-          onClick={() => unstable_retry()}
+          onClick={() => retry()}
           className="rounded-full bg-dtd-purple px-8 py-3 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-dtd-purple-dark"
         >
           Try Again

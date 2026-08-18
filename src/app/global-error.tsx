@@ -3,10 +3,10 @@
 // global-error replaces the root layout entirely when it's active, so it
 // can't rely on globals.css having loaded — inline styles only.
 export default function GlobalError({
-  unstable_retry,
+  retry,
 }: {
   error: Error & { digest?: string };
-  unstable_retry: () => void;
+  retry: () => void;
 }) {
   return (
     <html lang="en">
@@ -49,7 +49,7 @@ export default function GlobalError({
         <div style={{ display: "flex", gap: "0.75rem", marginTop: "1rem" }}>
           <button
             type="button"
-            onClick={() => unstable_retry()}
+            onClick={() => retry()}
             style={{
               borderRadius: "9999px",
               background: "#4b1f6f",
