@@ -6,6 +6,8 @@ import Drawer from "@/components/Drawer";
 import BotTrap from "@/components/BotTrap";
 import { submitLeadAction } from "@/app/actions/leads";
 import { parsePhotoList } from "@/lib/photos";
+import { parseEventDateRange } from "@/lib/eventDate";
+import { buildIcsDataUrl } from "@/lib/ics";
 import type { RushEvent } from "@/data/defaults";
 
 export default function RushEventsList({ events, sent }: { events: RushEvent[]; sent?: string }) {
@@ -17,25 +19,46 @@ export default function RushEventsList({ events, sent }: { events: RushEvent[]; 
       <div className="divide-y divide-dtd-purple/10 overflow-hidden rounded-lg border border-dtd-purple/10 bg-white shadow-sm">
         {events.map((event, i) => {
           const hasDetails = Boolean(event.description.trim() || event.photos.trim());
+          const dateRange = parseEventDateRange(event.date);
+          const calendarHref = dateRange
+            ? buildIcsDataUrl({
+                title: event.name,
+                location: event.location,
+                description: event.description,
+                start: dateRange.start,
+                end: dateRange.end,
+              })
+            : null;
           return (
             <div key={i} className="grid gap-3 p-4 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-6">
-              {hasDetails ? (
-                <button type="button" onClick={() => setSelected(i)} className="text-left">
-                  <p className="font-bold text-dtd-purple underline decoration-dotted underline-offset-4">
-                    {event.name}
-                  </p>
-                  <p className="text-sm text-foreground/70">
-                    {event.date} &middot; {event.location}
-                  </p>
-                </button>
-              ) : (
-                <div>
-                  <p className="font-bold text-dtd-purple">{event.name}</p>
-                  <p className="text-sm text-foreground/70">
-                    {event.date} &middot; {event.location}
-                  </p>
-                </div>
-              )}
+              <div>
+                {hasDetails ? (
+                  <button type="button" onClick={() => setSelected(i)} className="text-left">
+                    <p className="font-bold text-dtd-purple underline decoration-dotted underline-offset-4">
+                      {event.name}
+                    </p>
+                    <p className="text-sm text-foreground/70">
+                      {event.date} &middot; {event.location}
+                    </p>
+                  </button>
+                ) : (
+                  <div>
+                    <p className="font-bold text-dtd-purple">{event.name}</p>
+                    <p className="text-sm text-foreground/70">
+                      {event.date} &middot; {event.location}
+                    </p>
+                  </div>
+                )}
+                {calendarHref && (
+                  <a
+                    href={calendarHref}
+                    download={`${event.name.replace(/[^a-z0-9]+/gi, "-")}.ics`}
+                    className="mt-1 inline-block text-xs font-semibold text-dtd-gold-dark underline underline-offset-2 hover:text-dtd-purple"
+                  >
+                    + Add to Calendar
+                  </a>
+                )}
+              </div>
               <form
                 key={sent ?? "form"}
                 action={submitLeadAction}
