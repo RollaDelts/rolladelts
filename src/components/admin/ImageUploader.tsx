@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { uploadImageAction } from "@/app/admin/actions/upload";
+import { compressImage } from "@/lib/compressImage";
 
 type ImageUploaderProps = {
   /** Name of the hidden input that carries the resulting URL in the parent form. */
@@ -29,8 +30,9 @@ export default function ImageUploader({
     setUploading(true);
     setError(null);
     try {
+      const compressed = await compressImage(file);
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", compressed);
       const result = await uploadImageAction(formData);
 
       if ("error" in result) {
