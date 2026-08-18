@@ -17,6 +17,7 @@ import {
   getRecruitmentSettings,
 } from "@/lib/db";
 import { submitLeadAction } from "@/app/actions/leads";
+import { buildEventsJsonLd, jsonLdString } from "@/lib/structuredData";
 
 export const metadata: Metadata = {
   title: "Rush Delta Tau Delta",
@@ -45,9 +46,16 @@ export default async function RecruitmentPage({
   const showEventsBanner = Boolean(
     eventsSettings.bannerImageUrl && eventsSettings.bannerDisplayUntil && eventsSettings.bannerDisplayUntil >= today
   );
+  const eventsJsonLd = buildEventsJsonLd(events);
 
   return (
     <div>
+      {eventsJsonLd.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdString(eventsJsonLd) }}
+        />
+      )}
       <PageHero
         title="Rush Delta Tau Delta"
         subtitle="Joining Delta Tau Delta means joining a brotherhood committed to lives of excellence — for life. Here's everything you need to know to get started."

@@ -7,7 +7,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { createAuthClient, authAvailable } from "@/lib/supabase-server";
 import { getServerClient } from "@/lib/supabase";
+import { getSiteSettings } from "@/lib/db";
 import { SITE_URL } from "@/lib/site";
+import { buildOrganizationJsonLd, jsonLdString } from "@/lib/structuredData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,7 +79,8 @@ async function getUserDisplay() {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const userDisplay = await getUserDisplay();
+  const [userDisplay, siteSettings] = await Promise.all([getUserDisplay(), getSiteSettings()]);
+  const organizationJsonLd = buildOrganizationJsonLd(siteSettings);
 
   return (
     <html
@@ -85,6 +88,10 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdString(organizationJsonLd) }}
+        />
         <Header userDisplay={userDisplay} />
         <main className="flex-1">{children}</main>
         <Footer />
