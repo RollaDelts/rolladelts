@@ -41,3 +41,19 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font-display);
 }
+
+/*
+ * Visible keyboard-focus ring, site-wide. Deliberately outside any
+ * @layer block: Tailwind's utilities (including the many `focus:outline-none`
+ * classes used throughout the site) live in the "utilities" cascade layer,
+ * and unlayered styles always win over layered ones regardless of
+ * specificity — so this reliably shows through without editing every
+ * component. Uses box-shadow (untouched by `outline-none`) and
+ * :focus-visible so it only appears for keyboard/programmatic focus, not
+ * mouse clicks.
+ */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--dtd-gold-light);
+  border-radius: 2px;
+}
