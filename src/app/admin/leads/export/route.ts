@@ -12,7 +12,7 @@ const statusLabels: Record<string, string> = {
 };
 
 export async function GET() {
-  const leads = await getLeads();
+  const { leads } = await getLeads();
 
   const header = ["Date", "Source", "Name", "Email", "Phone", "Status", "Detail", "Message"];
   const rows = leads.map((lead) => [

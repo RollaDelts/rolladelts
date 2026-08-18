@@ -206,15 +206,35 @@ export async function saveLead(lead: Lead): Promise<void> {
   if (error) throw new Error(error.message);
 }
 
-export async function getLeads(): Promise<SavedLead[]> {
-  if (!supabaseAvailable()) return [];
-  const { data, error } = await getServerClient()
+/**
+ * `search` matches against name or email (case-insensitive substring).
+ * `pageSize` defaults large enough to return everything in one call — the
+ * CSV export route relies on that default rather than passing its own.
+ */
+export async function getLeads(opts: { search?: string; page?: number; pageSize?: number } = {}): Promise<{
+  leads: SavedLead[];
+  total: number;
+}> {
+  const { search = "", page = 1, pageSize = 10000 } = opts;
+  if (!supabaseAvailable()) return { leads: [], total: 0 };
+
+  let query = getServerClient()
     .from("leads")
-    .select("id, name, email, phone, detail, message, source, status, created_at")
+    .select("id, name, email, phone, detail, message, source, status, created_at", { count: "exact" })
     .order("created_at", { ascending: false });
 
-  if (error || !data) return [];
-  return data.map((row) => ({
+  const term = search.trim();
+  if (term) {
+    // Escape ilike wildcards so a literal "%" or "_" in a search term is matched literally.
+    const escaped = term.replace(/[%_]/g, (m) => `\\${m}`);
+    query = query.or(`name.ilike.%${escaped}%,email.ilike.%${escaped}%`);
+  }
+
+  const from = (Math.max(1, page) - 1) * pageSize;
+  const { data, error, count } = await query.range(from, from + pageSize - 1);
+
+  if (error || !data) return { leads: [], total: 0 };
+  const leads = data.map((row) => ({
     id: row.id,
     name: row.name,
     email: row.email,
@@ -225,6 +245,7 @@ export async function getLeads(): Promise<SavedLead[]> {
     status: row.status as LeadStatus,
     createdAt: row.created_at,
   }));
+  return { leads, total: count ?? leads.length };
 }
 
 export async function updateLeadStatus(id: number, status: LeadStatus): Promise<void> {
