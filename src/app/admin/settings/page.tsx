@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { getSiteSettings } from "@/lib/db";
+import { getLastAdminEdit } from "@/lib/adminAudit";
+import LastEditedBy from "@/components/admin/LastEditedBy";
 import SettingsEditor from "./SettingsEditor";
 
 export default async function SettingsAdminPage({
@@ -8,7 +10,7 @@ export default async function SettingsAdminPage({
 }: {
   searchParams: Promise<{ saved?: string }>;
 }) {
-  const settings = await getSiteSettings();
+  const [settings, lastEdit] = await Promise.all([getSiteSettings(), getLastAdminEdit("settings")]);
   const { saved } = await searchParams;
 
   return (
@@ -18,6 +20,7 @@ export default async function SettingsAdminPage({
         Contact info, social handles, and singleton page content that&apos;s otherwise scattered
         across multiple pages — edit once here.
       </p>
+      <LastEditedBy info={lastEdit} />
 
       {saved === "1" && (
         <div className="mt-6 rounded-lg border border-green-300 bg-green-50 px-4 py-3 text-sm font-medium text-green-800">

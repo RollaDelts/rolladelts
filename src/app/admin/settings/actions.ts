@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { saveSiteSettings } from "@/lib/db";
+import { recordAdminEdit } from "@/lib/adminAudit";
 import type { SiteSettings } from "@/data/defaults";
 
 function field(formData: FormData, name: string): string {
@@ -23,6 +24,7 @@ export async function saveSiteSettingsAction(formData: FormData) {
   };
 
   await saveSiteSettings(settings);
+  await recordAdminEdit("settings");
 
   revalidatePath("/", "layout");
   revalidatePath("/admin/settings");

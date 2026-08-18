@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { saveRecruitmentSettings, saveRecruitmentSteps, saveFaqs } from "@/lib/db";
+import { recordAdminEdit } from "@/lib/adminAudit";
 import type { RecruitmentSettings, RecruitmentStep, Faq } from "@/data/defaults";
 
 export async function saveRecruitmentPageAction(formData: FormData) {
@@ -25,6 +26,7 @@ export async function saveRecruitmentPageAction(formData: FormData) {
   await saveRecruitmentSettings(settings);
   await saveRecruitmentSteps(steps);
   await saveFaqs(faqs);
+  await recordAdminEdit("recruitment");
 
   revalidatePath("/recruitment");
   revalidatePath("/admin/recruitment");

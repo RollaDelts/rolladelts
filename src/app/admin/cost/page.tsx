@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { getCostSummary, getCostLineItems } from "@/lib/db";
+import { getLastAdminEdit } from "@/lib/adminAudit";
+import LastEditedBy from "@/components/admin/LastEditedBy";
 import CostEditor from "./CostEditor";
 
 export default async function CostAdminPage({
@@ -8,7 +10,11 @@ export default async function CostAdminPage({
 }: {
   searchParams: Promise<{ saved?: string }>;
 }) {
-  const [summary, items] = await Promise.all([getCostSummary(), getCostLineItems()]);
+  const [summary, items, lastEdit] = await Promise.all([
+    getCostSummary(),
+    getCostLineItems(),
+    getLastAdminEdit("cost"),
+  ]);
   const { saved } = await searchParams;
 
   return (
@@ -19,6 +25,7 @@ export default async function CostAdminPage({
         on the Recruitment page and the detailed cost page. Update this each year when rates
         change.
       </p>
+      <LastEditedBy info={lastEdit} />
 
       {saved === "1" && (
         <div className="mt-6 rounded-lg border border-green-300 bg-green-50 px-4 py-3 text-sm font-medium text-green-800">

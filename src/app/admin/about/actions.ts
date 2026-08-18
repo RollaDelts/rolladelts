@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { saveAboutSettings, saveOfficers } from "@/lib/db";
+import { recordAdminEdit } from "@/lib/adminAudit";
 import type { AboutSettings, Officer } from "@/data/defaults";
 
 export async function saveAboutPageAction(formData: FormData) {
@@ -29,6 +30,7 @@ export async function saveAboutPageAction(formData: FormData) {
 
   await saveAboutSettings(settings);
   await saveOfficers(officers);
+  await recordAdminEdit("about");
 
   revalidatePath("/about");
   revalidatePath("/admin/about");

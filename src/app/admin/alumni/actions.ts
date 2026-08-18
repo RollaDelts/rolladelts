@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { saveAlumniSpotlights } from "@/lib/db";
+import { recordAdminEdit } from "@/lib/adminAudit";
 import type { AlumniSpotlight } from "@/data/defaults";
 
 export async function saveAlumniAction(formData: FormData) {
@@ -22,6 +23,7 @@ export async function saveAlumniAction(formData: FormData) {
     .filter((s) => s.name.length > 0);
 
   await saveAlumniSpotlights(spotlights);
+  await recordAdminEdit("alumni");
   revalidatePath("/alumni");
   revalidatePath("/admin/alumni");
 }

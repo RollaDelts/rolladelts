@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { saveCostSummary, saveCostLineItems } from "@/lib/db";
+import { recordAdminEdit } from "@/lib/adminAudit";
 import type { CostSummary, CostLineItem } from "@/data/defaults";
 
 const VALID_SECTIONS = new Set<CostLineItem["section"]>([
@@ -42,6 +43,7 @@ export async function saveCostAction(formData: FormData) {
 
   await saveCostSummary(summary);
   await saveCostLineItems(items);
+  await recordAdminEdit("cost");
 
   revalidatePath("/recruitment");
   revalidatePath("/recruitment/cost");

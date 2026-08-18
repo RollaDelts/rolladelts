@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { saveRushEventsSettings, saveRushEvents } from "@/lib/db";
+import { recordAdminEdit } from "@/lib/adminAudit";
 import type { RushEventsSettings, RushEvent } from "@/data/defaults";
 
 export async function saveRushEventsPageAction(formData: FormData) {
@@ -31,6 +32,7 @@ export async function saveRushEventsPageAction(formData: FormData) {
 
   await saveRushEventsSettings(settings);
   await saveRushEvents(events);
+  await recordAdminEdit("rush-events");
 
   revalidatePath("/recruitment");
   revalidatePath("/admin/rush-events");

@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import { getHomeSettings, getSiteStats, getHomePillars, getGalleryPhotos, getPillarPhotos } from "@/lib/db";
+import { getLastAdminEdit } from "@/lib/adminAudit";
+import LastEditedBy from "@/components/admin/LastEditedBy";
 import HomeEditor from "./HomeEditor";
 
 export default async function HomeAdminPage({
@@ -8,12 +10,13 @@ export default async function HomeAdminPage({
 }: {
   searchParams: Promise<{ saved?: string }>;
 }) {
-  const [settings, stats, pillars, gallery, pillarPhotos] = await Promise.all([
+  const [settings, stats, pillars, gallery, pillarPhotos, lastEdit] = await Promise.all([
     getHomeSettings(),
     getSiteStats(),
     getHomePillars(),
     getGalleryPhotos(),
     getPillarPhotos(),
+    getLastAdminEdit("home"),
   ]);
   const { saved } = await searchParams;
 
@@ -24,6 +27,7 @@ export default async function HomeAdminPage({
         Everything editable on the homepage: the hero photo, stats bar, &ldquo;Why Join&rdquo;
         pillars, and photo gallery.
       </p>
+      <LastEditedBy info={lastEdit} />
 
       {saved === "1" && (
         <div className="mt-6 rounded-lg border border-green-300 bg-green-50 px-4 py-3 text-sm font-medium text-green-800">

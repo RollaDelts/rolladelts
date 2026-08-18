@@ -9,6 +9,7 @@ import {
   saveGalleryPhotos,
   savePillarPhotos,
 } from "@/lib/db";
+import { recordAdminEdit } from "@/lib/adminAudit";
 import type { HomeSettings, SiteStat, HomePillar, GalleryPhoto, PillarPhoto } from "@/data/defaults";
 
 export async function saveHomePageAction(formData: FormData) {
@@ -50,6 +51,7 @@ export async function saveHomePageAction(formData: FormData) {
   await saveHomePillars(pillars);
   await saveGalleryPhotos(gallery);
   await savePillarPhotos(pillarPhotos);
+  await recordAdminEdit("home");
 
   revalidatePath("/");
   revalidatePath("/admin/home");

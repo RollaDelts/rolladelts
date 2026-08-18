@@ -1,10 +1,12 @@
 export const dynamic = "force-dynamic";
 
 import { getAlumniSpotlights } from "@/lib/db";
+import { getLastAdminEdit } from "@/lib/adminAudit";
+import LastEditedBy from "@/components/admin/LastEditedBy";
 import AlumniEditor from "./AlumniEditor";
 
 export default async function AlumniAdminPage() {
-  const spotlights = await getAlumniSpotlights();
+  const [spotlights, lastEdit] = await Promise.all([getAlumniSpotlights(), getLastAdminEdit("alumni")]);
 
   return (
     <div>
@@ -13,6 +15,7 @@ export default async function AlumniAdminPage() {
         Edit alumni profiles below, add new ones, or remove old ones, then click Save.
         Changes appear on the Alumni page immediately.
       </p>
+      <LastEditedBy info={lastEdit} />
 
       <AlumniEditor initialSpotlights={spotlights} />
     </div>

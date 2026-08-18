@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { savePhilanthropyPrograms, savePhilanthropySettings } from "@/lib/db";
+import { recordAdminEdit } from "@/lib/adminAudit";
 import type { PhilanthropyProgram, PhilanthropySettings } from "@/data/defaults";
 
 export async function savePhilanthropyPageAction(formData: FormData) {
@@ -27,6 +28,7 @@ export async function savePhilanthropyPageAction(formData: FormData) {
 
   await savePhilanthropySettings(settings);
   await savePhilanthropyPrograms(programs);
+  await recordAdminEdit("philanthropy");
 
   revalidatePath("/philanthropy");
   revalidatePath("/admin/philanthropy");
