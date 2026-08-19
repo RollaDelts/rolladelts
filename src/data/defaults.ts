@@ -66,6 +66,16 @@ export type PillarPhoto = { imageUrl: string; caption: string };
 export type RecruitmentStep = { title: string; description: string };
 export type Faq = { question: string; answer: string };
 export type PhilanthropyProgram = { title: string; description: string; imageUrl: string };
+export type Story = {
+  slug: string;
+  title: string;
+  publishedDate: string; // YYYY-MM-DD
+  author: string;
+  /** Paragraphs separated by a blank line. */
+  body: string;
+  /** One photo per line: "url" or "url|caption". */
+  photos: string;
+};
 
 export const defaultOfficers: Officer[] = [
   { role: "President", name: "TBD", email: "", photoUrl: "" },
@@ -399,6 +409,10 @@ export const defaultFaqs: Faq[] = [
       "Costs include a one-time new member fee and monthly dues, which cover housing, meals, national fraternity fees, and chapter operations. See our [full cost breakdown](/recruitment/cost) for exact figures — we're happy to discuss payment plans.",
   },
 ];
+
+// Intentionally empty — populated via the Our Stories admin (backfilled
+// separately from the legacy WordPress "Our Stories" archive).
+export const defaultStories: Story[] = [];
 
 export const defaultPhilanthropyPrograms: PhilanthropyProgram[] = [
   {

@@ -8,6 +8,7 @@
  */
 
 import { getServerClient, supabaseAvailable } from "@/lib/supabase";
+import { slugify } from "@/lib/slug";
 import {
   defaultOfficers,
   defaultRushEvents,
@@ -27,6 +28,7 @@ import {
   defaultRecruitmentSteps,
   defaultFaqs,
   defaultPhilanthropyPrograms,
+  defaultStories,
   type Officer,
   type RushEvent,
   type RushEventsSettings,
@@ -45,6 +47,7 @@ import {
   type RecruitmentStep,
   type Faq,
   type PhilanthropyProgram,
+  type Story,
 } from "@/data/defaults";
 
 // ─── Officers ────────────────────────────────────────────────────────────────
@@ -653,4 +656,101 @@ export async function savePhilanthropyPrograms(programs: PhilanthropyProgram[]):
       sort_order: (i + 1) * 10,
     }))
   );
+}
+
+// ─── Our Stories ─────────────────────────────────────────────────────────────
+// Unlike everything above, Stories is edited one record at a time (create/
+// update/delete by id) rather than as a whole-list save — the collection
+// only grows over time, so a single giant "save everything" form doesn't fit.
+
+export type StoryRow = Story & { id: number };
+
+function mapStoryRow(row: {
+  id: number;
+  slug: string;
+  title: string;
+  published_date: string;
+  author: string;
+  body: string;
+  photos: string;
+}): StoryRow {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    publishedDate: row.published_date,
+    author: row.author,
+    body: row.body,
+    photos: row.photos,
+  };
+}
+
+export async function getStories(): Promise<StoryRow[]> {
+  if (!supabaseAvailable()) return [];
+  const { data, error } = await getServerClient()
+    .from("stories")
+    .select("id, slug, title, published_date, author, body, photos")
+    .order("published_date", { ascending: false })
+    .order("id", { ascending: false });
+
+  if (error || !data) return [];
+  return data.map(mapStoryRow);
+}
+
+export async function getStory(id: number): Promise<StoryRow | null> {
+  if (!supabaseAvailable()) return null;
+  const { data, error } = await getServerClient()
+    .from("stories")
+    .select("id, slug, title, published_date, author, body, photos")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error || !data) return null;
+  return mapStoryRow(data);
+}
+
+/** Slugifies `title`, appending "-2", "-3", etc. if it collides with an existing story. */
+async function uniqueSlug(title: string): Promise<string> {
+  const base = slugify(title);
+  const { data } = await getServerClient().from("stories").select("slug").like("slug", `${base}%`);
+  const taken = new Set((data ?? []).map((r) => r.slug as string));
+  if (!taken.has(base)) return base;
+  let n = 2;
+  while (taken.has(`${base}-${n}`)) n += 1;
+  return `${base}-${n}`;
+}
+
+export async function createStory(input: Story): Promise<void> {
+  const slug = await uniqueSlug(input.title);
+  const { error } = await getServerClient()
+    .from("stories")
+    .insert({
+      slug,
+      title: input.title,
+      published_date: input.publishedDate || new Date().toISOString().slice(0, 10),
+      author: input.author,
+      body: input.body,
+      photos: input.photos,
+    });
+  if (error) throw new Error(error.message);
+}
+
+/** The slug is set once at creation and intentionally left unchanged here, even if the title is edited. */
+export async function updateStory(id: number, input: Story): Promise<void> {
+  const { error } = await getServerClient()
+    .from("stories")
+    .update({
+      title: input.title,
+      published_date: input.publishedDate || new Date().toISOString().slice(0, 10),
+      author: input.author,
+      body: input.body,
+      photos: input.photos,
+    })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteStory(id: number): Promise<void> {
+  const { error } = await getServerClient().from("stories").delete().eq("id", id);
+  if (error) throw new Error(error.message);
 }
