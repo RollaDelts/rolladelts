@@ -11,6 +11,7 @@ const adminNav = [
   { href: "/admin/cost", label: "Recruitment Costs" },
   { href: "/admin/philanthropy", label: "Philanthropy Page" },
   { href: "/admin/alumni", label: "Alumni Spotlights" },
+  { href: "/admin/stories", label: "Our Stories" },
   { href: "/admin/users", label: "Users" },
 ];
 

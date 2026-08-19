@@ -64,6 +64,12 @@ const pageSections = [
     description: "Edit alumni profiles featured on the Alumni page.",
     icon: "🎓",
   },
+  {
+    href: "/admin/stories",
+    title: "Our Stories",
+    description: "Add, edit, or remove chapter history and news posts.",
+    icon: "📖",
+  },
 ];
 
 function SectionGrid({ sections }: { sections: typeof topSections }) {
