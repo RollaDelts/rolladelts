@@ -77,10 +77,10 @@ export default async function ContactPage({
         <div className="aspect-square w-full overflow-hidden rounded-lg border border-dtd-purple/10 shadow-sm">
           <iframe
             title="Delta Tau Delta — Epsilon Nu Chapter House Map"
-            src="https://www.google.com/maps?q=37.971014,-91.771749&z=16&output=embed"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9673.29556439492!2d-91.77849574616168!3d37.966956366854696!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87dbab4982a9e40b%3A0x821543f465c52353!2sDelta%20Tau%20Delta!5e0!3m2!1sen!2sus!4v1787156921821!5m2!1sen!2sus"
             className="h-full w-full border-0"
             loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
+            referrerPolicy="strict-origin-when-cross-origin"
           />
         </div>
       </section>
