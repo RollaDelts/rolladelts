@@ -210,6 +210,28 @@ export async function saveLead(lead: Lead): Promise<void> {
 }
 
 /**
+ * Rate-limit signal for submitLeadAction: how many leads with this exact
+ * email address have come in during the last `minutes`. Bursts of spam
+ * from bots tend to reuse the same throwaway address across every form
+ * on the site within seconds of each other.
+ */
+export async function countRecentLeadsByEmail(email: string, minutes: number): Promise<number> {
+  if (!supabaseAvailable()) return 0;
+  try {
+    const since = new Date(Date.now() - minutes * 60_000).toISOString();
+    const { count } = await getServerClient()
+      .from("leads")
+      .select("id", { count: "exact", head: true })
+      .ilike("email", email)
+      .gte("created_at", since);
+    return count ?? 0;
+  } catch {
+    // Never let this check itself block a real submission.
+    return 0;
+  }
+}
+
+/**
  * `search` matches against name or email (case-insensitive substring).
  * `pageSize` defaults large enough to return everything in one call — the
  * CSV export route relies on that default rather than passing its own.

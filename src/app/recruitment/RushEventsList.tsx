@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Drawer from "@/components/Drawer";
 import BotTrap from "@/components/BotTrap";
+import JsConfirm from "@/components/JsConfirm";
 import { submitLeadAction } from "@/app/actions/leads";
 import { parsePhotoList } from "@/lib/photos";
 import { parseEventDateRange } from "@/lib/eventDate";
@@ -68,6 +69,7 @@ export default function RushEventsList({ events, sent }: { events: RushEvent[]; 
                 <input type="hidden" name="detail" value={`${event.name} — ${event.date}`} />
                 <input type="hidden" name="redirectTo" value="/recruitment" />
                 <BotTrap />
+                <JsConfirm />
                 <input
                   type="text"
                   name="name"

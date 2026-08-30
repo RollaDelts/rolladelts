@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { saveLead } from "@/lib/db";
+import { saveLead, countRecentLeadsByEmail } from "@/lib/db";
 import { sendLeadNotification } from "@/lib/email";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -33,8 +33,32 @@ export async function submitLeadAction(formData: FormData) {
     redirect(`${redirectTo}?sent=ok#lead-status`);
   }
 
+  // Second layer: JsConfirm stamps this field with Date.now() from a
+  // useEffect, so it's only ever populated by a browser that actually
+  // rendered and ran the page — not a script POSTing straight to this
+  // action. Only checked for presence/plausibility, never a minimum
+  // elapsed time, for the same silent-data-loss reason as above.
+  const jsTs = Number(formData.get("js_ts"));
+  const isPlausibleTimestamp = Number.isFinite(jsTs) && jsTs > 0 && Math.abs(Date.now() - jsTs) < 60 * 60_000;
+
+  if (!isPlausibleTimestamp) {
+    redirect(`${redirectTo}?sent=ok#lead-status`);
+  }
+
   if (!name || !email || !EMAIL_RE.test(email)) {
     redirect(`${redirectTo}?sent=error#lead-status`);
+  }
+
+  // Third layer: a burst of submissions from the same address across
+  // different forms in a short window is the exact pattern bots leave
+  // behind (real visitors don't submit 3+ lead forms in a few minutes).
+  // countRecentLeadsByEmail failing open (returning 0) if the query
+  // itself errors is handled inside that function, not here — redirect()
+  // throws internally, so it must never sit inside a try/catch that could
+  // swallow it.
+  const recentCount = await countRecentLeadsByEmail(email, 10);
+  if (recentCount >= 2) {
+    redirect(`${redirectTo}?sent=ok#lead-status`);
   }
 
   try {

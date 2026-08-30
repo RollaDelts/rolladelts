@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
+import JsConfirm from "@/components/JsConfirm";
 import { submitLeadAction } from "@/app/actions/leads";
 import { getSiteSettings } from "@/lib/db";
 
@@ -95,6 +96,7 @@ export default async function ContactPage({
             <input type="hidden" name="source" value="contact" />
             <input type="hidden" name="redirectTo" value="/contact" />
             <BotTrap />
+            <JsConfirm />
             <div className="grid gap-4 sm:grid-cols-2">
               <input
                 type="text"

@@ -2,6 +2,7 @@ import Link from "next/link";
 import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
+import JsConfirm from "@/components/JsConfirm";
 import { submitLeadAction } from "@/app/actions/leads";
 import { getHomeSettings, getSiteStats, getHomePillars, getGalleryPhotos, getPillarPhotos } from "@/lib/db";
 
@@ -148,6 +149,7 @@ export default async function Home({
               <input type="hidden" name="source" value="homepage" />
               <input type="hidden" name="redirectTo" value="/" />
               <BotTrap />
+              <JsConfirm />
               <input
                 type="text"
                 name="name"
