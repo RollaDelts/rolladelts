@@ -15,6 +15,14 @@ export default function RushEventsList({ events, sent }: { events: RushEvent[]; 
   const [selected, setSelected] = useState<number | null>(null);
   const activeEvent = selected !== null ? events[selected] : null;
 
+  if (events.length === 0) {
+    return (
+      <div className="rounded-lg border border-dtd-purple/10 bg-white p-6 text-sm text-foreground/70 shadow-sm">
+        No rush events on the calendar right now — check back soon, as new ones can be added at any time.
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="divide-y divide-dtd-purple/10 overflow-hidden rounded-lg border border-dtd-purple/10 bg-white shadow-sm">

@@ -94,7 +94,10 @@ export async function getRushEvents(): Promise<RushEvent[]> {
     .order("sort_order", { ascending: true })
     .order("id", { ascending: true });
 
-  if (error || !data || data.length === 0) return defaultRushEvents;
+  // Only fall back to the placeholder events when Supabase itself failed to
+  // answer — a genuinely empty table (admin has no events posted right now)
+  // is a real, valid state and should render as "no events," not fake ones.
+  if (error || !data) return defaultRushEvents;
   return data as RushEvent[];
 }
 
