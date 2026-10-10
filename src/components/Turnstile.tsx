@@ -9,7 +9,12 @@ declare global {
     turnstile?: {
       render: (
         container: HTMLElement,
-        options: { sitekey: string; callback?: (token: string) => void; size?: "normal" | "compact" | "flexible" }
+        options: {
+          sitekey: string;
+          callback?: (token: string) => void;
+          size?: "normal" | "compact" | "flexible";
+          appearance?: "always" | "execute" | "interaction-only";
+        }
       ) => string;
     };
   }
@@ -47,6 +52,13 @@ function loadTurnstileScript(): Promise<void> {
  * input into the rendered widget that's picked up by native FormData on
  * submit. The register page's controlled form needs the token in React
  * state instead, so it passes `onVerify`.
+ *
+ * `appearance: "interaction-only"` keeps the widget fully invisible for the
+ * common case — most real visitors solve Turnstile's background challenge
+ * without ever seeing a widget — and only renders its box (at `size`) if an
+ * actual interactive challenge is required. Without this, even the
+ * smallest available size (compact, 150×140px per Cloudflare's spec) is
+ * still far taller than a single text input and dominates compact forms.
  */
 export default function Turnstile({
   onVerify,
@@ -68,6 +80,7 @@ export default function Turnstile({
       window.turnstile.render(containerRef.current, {
         sitekey: siteKey,
         size,
+        appearance: "interaction-only",
         callback: (token) => onVerifyRef.current?.(token),
       });
     });
