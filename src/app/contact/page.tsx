@@ -98,7 +98,6 @@ export default async function ContactPage({
             <input type="hidden" name="redirectTo" value="/contact" />
             <BotTrap />
             <JsConfirm />
-            <Turnstile />
             <div className="grid gap-4 sm:grid-cols-2">
               <input
                 type="text"
@@ -127,6 +126,7 @@ export default async function ContactPage({
               rows={5}
               className="rounded-md border border-dtd-purple/30 bg-white px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
             />
+            <Turnstile />
             <button
               type="submit"
               className="justify-self-start rounded-full bg-dtd-purple px-8 py-3 text-sm font-bold uppercase tracking-wide text-dtd-white transition hover:bg-dtd-purple-dark"

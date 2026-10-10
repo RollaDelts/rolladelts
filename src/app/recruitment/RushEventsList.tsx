@@ -79,9 +79,6 @@ export default function RushEventsList({ events, sent }: { events: RushEvent[]; 
                 <input type="hidden" name="redirectTo" value="/recruitment" />
                 <BotTrap />
                 <JsConfirm />
-                <div className="col-span-2">
-                  <Turnstile size="compact" />
-                </div>
                 <input
                   type="text"
                   name="name"
@@ -102,6 +99,9 @@ export default function RushEventsList({ events, sent }: { events: RushEvent[]; 
                   placeholder="Phone (optional)"
                   className="w-full rounded-md border border-dtd-purple/30 bg-white px-3 py-2 text-sm focus:border-dtd-purple focus:outline-none"
                 />
+                <div className="col-span-2">
+                  <Turnstile size="compact" />
+                </div>
                 <button
                   type="submit"
                   className="w-full rounded-full bg-dtd-gold px-5 py-2 text-xs font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"

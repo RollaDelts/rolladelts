@@ -151,7 +151,6 @@ export default async function Home({
               <input type="hidden" name="redirectTo" value="/" />
               <BotTrap />
               <JsConfirm />
-              <Turnstile />
               <input
                 type="text"
                 name="name"
@@ -172,6 +171,9 @@ export default async function Home({
                 placeholder="Phone (optional)"
                 className="w-full rounded-md border border-dtd-white/30 bg-dtd-purple-dark px-4 py-2.5 text-sm text-dtd-white placeholder:text-dtd-white/50 focus:border-dtd-gold focus:outline-none sm:flex-1"
               />
+              <div className="shrink-0">
+                <Turnstile size="compact" />
+              </div>
               <button
                 type="submit"
                 className="shrink-0 rounded-md bg-dtd-gold px-6 py-2.5 text-sm font-bold uppercase tracking-wide text-dtd-purple-dark transition hover:bg-dtd-gold-light"
