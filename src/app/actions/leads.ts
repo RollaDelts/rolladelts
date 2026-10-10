@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { saveLead, countRecentLeadsByEmail } from "@/lib/db";
 import { sendLeadNotification } from "@/lib/email";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -30,6 +31,16 @@ export async function submitLeadAction(formData: FormData) {
 
   if (honeypot) {
     // Pretend success so bots get no signal their submission was dropped.
+    redirect(`${redirectTo}?sent=ok#lead-status`);
+  }
+
+  // Strongest layer: Cloudflare Turnstile, the active defense once
+  // NEXT_PUBLIC_TURNSTILE_SITE_KEY / TURNSTILE_SECRET_KEY are configured —
+  // the checks below are heuristics that a real headless-browser bot can
+  // and did defeat. verifyTurnstile no-ops (returns true) until those env
+  // vars are set, so nothing changes here before then.
+  const turnstileToken = ((formData.get("cf-turnstile-response") as string | null) ?? "").trim();
+  if (!(await verifyTurnstile(turnstileToken))) {
     redirect(`${redirectTo}?sent=ok#lead-status`);
   }
 

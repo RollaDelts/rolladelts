@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getBrowserClient } from "@/lib/supabase-browser";
+import Turnstile from "@/components/Turnstile";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -24,7 +26,11 @@ export default function LoginPage() {
     setLoading(true);
     try {
       const supabase = getBrowserClient();
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+        options: { captchaToken: captchaToken || undefined },
+      });
 
       if (error) {
         setError(error.message);
@@ -74,6 +80,8 @@ export default function LoginPage() {
           <Link href="/forgot-password" className="-mt-2 text-right text-xs font-semibold text-dtd-purple hover:underline">
             Forgot password?
           </Link>
+
+          <Turnstile onVerify={setCaptchaToken} />
 
           {error && <p className="text-center text-sm text-red-600">{error}</p>}
 

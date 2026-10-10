@@ -6,6 +6,7 @@ import ZoomableImage from "@/components/ZoomableImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
 import JsConfirm from "@/components/JsConfirm";
+import Turnstile from "@/components/Turnstile";
 import RichText from "@/components/RichText";
 import RushEventsList from "./RushEventsList";
 import {
@@ -175,6 +176,7 @@ export default async function RecruitmentPage({
           <input type="hidden" name="redirectTo" value="/recruitment" />
           <BotTrap />
           <JsConfirm />
+          <Turnstile />
           <div className="grid gap-4 sm:grid-cols-2">
             <input
               type="text"

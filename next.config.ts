@@ -13,15 +13,17 @@ const supabaseOrigin = supabaseHostname ? `https://${supabaseHostname}` : "";
 // been set up yet. connect-src/img-src include the Supabase project origin
 // because /login and /register call supabase-js directly from the browser,
 // and photos are served from Supabase Storage. frame-src allows the Google
-// Maps embed on the Contact page.
+// Maps embed on the Contact page and the Cloudflare Turnstile challenge
+// widget (anti-bot protection on lead forms + auth pages); Turnstile's own
+// script also needs a script-src/connect-src allowance.
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
   "style-src 'self' 'unsafe-inline'",
   `img-src 'self' data: ${supabaseOrigin}`,
   "font-src 'self' data:",
-  `connect-src 'self' ${supabaseOrigin}`,
-  "frame-src https://www.google.com",
+  `connect-src 'self' ${supabaseOrigin} https://challenges.cloudflare.com`,
+  "frame-src https://www.google.com https://challenges.cloudflare.com",
   "frame-ancestors 'self'",
   "base-uri 'self'",
   "form-action 'self'",

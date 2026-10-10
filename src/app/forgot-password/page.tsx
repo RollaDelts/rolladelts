@@ -3,11 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { getBrowserClient } from "@/lib/supabase-browser";
+import Turnstile from "@/components/Turnstile";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "sent">("idle");
   const [error, setError] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -23,6 +25,7 @@ export default function ForgotPasswordPage() {
       const supabase = getBrowserClient();
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth/callback?next=/reset-password`,
+        captchaToken: captchaToken || undefined,
       });
 
       if (error) {
@@ -67,6 +70,8 @@ export default function ForgotPasswordPage() {
               onChange={(e) => setEmail(e.target.value)}
               className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
             />
+
+            <Turnstile onVerify={setCaptchaToken} />
 
             {error && <p className="text-center text-sm text-red-600">{error}</p>}
 

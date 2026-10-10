@@ -3,6 +3,7 @@ import SiteImage from "@/components/SiteImage";
 import LeadFormStatus from "@/components/LeadFormStatus";
 import BotTrap from "@/components/BotTrap";
 import JsConfirm from "@/components/JsConfirm";
+import Turnstile from "@/components/Turnstile";
 import { submitLeadAction } from "@/app/actions/leads";
 import { getHomeSettings, getSiteStats, getHomePillars, getGalleryPhotos, getPillarPhotos } from "@/lib/db";
 
@@ -150,6 +151,7 @@ export default async function Home({
               <input type="hidden" name="redirectTo" value="/" />
               <BotTrap />
               <JsConfirm />
+              <Turnstile />
               <input
                 type="text"
                 name="name"

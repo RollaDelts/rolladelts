@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { getBrowserClient } from "@/lib/supabase-browser";
+import Turnstile from "@/components/Turnstile";
 
 // ─── Pride easter egg data ────────────────────────────────────────────────────
 
@@ -400,6 +401,8 @@ export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const turnstileRequired = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
 
   function update(field: string, value: string) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -423,6 +426,11 @@ export default function RegisterPage() {
       return;
     }
 
+    if (turnstileRequired && !captchaToken) {
+      setError("Please complete the verification challenge above.");
+      return;
+    }
+
     setLoading(true);
     try {
       const supabase = getBrowserClient();
@@ -432,6 +440,7 @@ export default function RegisterPage() {
         options: {
           data: { first_name: form.firstName, last_name: form.lastName },
           emailRedirectTo: `${location.origin}/auth/callback`,
+          captchaToken: captchaToken || undefined,
         },
       });
 
@@ -534,6 +543,8 @@ export default function RegisterPage() {
             onChange={(e) => update("confirm", e.target.value)}
             className="rounded-md border border-dtd-purple/20 px-4 py-3 text-sm focus:border-dtd-purple focus:outline-none"
           />
+
+          <Turnstile onVerify={setCaptchaToken} />
 
           {error && <p className="text-center text-sm text-red-600">{error}</p>}
 
